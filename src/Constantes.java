@@ -29,5 +29,14 @@ public class Constantes {
 	public static final int Invencion = 2;
 	public static final int Monopolio = 2;
 	
-	public static final int MaximoPuertos31 = 4;
+	public static final int Piezas = 24;
+	public static final int CarreterasJugador = 15;
+	public static final int PobladosJugador = 5;
+	public static final int CiudadesJugador = 4;
+	
+	public static final int Ladron = 1;
+	public static final int CartasConstruccion = 4;
+	public static final int CartasEspeciales = 2;
+	public static final int CarreteraComercial = 1;
+	public static final int GranEjercitoCaballeria = 1;
 }
