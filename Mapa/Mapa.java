@@ -15,6 +15,11 @@ public class Mapa {
 		//int num_nodo = 0;
 		int nivel = 0;
 		int cantidad = 4;
+		//Cosas a cambiar, o no:
+		//Cada nodo no sabe cuantos vertices (edges)tiene adyacentes . Esto es así por como he hecho el algoritmo de este metodo (crearMapa()). Si quisieramos saber cuantos vertices adyacentes tiene un nodo y es útil para el Catán, cambiamos este metodo (se puede anyways)
+		//Aunque veais que he puesto nodo.addEdge(), no esta sumando todos los edges en realidad. Esto lo he hecho porque me servia para iniciar las casillas de agua, desierto y recursos
+		//no sabe que casillas son adyacentes a el (aunque se puede hacer con un metodo)
+		
 		for(nivel=0; nivel<16;nivel++) {
 			if(nivel<8) {
 			for (int j=0;j<cantidad;j++) {
@@ -33,6 +38,7 @@ public class Mapa {
 					Edge edge11 = new Edge(nodo1, nodo);
 					Edge edge12 = new Edge(nodo, nodo1);
 					mapa.addNode(nodo);
+					nodo.addEdge(edge12);
 					mapa.addEdge(edge11);
 					mapa.addEdge(edge12);
 				}
@@ -51,6 +57,8 @@ public class Mapa {
 						Edge edge21 = new Edge(nodo2, nodo);
 						Edge edge22 = new Edge(nodo, nodo2);
 						mapa.addNode(nodo);
+						nodo.addEdge(edge12);
+						nodo.addEdge(edge22);
 						mapa.addEdge(edge11);
 						mapa.addEdge(edge12);
 						mapa.addEdge(edge21);
@@ -68,6 +76,7 @@ public class Mapa {
 						mapa.addNode(nodo);
 						mapa.addEdge(edge11);
 						mapa.addEdge(edge12);
+						nodo.addEdge(edge12);
 					}
 					if( j==(cantidad-1)) {
 						posicion = Integer.toString(nivel) + Integer.toString(j);
@@ -81,6 +90,7 @@ public class Mapa {
 						mapa.addNode(nodo);
 						mapa.addEdge(edge11);
 						mapa.addEdge(edge12);
+						nodo.addEdge(edge12);
 					}
 				}				
 			}
@@ -99,6 +109,7 @@ public class Mapa {
 				mapa.addNode(nodo);
 				mapa.addEdge(edge11);
 				mapa.addEdge(edge12);
+				nodo.addEdge(edge12);
 				}
 				if (nivel%2!= 0) {	
 				posicion = Integer.toString(nivel) + Integer.toString(j);
@@ -118,6 +129,8 @@ public class Mapa {
 				mapa.addEdge(edge12);
 				mapa.addEdge(edge21);
 				mapa.addEdge(edge22);
+				nodo.addEdge(edge12);
+				nodo.addEdge(edge22);
 					
  
 				}
@@ -131,12 +144,6 @@ public class Mapa {
 
 	public static void iniciarMapa(Graph mapa, Casilla casilla_central) {
 		//definir casilla central
-		int arcilla = 3;
-		int lana = 4;
-		int piedra = 4;
-		int paja = 4;
-		int madera  = 4;
-		int desierto = 1;
 		int nivel = 0;
 		int cantidad = 4;
 		String posicion;
@@ -145,6 +152,11 @@ public class Mapa {
 			if(nivel%2==0 && nivel!=14) {
 				if(nivel>=8) {
 					if(j!=0 && j!=(cantidad-1)) {
+						
+						//Falla: Como estoy creando un objeto Nodo nuevo para las adyacentes de las casillas, no son los nodos originales del mapa. 
+						//Por tanto, los nodos que tiene guardada cada casilla son nuevos, y no son los mismos a los que tenemos realmente en el mapa.
+						//Para ello habría que cambiar las entradas de .crearAdyacentes() y meter directamente el objeto. Para ello hay que cambiar como busca las posiciones
+						//Ahora mismo no compila por este motivo
 						posicion = Integer.toString(nivel) + Integer.toString(j);
 						//System.out.println(posicion);
 						Node n1= mapa.getNode(posicion);
@@ -166,7 +178,7 @@ public class Mapa {
 						Node n6= mapa.getNode(posicion);
 						Casilla casilla = new Casilla();
 						casilla.crearAdyacentes(n1, n2, n3, n4, n5, n6);
-						casilla.setRecurso(mapa);
+						casilla.setCasilla(mapa);
 					}else {}
 					
 				}
@@ -192,8 +204,7 @@ public class Mapa {
 				Node n6= mapa.getNode(posicion);
 				Casilla casilla = new Casilla();
 				casilla.crearAdyacentes(n1, n2, n3, n4, n5, n6);
-				if (casilla == casilla_central) {casilla.setDesierto();}
-				else {casilla.setRecurso(mapa);}
+				casilla.setCasilla(mapa);
 				}
 			}
 			else {}

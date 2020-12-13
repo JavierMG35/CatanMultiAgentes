@@ -25,6 +25,21 @@ public class Casilla {
 		nodos_adyacentes.add(n6);
 	}
 	
+	public void setCasilla(Graph mapa) {
+		Node nodo = new Node("00");
+		boolean set = false;
+		while(!set) {
+			if(nodos_adyacentes.get(0).getPosicion().equals("63")) {this.recurso = "Desierto";set=true;}
+		
+			for(int i=0;i<nodos_adyacentes.size();i++) {
+				nodo = nodos_adyacentes.get(i);
+				if(nodo.getEdges().size()==2) {this.recurso = "Agua"; set = true;}
+			setRecurso(mapa);	
+			}
+		}
+	}
+	
+	
 	public void setDesierto() {
 		this.recurso = "Desierto";
 		

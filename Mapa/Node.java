@@ -23,4 +23,9 @@ public class Node {
 	public  String getPosicion() {
 		return this.posicion;
 	}
+	
+	public List<Edge> getEdges() {
+		return this.edges;
+	}
 }
+
