@@ -5,53 +5,24 @@ public class Graph {
 	private List<Node> nodos;
 	private List<Edge> edges;
 	private List<Casilla> casillas;
-	public int arcilla = 3;
-	public int lana = 4;
-	public int piedra = 4;
-	public int paja = 4;
-	public int madera  = 4;
-	public int desierto = 1;
+	public int arcilla ;
+	public int lana ;
+	public int piedra;
+	public int paja ;
+	public int madera ;
+	public int desierto;
+	public List<Integer> valores;
 	
 	public Graph() {
-	}
-	public void addNode(Node node) {
-		if (nodos ==null) {
-			nodos = new ArrayList<>();
-		}
-		nodos.add(node);
-	}
-	
-	public Node getNode(String posicion) {
-		Node nodo = new Node(posicion);
-		for (int i=0;i< nodos.size();i++) {
-			 nodo = nodos.get(i);	
-			if(nodo.getPosicion().equals(posicion)) {
-				break;	
-			}
-		}
-		return nodo;
-	}
-
-	//edges en node o en graph??
-	public void addEdge(Edge edge) {
-		if (edges ==null) {
-			edges = new ArrayList<>();
-		}
-		edges.add(edge);
+		this.arcilla = 3;
+		this.lana = 4;
+		this.piedra = 3;
+		this.paja = 4;
+		this.madera = 4;
+		this.desierto = 1;
+		crearValores();
 	}
 	
-	public void addCasilla(Casilla casilla) {
-		if (casillas ==null) {
-			casillas = new ArrayList<>();
-		}
-		casillas.add(casilla);
-	}
-	
-	public List<Casilla> getCasillas() {
-		return casillas;
-		
-	}
-
 	public void crearMapa(Graph mapa) {
 		String posicion;
 		int nivel = 0;
@@ -260,7 +231,7 @@ public class Graph {
 		int cantidad = 4;
 		String posicion;
 		for(nivel=0;nivel<16;nivel++) {
-			System.out.println(nivel);
+			//System.out.println(nivel);
 			for(int j=0;j<cantidad;j++) {
 			if(nivel%2==0 && nivel!=14) {
 				if(nivel>=8) {
@@ -287,8 +258,9 @@ public class Graph {
 						Node n6= mapa.getNode(posicion6);
 						Casilla casilla = new Casilla();
 						casilla.crearAdyacentes(n1, n2, n3, n4, n5, n6);
-						casilla.setCasilla(mapa);
+						casilla.setCasilla(mapa,valores);
 						addCasilla(casilla);
+						//System.out.println("OUT!!!!");
 					}
 					
 				}
@@ -314,32 +286,91 @@ public class Graph {
 				Node n6= mapa.getNode(posicion6);
 				Casilla casilla = new Casilla();
 				casilla.crearAdyacentes(n1, n2, n3, n4, n5, n6);
-				casilla.setCasilla(mapa);
+				casilla.setCasilla(mapa,valores);
 				addCasilla(casilla);
+				//System.out.println("OUT!!!!");
 				}
 			}
-			System.out.println("juju");
 			}
-			System.out.println("A");
-			if(nivel<8) {if(nivel%2==0) {System.out.println("C");cantidad++;}}
-			else {if(nivel%2==0) {System.out.println("E");cantidad--;}}
+			if(nivel<8) {if(nivel%2==0) {cantidad++;}}
+			else {if(nivel%2==0) {cantidad--;}}
 		}
 		
 	}
 
 	
 	
+	public void addNode(Node node) {
+		if (nodos ==null) {
+			nodos = new ArrayList<>();
+		}
+		nodos.add(node);
+	}
+	
+	public Node getNode(String posicion) {
+		Node nodo = new Node(posicion);
+		for (int i=0;i< nodos.size();i++) {
+			 nodo = nodos.get(i);	
+			if(nodo.getPosicion().equals(posicion)) {
+				break;	
+			}
+		}
+		return nodo;
+	}
+
+	//edges en node o en graph??
+	public void addEdge(Edge edge) {
+		if (edges ==null) {
+			edges = new ArrayList<>();
+		}
+		edges.add(edge);
+	}
+	
+	public void addCasilla(Casilla casilla) {
+		if (casillas ==null) {
+			casillas = new ArrayList<>();
+		}
+		casillas.add(casilla);
+	}
+	
+	public List<Casilla> getCasillas() {
+		return casillas;
+		
+	}
+
+	public void crearValores() {
+		valores = new ArrayList<>();
+		valores.add(2);
+		valores.add(12);
+		valores.add(3);
+		valores.add(3);
+		valores.add(4);
+		valores.add(4);
+		valores.add(5);
+		valores.add(5);
+		valores.add(6);
+		valores.add(6);
+		valores.add(8);
+		valores.add(8);
+		valores.add(9);
+		valores.add(9);
+		valores.add(10);
+		valores.add(10);
+		valores.add(11);
+		valores.add(11);
+		
+	}
 	
 	//Getters and Setters
 	public void setArcilla() {
 		this.arcilla = arcilla -1;
 	}
+	
 	public int getArcilla() {
 		return arcilla;
 	}
 
 	public int getLana() {
-		System.out.println(lana);
 		return lana;
 	}
 

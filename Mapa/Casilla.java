@@ -29,81 +29,124 @@ public class Casilla {
 		return nodos_adyacentes;
 	}
 	
-	public void setCasilla(Graph mapa) {
+	public void setCasilla(Graph mapa, List valores) {
 		Node nodo = new Node("00");
 		boolean set = false;
-		while(set==false) {
-			if(nodos_adyacentes.get(0).getPosicion().equals("63")) {this.recurso = "Desierto";set=true;}
+		while(!set) {
+			//System.out.println("WHile setCasilla");
+			if(nodos_adyacentes.get(0).getPosicion().equals("63")) {
+				this.recurso = "Desierto";set=true;
+		//		System.out.println("desierto!!!!");
+				}
 		
 			for(int i=0;i<nodos_adyacentes.size();i++) {
 				nodo = nodos_adyacentes.get(i);
-				
-				if(nodo.getEdges().size()==2) {this.recurso = "Agua"; set = true;System.out.println("Agua");break;}
-			if(set==false)	{
-			setRecurso(mapa);	}
+				if(nodo.getEdges().size()==2) {
+					this.recurso = "Agua"; 
+					set = true;
+					//System.out.println("Agua");
+					//System.out.println(set);
+					break;}
 			}
+			if(set==false)	{
+				//System.out.println("No es agua");
+				//System.out.println("setRecurso");
+				setRecurso(mapa);
+				setValor(mapa,valores);}
+			set = true;
 		}
-	}
-	
-	
-	public void setDesierto() {
-		this.recurso = "Desierto";
 		
 	}
+	
+	public void setValor(Graph mapa, List valores) {
+		Random random = new Random();
+		int numero_random = random.nextInt(valores.size());
+		this.valor = Integer.parseInt(valores.get( Integer.valueOf(numero_random) ).toString());		
+		valores.remove( numero_random);
+		
+	}
+	
+	
+	
 	public void setRecurso(Graph mapa) {
-		//AQUI SE ATASCA
-		//el metodo getLana() (o cualquier recurso vaya) está devolviendo 0, cuando debería, al menos al principio, devovler 4. Está fallando el get
-		//Debe de ser un tema de clases o algo...ni idea
-		//Desde Casilla no accedo a las variables de Graph...jerarguia??permisos??
 		//l = lana = 0
 		//m = madera = 1
 		//r = piedra = 2
 		//a = arcilla = 3
 		//p = paja = 4
-		System.out.println("Otro Recurso");
+		//System.out.println("Otro Recurso");
 		boolean hecho = false;
-		while(!hecho) {
-			System.out.println("while");
+		do {
+			//System.out.println("while de setRecurso");
 		Random random = new Random();
 		int numero_random = random.nextInt(5);
-		System.out.println(numero_random);
+		//System.out.println(numero_random);
 			switch(numero_random) {
 			  case 0:
-				  System.out.println("o");
-				  System.out.println(mapa.getLana());
-				if(mapa.getLana()!=0) {
-					System.out.println("Lana");
-			    this.recurso = "Lana";
-			    mapa.setLana();
-			    
-			    hecho = true;}
+				if(mapa.getLana()>0) {
+					this.recurso = "Lana";
+					mapa.setLana();
+					hecho = true;}
 			    break;
 			  case 1:
-				if(mapa.getMadera()!=0) {
-			    this.recurso = "Madera";
-			    mapa.setMadera();;
-			    hecho = true;}
+				if(mapa.getMadera()>0) {
+					this.recurso = "Madera";
+					mapa.setMadera();;
+					hecho = true;}
 			    break;
 			  case 2:
-				if(mapa.getPiedra()!=0) {
-				this.recurso = "Piedra";
-				mapa.setPiedra();
-				hecho = true;}
+				if(mapa.getPiedra()>0) {
+					this.recurso = "Piedra";
+					mapa.setPiedra();
+					hecho = true;}
 				break;
 			  case 3:
-				if(mapa.getArcilla()!=0) {
-				this.recurso = "Arcilla";
-				mapa.setArcilla();	
-				hecho = true;}
+				if(mapa.getArcilla()>0) {
+					this.recurso = "Arcilla";
+					mapa.setArcilla();	
+					hecho = true;}
 				break;
 			  case 4:
-				if(mapa.getPaja()!=0) {
-				this.recurso = "Paja";
-				mapa.setPaja();
-				hecho = true;}
+				if(mapa.getPaja()>0) {
+					this.recurso = "Paja";
+					mapa.setPaja();
+					hecho = true;}
 				break;
 			} 
 		}
+		while(hecho==false);
+	}
+
+	public List<Edge> getEdges_adyacentes() {
+		return edges_adyacentes;
+	}
+
+	public void setEdges_adyacentes(List<Edge> edges_adyacentes) {
+		this.edges_adyacentes = edges_adyacentes;
+	}
+
+	public int getValor() {
+		return valor;
+	}
+
+	public void setValor(int valor) {
+		this.valor = valor;
+	}
+
+	public String getRecurso() {
+		return recurso;
+	}
+
+	public void setRecurso(String recurso) {
+		this.recurso = recurso;
+	}
+
+	public boolean isLadron() {
+		return ladron;
+	}
+
+	public void setLadron(boolean ladron) {
+		this.ladron = ladron;
 	}
 		
 
