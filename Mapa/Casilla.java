@@ -25,16 +25,22 @@ public class Casilla {
 		nodos_adyacentes.add(n6);
 	}
 	
+	public List<Node> getAdyacentes(){
+		return nodos_adyacentes;
+	}
+	
 	public void setCasilla(Graph mapa) {
 		Node nodo = new Node("00");
 		boolean set = false;
-		while(!set) {
+		while(set==false) {
 			if(nodos_adyacentes.get(0).getPosicion().equals("63")) {this.recurso = "Desierto";set=true;}
 		
 			for(int i=0;i<nodos_adyacentes.size();i++) {
 				nodo = nodos_adyacentes.get(i);
-				if(nodo.getEdges().size()==2) {this.recurso = "Agua"; set = true;}
-			setRecurso(mapa);	
+				
+				if(nodo.getEdges().size()==2) {this.recurso = "Agua"; set = true;System.out.println("Agua");break;}
+			if(set==false)	{
+			setRecurso(mapa);	}
 			}
 		}
 	}
@@ -45,19 +51,28 @@ public class Casilla {
 		
 	}
 	public void setRecurso(Graph mapa) {
+		//AQUI SE ATASCA
+		//el metodo getLana() (o cualquier recurso vaya) está devolviendo 0, cuando debería, al menos al principio, devovler 4. Está fallando el get
+		//Debe de ser un tema de clases o algo...ni idea
+		//Desde Casilla no accedo a las variables de Graph...jerarguia??permisos??
 		//l = lana = 0
 		//m = madera = 1
 		//r = piedra = 2
 		//a = arcilla = 3
 		//p = paja = 4
-		
+		System.out.println("Otro Recurso");
 		boolean hecho = false;
 		while(!hecho) {
+			System.out.println("while");
 		Random random = new Random();
 		int numero_random = random.nextInt(5);
+		System.out.println(numero_random);
 			switch(numero_random) {
 			  case 0:
+				  System.out.println("o");
+				  System.out.println(mapa.getLana());
 				if(mapa.getLana()!=0) {
+					System.out.println("Lana");
 			    this.recurso = "Lana";
 			    mapa.setLana();
 			    

@@ -12,4 +12,7 @@ public class Edge {
 		this.carretera = false;
 
 	}
+	public Node getAdyacente() {
+		return destino;
+	}
 }

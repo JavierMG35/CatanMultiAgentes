@@ -12,7 +12,7 @@ public class Node {
 		this.construccion = false;
 		this.posicion = posicion;
 	}
-	//Edges en node o graph??
+	//Edges en node o graph?? Mejor aqui, no??
 	public void addEdge(Edge edge) {
 		if(edges ==null) {
 			edges = new ArrayList<>();
@@ -27,5 +27,24 @@ public class Node {
 	public List<Edge> getEdges() {
 		return this.edges;
 	}
+	public boolean isConstruccion() {
+		return construccion;
+	}
+	public void setConstruccion(boolean construccion) {
+		this.construccion = construccion;
+	}
+	public String getTipo() {
+		return tipo;
+	}
+	public void setTipo(String tipo) {
+		this.tipo = tipo;
+	}
+	public String getDueño() {
+		return dueño;
+	}
+	public void setDueño(String dueño) {
+		this.dueño = dueño;
+	}
+	
 }
 
