@@ -229,7 +229,6 @@ public class Graph {
 	public void iniciarMapa(Graph mapa) {
 		int nivel = 0;
 		int cantidad = 4;
-		String posicion;
 		for(nivel=0;nivel<16;nivel++) {
 			//System.out.println(nivel);
 			for(int j=0;j<cantidad;j++) {

@@ -23,7 +23,7 @@ public class Main {
 			List<Node> adyacentes = casillas.get(i).getAdyacentes();
 			for(int j=0;j<adyacentes.size();j++) {
 				String posicion = adyacentes.get(j).getPosicion();
-				//System.out.println("Nodo: " + posicion );
+				System.out.println("    Nodo: " + posicion );
 			}
 			}
 		

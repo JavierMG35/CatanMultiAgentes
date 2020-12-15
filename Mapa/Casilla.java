@@ -29,7 +29,7 @@ public class Casilla {
 		return nodos_adyacentes;
 	}
 	
-	public void setCasilla(Graph mapa, List valores) {
+	public void setCasilla(Graph mapa, List<Integer> valores) {
 		Node nodo = new Node("00");
 		boolean set = false;
 		while(!set) {
@@ -58,7 +58,7 @@ public class Casilla {
 		
 	}
 	
-	public void setValor(Graph mapa, List valores) {
+	public void setValor(Graph mapa, List<Integer> valores) {
 		Random random = new Random();
 		int numero_random = random.nextInt(valores.size());
 		this.valor = Integer.parseInt(valores.get( Integer.valueOf(numero_random) ).toString());		
