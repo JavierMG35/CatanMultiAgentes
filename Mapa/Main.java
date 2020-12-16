@@ -2,18 +2,22 @@ package Mapa;
 import java.util.ArrayList;
 import java.util.List;
 
+import Mapa.Tablero.Casilla;
+import Mapa.Tablero.Node;
+import Mapa.Tablero.Tablero;
+
 
 public class Main {
 
 	public static void main(String[] args) {
-		Graph mapa = new Graph();
-		mapa.crearMapa(mapa);
+		Tablero tablero = new Tablero();
+		tablero.crearTablero(tablero);
 		//Esto es un poco mierda lo sé jaja
-		mapa.iniciarMapa(mapa);
+		tablero.iniciarTablero(tablero);
 		
 		
 		//Comprobación
-		List<Casilla> casillas = mapa.getCasillas();
+		List<Casilla> casillas = tablero.getCasillas();
 		//List<Node> adyacentes = casillas.get(0).getAdyacentes();
 		for(int i=0; i<casillas.size();i++) {
 			int q = i+1;

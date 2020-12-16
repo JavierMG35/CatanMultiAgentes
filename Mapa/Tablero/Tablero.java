@@ -1,7 +1,7 @@
-package Mapa;
+package Mapa.Tablero;
 import java.util.ArrayList;
 import java.util.List;
-public class Graph {
+public class Tablero {
 	private List<Node> nodos;
 	private List<Edge> edges;
 	private List<Casilla> casillas;
@@ -13,7 +13,7 @@ public class Graph {
 	public int desierto;
 	public List<Integer> valores;
 	
-	public Graph() {
+	public Tablero() {
 		this.arcilla = 3;
 		this.lana = 4;
 		this.piedra = 3;
@@ -23,7 +23,7 @@ public class Graph {
 		crearValores();
 	}
 	
-	public void crearMapa(Graph mapa) {
+	public void crearTablero(Tablero mapa) {
 		String posicion;
 		int nivel = 0;
 		int cantidad = 4;
@@ -226,7 +226,7 @@ public class Graph {
 	
 	}
 
-	public void iniciarMapa(Graph mapa) {
+	public void iniciarTablero(Tablero mapa) {
 		int nivel = 0;
 		int cantidad = 4;
 		for(nivel=0;nivel<16;nivel++) {
