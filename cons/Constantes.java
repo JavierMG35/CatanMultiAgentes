@@ -1,4 +1,4 @@
-package src;
+package cons;
 
 public class Constantes {
 	

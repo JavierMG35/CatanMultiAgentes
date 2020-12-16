@@ -1,4 +1,4 @@
-package src;
+package cons;
 
 import java.util.Random;
 

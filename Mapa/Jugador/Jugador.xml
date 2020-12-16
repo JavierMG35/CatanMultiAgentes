@@ -1,0 +1,38 @@
+<agent
+	xmlns="http://jadex.sourceforge.net/jadex"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://jadex.sourceforge.net/jadex
+	                    http://jadex.sourceforge.net/jadex-0.96.xsd"
+	name="Jugador"
+	package="Mapa.Jugador">
+
+	<imports>
+		<import>jadex.runtime.*</import>
+		<import>jadex.planlib.*</import>
+		<import>jadex.util.*</import>
+		<import>jadex.adapter.fipa.*</import>
+		<import>java.util.logging.*</import>
+		<import>java.util.*</import>
+	</imports>
+
+	<capabilities>
+		<capability name="dfcap" file="jadex.planlib.DF"/>
+	</capabilities>
+
+	<goals>
+		<achievegoalref name="df_register">
+			<concrete ref="dfcap.df_register"/>
+		</achievegoalref>
+	</goals>
+
+	<configurations>
+		<configuration name="jugador">
+			<goals><initialgoal ref="df_register">
+				<parameter ref="description"> <value>
+					SFipa.createAgentDescription(null,SFipa.createServiceDescription("jugador","jugador", null))</value></parameter>
+			</initialgoal></goals>
+		</configuration>
+	
+	</configurations>
+
+</agent>
