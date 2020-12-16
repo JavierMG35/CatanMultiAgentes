@@ -6,19 +6,19 @@
 			<attribute name="module" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="M:/git/Catan/CatanMultiAgentes/lib/bcel.jar"/>
-	<classpathentry kind="lib" path="M:/git/Catan/CatanMultiAgentes/lib/GraphLayout.jar"/>
-	<classpathentry kind="lib" path="M:/git/Catan/CatanMultiAgentes/lib/jadex_examples.jar"/>
-	<classpathentry kind="lib" path="M:/git/Catan/CatanMultiAgentes/lib/jadex_rt.jar"/>
-	<classpathentry kind="lib" path="M:/git/Catan/CatanMultiAgentes/lib/jadex_standalone.jar"/>
-	<classpathentry kind="lib" path="M:/git/Catan/CatanMultiAgentes/lib/jadex_tools.jar"/>
-	<classpathentry kind="lib" path="M:/git/Catan/CatanMultiAgentes/lib/janino.jar"/>
-	<classpathentry kind="lib" path="M:/git/Catan/CatanMultiAgentes/lib/jhall.jar"/>
-	<classpathentry kind="lib" path="M:/git/Catan/CatanMultiAgentes/lib/jibx-bind.jar"/>
-	<classpathentry kind="lib" path="M:/git/Catan/CatanMultiAgentes/lib/jibx-extras.jar"/>
-	<classpathentry kind="lib" path="M:/git/Catan/CatanMultiAgentes/lib/jibx-run.jar"/>
-	<classpathentry kind="lib" path="M:/git/Catan/CatanMultiAgentes/lib/nuggets.jar"/>
-	<classpathentry kind="lib" path="M:/git/Catan/CatanMultiAgentes/lib/xmlpull_1_1_4.jar"/>
-	<classpathentry kind="lib" path="M:/git/Catan/CatanMultiAgentes/lib/xpp3.jar"/>
+	<classpathentry kind="lib" path="src/lib/bcel.jar"/>
+	<classpathentry kind="lib" path="src/lib/GraphLayout.jar"/>
+	<classpathentry kind="lib" path="src/lib/jadex_examples.jar"/>
+	<classpathentry kind="lib" path="src/lib/jadex_rt.jar"/>
+	<classpathentry kind="lib" path="src/lib/jadex_standalone.jar"/>
+	<classpathentry kind="lib" path="src/lib/jadex_tools.jar"/>
+	<classpathentry kind="lib" path="src/lib/janino.jar"/>
+	<classpathentry kind="lib" path="src/lib/jhall.jar"/>
+	<classpathentry kind="lib" path="src/lib/jibx-bind.jar"/>
+	<classpathentry kind="lib" path="src/lib/jibx-extras.jar"/>
+	<classpathentry kind="lib" path="src/lib/jibx-run.jar"/>
+	<classpathentry kind="lib" path="src/lib/nuggets.jar"/>
+	<classpathentry kind="lib" path="src/lib/xmlpull_1_1_4.jar"/>
+	<classpathentry kind="lib" path="src/lib/xpp3.jar"/>
 	<classpathentry kind="output" path=""/>
 </classpath>
