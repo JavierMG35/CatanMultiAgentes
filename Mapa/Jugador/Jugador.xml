@@ -14,11 +14,32 @@
 		<import>java.util.logging.*</import>
 		<import>java.util.*</import>
 	</imports>
-
+<!--para registrarse en el DF -->
 	<capabilities>
 		<capability name="dfcap" file="jadex.planlib.DF"/>
 	</capabilities>
+	<beliefs>
+		<!-- The player's knowledge about itself, encapsulated as player object. -->
+		<belief name="myself" class="Jugador" exported="true">
+			<!-- Create deafult player object, when not passed as argument. -->
+			<fact>
+				new Jugador($scope.getAgentName(), jugador1,	AbstractStrategy.CONSTANT_VERY_CAREFUL)
+			</fact>
+		</belief>
 
+		<belief name="tablero" class="Tablero" exported="true"/>
+
+		<belief name="cartas" class="Cartas" exported="true"/>
+
+		<belief name="puntuacion" class="int" />
+
+			</beliefs>
+
+<initialbelief ref = "puntuacion"
+<fact>0</fact>
+</initialbelief>
+
+<!--para registrarse en el DF -->
 	<goals>
 		<achievegoalref name="df_register">
 			<concrete ref="dfcap.df_register"/>
@@ -32,7 +53,7 @@
 					SFipa.createAgentDescription(null,SFipa.createServiceDescription("jugador","jugador", null))</value></parameter>
 			</initialgoal></goals>
 		</configuration>
-	
+
 	</configurations>
 
 </agent>

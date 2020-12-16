@@ -29,9 +29,11 @@
 		<achievegoalref name="df_search">
 			<concrete ref="dfcap.df_search"/>
 		</achievegoalref>
+
 		<performgoal name="completar_jugadores" recur="true" recurdelay="2000">
 			<contextcondition>$beliefbase.jugador &lt; 3</contextcondition>
 		</performgoal>
+
 		<achievegoal name="comienza_partida">
 			<creationcondition>
 			$beliefbase.casa &gt; 3
@@ -40,29 +42,28 @@
 	</goals>
 
 	<plans>
-		<plan name="completar_casa_plan">
-			<body class="CompletarCasaPlan" />
+
+		<plan name="completar_jugadores_plan">
+			<body class="TableroPlanDeRegistro" />
 			<trigger> <goal ref="completar_jugadores"/> </trigger>
 		</plan>
+
 		<plan name="comienza_partida_plan">
-			<body class="ComienzaPartidoPlan" />
-			<trigger><goal ref="comienza_partido"/></trigger>
+			<body class="ComienzaPartidaPlan" />
+			<trigger><goal ref="comienza_partida"/></trigger>
 		</plan>
 	</plans>
 
 	<configurations>
 		<configuration name="default">
 		<beliefs>
-			<initialbelief ref="casa">
-				<fact>0</fact>
-			</initialbelief>
-			<initialbelief ref="visitante">
+			<initialbelief ref="jugadores">
 				<fact>0</fact>
 			</initialbelief>
 		</beliefs>
 		<goals>
-			<initialgoal ref="completar_casa"></initialgoal>
-			<initialgoal ref="completar_visitante"></initialgoal>
+			<initialgoal ref="completar_jugadores"></initialgoal>
+		
 		</goals>
 
 		</configuration>

@@ -1,14 +1,18 @@
 package Mapa.Jugador;
 
 import jadex.adapter.fipa.AgentIdentifier;
+//import jadex.examples.blackjack.player.strategies.IStrategy;
 //import jadex.examples.blackjack.player.strategies.*;
 import jadex.runtime.BasicAgentIdentifier;
 import jadex.util.SUtil;
 import jadex.util.SimplePropertyChangeSupport;
 
+import java.beans.PropertyChangeListener;
 import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
+import jadex.runtime.*;
+
 
 public class Jugador {
 
@@ -32,11 +36,15 @@ public class Jugador {
 		
 		protected List construcciones;
 		
+		protected int posicion_mesa;
+		
+		protected int puntuacion;
+		
 		/** The strategyname. */
 		protected String strategyname;
 
 		/** The player's strategy. */
-		protected IStrategy	strategy;
+		//protected IStrategy	strategy;
 
 		/** The player's agent id. */
 		protected BasicAgentIdentifier	aid;
@@ -44,28 +52,28 @@ public class Jugador {
 		/** The player state. */
 		protected String	state;
 		
+		public SimplePropertyChangeSupport	pcs;
+		
 		//-------- constructors --------
 		public Jugador()
 		{
-			this(null, 0, null, null);
+			this(null, null, null);
 		}
 		/**
 		 *  Create a new Player.
 		 */
-		public Jugador(String name, List cartas, List construcciones, String strategyname)
+		public Jugador(String name, String strategyname)
 		{
-			this(null, name, cartas, construcciones, strategyname);
+			this(null, name, strategyname);
 		}
 
 		/**
 		 *  Create a new Player.
 		 */
-		public Player(AgentIdentifier aid, String nombre, List cartas, List construcciones, String strategyname)
+		public Jugador(AgentIdentifier aid, String nombre, String strategyname)
 		{
 			this.aid	= aid;
 			this.nombre	= nombre;
-			this.cartas	= cartas;
-			this.construcciones = construcciones;
 			this.strategyname = strategyname;
 			//if(strategyname!=null)
 			//	this.strategy	= AbstractStrategy.getStrategy(strategyname);

@@ -4,7 +4,8 @@ import jadex.runtime.*;
 import jadex.util.SUtil;
 import jadex.adapter.fipa.*;
 
-public class TableroPlanDeRegistro {
+
+public class TableroPlanDeRegistro extends Plan{
 
 	public void body()
 	{
