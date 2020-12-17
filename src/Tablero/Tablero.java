@@ -21,9 +21,11 @@ public class Tablero {
 		this.madera = 4;
 		this.desierto = 1;
 		crearValores();
+		crearTablero();
+		iniciarTablero();
 	}
 	
-	public void crearTablero(Tablero mapa) {
+	public void crearTablero() {
 		String posicion;
 		int nivel = 0;
 		int cantidad = 4;
@@ -45,7 +47,7 @@ public class Tablero {
 					Node nodo2 = new Node(posicion);
 					Edge edge1 = new Edge(nodo, nodo1);
 					Edge edge2 = new Edge(nodo, nodo2);
-					mapa.addNode( nodo );
+					 addNode( nodo );
 					nodo.addEdge(edge1);
 					nodo.addEdge(edge2);
 				}
@@ -65,7 +67,7 @@ public class Tablero {
 					Edge edge1 = new Edge(nodo, nodo1);
 					Edge edge2 = new Edge(nodo, nodo2);
 					Edge edge3 = new Edge(nodo, nodo3);
-					mapa.addNode(nodo);
+					 addNode(nodo);
 					nodo.addEdge(edge1);
 					nodo.addEdge(edge2);
 					nodo.addEdge(edge3);
@@ -87,7 +89,7 @@ public class Tablero {
 						Edge edge1 = new Edge(nodo, nodo1);
 						Edge edge2 = new Edge(nodo, nodo2);
 						Edge edge3 = new Edge(nodo, nodo3);
-						mapa.addNode(nodo);
+						 addNode(nodo);
 						nodo.addEdge(edge1);
 						nodo.addEdge(edge2);
 						nodo.addEdge(edge3);
@@ -99,13 +101,13 @@ public class Tablero {
 						Node nodo = new Node(posicion);
 						posicion = Integer.toString(nivel-1) + Integer.toString(j);
 						//System.out.print(posicion + " ");
-						Node nodo1 = mapa.getNode(posicion);
+						Node nodo1 =  getNode(posicion);
 						posicion = Integer.toString(nivel+1) + Integer.toString(j);
 						//System.out.println(posicion + " ");
-						Node nodo2 = mapa.getNode(posicion);
+						Node nodo2 =  getNode(posicion);
 						Edge edge1 = new Edge(nodo, nodo1);
 						Edge edge2 = new Edge(nodo, nodo2);
-						mapa.addNode(nodo);
+						 addNode(nodo);
 						nodo.addEdge(edge1);
 						nodo.addEdge(edge2);
 					}
@@ -115,12 +117,12 @@ public class Tablero {
 						//System.out.println(posicion);
 						Node nodo = new Node(posicion);
 						posicion = Integer.toString(nivel-1) + Integer.toString(j-1);
-						Node nodo1 = mapa.getNode(posicion);
+						Node nodo1 =  getNode(posicion);
 						posicion = Integer.toString(nivel+1) + Integer.toString(j);
-						Node nodo2 = mapa.getNode(posicion);
+						Node nodo2 =  getNode(posicion);
 						Edge edge1 = new Edge(nodo, nodo1);
 						Edge edge2 = new Edge(nodo, nodo2);
-						mapa.addNode(nodo);
+						 addNode(nodo);
 						nodo.addEdge(edge1);
 						nodo.addEdge(edge2);
 					}
@@ -144,7 +146,7 @@ public class Tablero {
 						Edge edge1 = new Edge(nodo, nodo1);
 						Edge edge2 = new Edge(nodo, nodo2);
 						Edge edge3 = new Edge(nodo, nodo3);
-						mapa.addNode(nodo);
+						 addNode(nodo);
 						nodo.addEdge(edge1);
 						nodo.addEdge(edge2);
 						nodo.addEdge(edge3);
@@ -155,12 +157,12 @@ public class Tablero {
 						//System.out.println(posicion);
 						Node nodo = new Node(posicion);
 						posicion = Integer.toString(nivel-1) + Integer.toString(j);
-						Node nodo1 = mapa.getNode(posicion);
+						Node nodo1 =  getNode(posicion);
 						posicion = Integer.toString(nivel+1) + Integer.toString(j);
-						Node nodo2 = mapa.getNode(posicion);
+						Node nodo2 =  getNode(posicion);
 						Edge edge1 = new Edge(nodo, nodo1);
 						Edge edge2 = new Edge(nodo, nodo2);
-						mapa.addNode(nodo);
+						 addNode(nodo);
 						nodo.addEdge(edge1);
 						nodo.addEdge(edge2);
 					}
@@ -170,12 +172,12 @@ public class Tablero {
 						//System.out.println(posicion);
 						Node nodo = new Node(posicion);
 						posicion = Integer.toString(nivel-1) + Integer.toString(j);
-						Node nodo1 = mapa.getNode(posicion);
+						Node nodo1 =  getNode(posicion);
 						posicion = Integer.toString(nivel+1) + Integer.toString(j-1);
-						Node nodo2 = mapa.getNode(posicion);
+						Node nodo2 =  getNode(posicion);
 						Edge edge1 = new Edge(nodo, nodo1);
 						Edge edge2 = new Edge(nodo, nodo2);
-						mapa.addNode(nodo);
+						 addNode(nodo);
 						nodo.addEdge(edge1);
 						nodo.addEdge(edge2);
 					}
@@ -187,15 +189,15 @@ public class Tablero {
 					//System.out.println(posicion);
 					Node nodo = new Node(posicion);
 					posicion = Integer.toString(nivel-1) + Integer.toString(j);
-					Node nodo1 = mapa.getNode(posicion);
+					Node nodo1 =  getNode(posicion);
 					posicion = Integer.toString(nivel-1) + Integer.toString(j+1);
-					Node nodo2 = mapa.getNode(posicion);
+					Node nodo2 =  getNode(posicion);
 					posicion = Integer.toString(nivel+1) + Integer.toString(j);
-					Node nodo3 = mapa.getNode(posicion);
+					Node nodo3 =  getNode(posicion);
 					Edge edge1 = new Edge(nodo, nodo1);
 					Edge edge2 = new Edge(nodo, nodo2);
 					Edge edge3 = new Edge(nodo, nodo3);
-					mapa.addNode(nodo);
+					 addNode(nodo);
 					nodo.addEdge(edge1); 
 					nodo.addEdge(edge2);
 					nodo.addEdge(edge3);
@@ -207,13 +209,13 @@ public class Tablero {
 					Node nodo = new Node(posicion);
 					posicion = Integer.toString(nivel-1) + Integer.toString(j);
 					//System.out.print(posicion + " ");
-					Node nodo1 = mapa.getNode(posicion);
+					Node nodo1 =  getNode(posicion);
 					posicion = Integer.toString(nivel-1) + Integer.toString(j+1);
 					//System.out.println(posicion + " ");
-					Node nodo2 = mapa.getNode(posicion);
+					Node nodo2 =  getNode(posicion);
 					Edge edge1 = new Edge(nodo, nodo1);
 					Edge edge2 = new Edge(nodo, nodo2);
-					mapa.addNode(nodo);
+					 addNode(nodo);
 					nodo.addEdge(edge1); 
 					nodo.addEdge(edge2);
 					
@@ -226,7 +228,7 @@ public class Tablero {
 	
 	}
 
-	public void iniciarTablero(Tablero mapa) {
+	public void iniciarTablero() {
 		int nivel = 0;
 		int cantidad = 4;
 		for(nivel=0;nivel<16;nivel++) {
@@ -238,26 +240,26 @@ public class Tablero {
 					if(j!=0 && j!=(cantidad-1)) {
 						String posicion1 = Integer.toString(nivel) + Integer.toString(j);
 						//System.out.println(posicion);
-						Node n1= mapa.getNode(posicion1);
+						Node n1=  getNode(posicion1);
 						String posicion2 = Integer.toString(nivel+1) + Integer.toString(j);
 						//System.out.println(posicion);
-						Node n2= mapa.getNode(posicion2);
+						Node n2=  getNode(posicion2);
 						String posicion3 = Integer.toString(nivel+2) + Integer.toString(j);
 						//System.out.println(posicion);
-						Node n3= mapa.getNode(posicion3);
+						Node n3=  getNode(posicion3);
 						String posicion4 = Integer.toString(nivel+3) + Integer.toString(j-1);
 						//System.out.println(posicion);
-						Node n4= mapa.getNode(posicion4);
+						Node n4=  getNode(posicion4);
 						String posicion5 = Integer.toString(nivel+2) + Integer.toString(j-1);
 						//System.out.println(posicion);
-						Node n5= mapa.getNode(posicion5);
+						Node n5=  getNode(posicion5);
 						String posicion6 = Integer.toString(nivel+1) + Integer.toString(j-1);
 						//System.out.println(posicion);
 						//System.out.println("   ");
-						Node n6= mapa.getNode(posicion6);
+						Node n6=  getNode(posicion6);
 						Casilla casilla = new Casilla();
 						casilla.crearAdyacentes(n1, n2, n3, n4, n5, n6);
-						casilla.setCasilla(mapa,valores);
+						casilla.setCasilla(this,valores);
 						addCasilla(casilla);
 						//System.out.println("OUT!!!!");
 					}
@@ -266,26 +268,26 @@ public class Tablero {
 				else {
 				String posicion1 = Integer.toString(nivel) + Integer.toString(j);
 				//System.out.println(posicion1);
-				Node n1= mapa.getNode(posicion1);
+				Node n1=  getNode(posicion1);
 				String posicion2 = Integer.toString(nivel+1) + Integer.toString(j+1);
 				//System.out.println(posicion2);
-				Node n2= mapa.getNode(posicion2);
+				Node n2=  getNode(posicion2);
 				String posicion3 = Integer.toString(nivel+2) + Integer.toString(j+1);
 				//System.out.println(posicion);
-				Node n3= mapa.getNode(posicion3);
+				Node n3=  getNode(posicion3);
 				String posicion4 = Integer.toString(nivel+3) + Integer.toString(j+1);
 				//System.out.println(posicion);
-				Node n4= mapa.getNode(posicion4);
+				Node n4=  getNode(posicion4);
 				String posicion5 = Integer.toString(nivel+2) + Integer.toString(j);
 				//System.out.println(posicion);
-				Node n5= mapa.getNode(posicion5);
+				Node n5=  getNode(posicion5);
 				String posicion6 = Integer.toString(nivel+1) + Integer.toString(j);
 				//System.out.println(posicion);
 				//System.out.println("   ");
-				Node n6= mapa.getNode(posicion6);
+				Node n6=  getNode(posicion6);
 				Casilla casilla = new Casilla();
 				casilla.crearAdyacentes(n1, n2, n3, n4, n5, n6);
-				casilla.setCasilla(mapa,valores);
+				casilla.setCasilla(this,valores);
 				addCasilla(casilla);
 				//System.out.println("OUT!!!!");
 				}

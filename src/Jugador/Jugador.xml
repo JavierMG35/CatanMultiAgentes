@@ -4,9 +4,11 @@
 	xsi:schemaLocation="http://jadex.sourceforge.net/jadex
 	                    http://jadex.sourceforge.net/jadex-0.96.xsd"
 	name="Jugador"
-	package="Mapa.Jugador">
+	package="src.Jugador">
 
 	<imports>
+		<import>Jugador.beliefs.*</import>
+		<import>Jugador.plans.*</import>
 		<import>jadex.runtime.*</import>
 		<import>jadex.planlib.*</import>
 		<import>jadex.util.*</import>
@@ -23,15 +25,18 @@
 		<belief name="myself" class="Jugador" exported="true">
 			<!-- Create deafult player object, when not passed as argument. -->
 			<fact>
-				new Jugador($scope.getAgentName(), jugador1,	AbstractStrategy.CONSTANT_VERY_CAREFUL)
+				new Jugador($scope.getAgentName(),AbstractStrategy.CONSTANT_VERY_CAREFUL)
 			</fact>
 		</belief>
 
 		<belief name="tablero" class="Tablero" exported="true"/>
 
-		<belief name="cartas" class="Cartas" exported="true"/>
 
 		<belief name="puntuacion" class="int" />
+
+		<belief name="gamestate" class="GameState">
+			<fact>new GameState()</fact>
+		</belief>
 
 			</beliefs>
 

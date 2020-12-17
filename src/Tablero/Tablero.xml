@@ -3,11 +3,12 @@
 	xsi:schemaLocation="http://jadex.sourceforge.net/jadex
 	                    http://jadex.sourceforge.net/jadex-0.96.xsd"
 	name="Tablero"
-	package="Mapa.Tablero">
+	package="src.Tablero">
 
 	<imports>
+		<import>src.*</import>
 		<import>tablero.beliefs.*</import>
-		<import>referee.plans.*</import>
+		<import>tablero.plans.*</import>
 		<import>jadex.runtime.*</import>
 		<import>jadex.planlib.*</import>
 		<import>jadex.util.*</import>
@@ -19,6 +20,10 @@
 	<capabilities>
 		<capability name="dfcap" file="jadex.planlib.DF"/>
 	</capabilities>
+
+	<belief name="myself" class="Dealer">
+		<fact>new Tablero()</fact>
+	</belief>
 
 	<beliefs>
 		<belief name="jugador" class="Jugador"/>

@@ -8,11 +8,10 @@
 	xsi:schemaLocation="http://jadex.sourceforge.net/jadex
 	                    http://jadex.sourceforge.net/jadex-0.96.xsd"
 	name="Manager"
-	package="Mapa.Manager">
+	package="src.Manager">
 
 	<imports>
-		<import>jadex.examples.blackjack.Player</import>
-		<import>jadex.examples.blackjack.player.strategies.*</import>
+		<import>src.*</import>
 		<import>java.awt.Color</import>
 		<import>jadex.runtime.*</import>
 		<import>jadex.planlib.*</import>
