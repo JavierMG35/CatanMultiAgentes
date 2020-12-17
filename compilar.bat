@@ -5,7 +5,6 @@ dir /s /B *.java > sources.txt
 javac @sources.txt
 
 
-pause
 jar cvf Catan.jar *
 pause 
 

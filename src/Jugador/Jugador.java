@@ -15,6 +15,33 @@ import jadex.runtime.*;
 
 
 public class Jugador {
+	
+	//-------- constructors --------
+			public Jugador()
+			{
+				this(null, null, null);
+			}
+			/**
+			 *  Create a new Player.
+			 */
+			public Jugador(String name,String strategyname)
+			{
+				this(null, name, strategyname);
+			}
+
+			/**
+			 *  Create a new Player.
+			 */
+			public Jugador(AgentIdentifier aid,String nombre, String strategyname)
+			{
+				this.aid	= aid;
+				this.nombre	= nombre;
+				this.strategyname = strategyname;
+				//if(strategyname!=null)
+				//	this.strategy	= AbstractStrategy.getStrategy(strategyname);
+				this.state	= STATE_UNREGISTERED;
+				this.pcs = new SimplePropertyChangeSupport(this);
+			}
 
 	//-------- constants --------
 
@@ -54,30 +81,5 @@ public class Jugador {
 		
 		public SimplePropertyChangeSupport	pcs;
 		
-		//-------- constructors --------
-		public Jugador()
-		{
-			this(null, null, null);
-		}
-		/**
-		 *  Create a new Player.
-		 */
-		public Jugador(String name, String strategyname)
-		{
-			this(null, name, strategyname);
-		}
-
-		/**
-		 *  Create a new Player.
-		 */
-		public Jugador(AgentIdentifier aid,String nombre, String strategyname)
-		{
-			this.aid	= aid;
-			this.nombre	= nombre;
-			this.strategyname = strategyname;
-			//if(strategyname!=null)
-			//	this.strategy	= AbstractStrategy.getStrategy(strategyname);
-			this.state	= STATE_UNREGISTERED;
-			this.pcs = new SimplePropertyChangeSupport(this);
-		}
+		
 }

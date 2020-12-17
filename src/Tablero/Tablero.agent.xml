@@ -1,0 +1,109 @@
+<agent xmlns="http://jadex.sourceforge.net/jadex"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://jadex.sourceforge.net/jadex
+	                    http://jadex.sourceforge.net/jadex-0.96.xsd"
+	name="Tablero"
+	package="Tablero">
+
+	<imports>
+		<import>src.Jugador.*</import>
+		<import>src.Tablero.*</import>
+		<import>Tablero.beliefs.*</import>
+		<import>Tablero.plans.*</import>
+		<import>jadex.runtime.*</import>
+		<import>jadex.planlib.*</import>
+		<import>jadex.util.*</import>
+		<import>jadex.adapter.fipa.*</import>
+		<import>java.util.logging.*</import>
+		<import>java.util.*</import>
+	</imports>
+
+	<capabilities>
+		<capability name="dfcap" file="jadex.planlib.DF"/>
+	</capabilities>
+
+
+
+	<beliefs>
+		<belief name="myself" class="src.Tablero.Tablero" exported="true">
+			<fact>new Tablero()</fact>
+		</belief>
+
+		<belief name="jugadores" class="int"/>
+
+
+	</beliefs>
+
+	<goals>
+		<achievegoalref name="df_search">
+			<concrete ref="dfcap.df_search"/>
+		</achievegoalref>
+		<!-- Used for registering the dealer at the df. -->
+		<achievegoalref name="df_register">
+			<concrete ref="dfcap.df_register"/>
+		</achievegoalref>
+		<!-- Used for deregistering the dealer at the df. -->
+		<achievegoalref name="df_deregister">
+			<concrete ref="dfcap.df_deregister"/>
+		</achievegoalref>
+
+		<performgoal name="completar_jugadores" recur="true" recurdelay="2000">
+			<contextcondition>$beliefbase.jugadores &lt;= 3</contextcondition>
+		</performgoal>
+
+		<achievegoal name="comienza_partida">
+			<creationcondition>
+			$beliefbase.jugadores &gt; 3
+			</creationcondition>
+		</achievegoal>
+	</goals>
+
+	<plans>
+
+		<plan name="completar_jugadores_plan">
+			<body class="TableroPlanDeRegistro" />
+			<trigger> <goal ref="completar_jugadores"/> </trigger>
+		</plan>
+
+		<plan name="comienza_partida_plan">
+			<body class="ComenzarPartidaPlan" />
+			<trigger><goal ref="comienza_partida"/></trigger>
+		</plan>
+	</plans>
+
+	<configurations>
+		<configuration name="default">
+		<beliefs>
+			<initialbelief ref="jugadores">
+				<fact>0</fact>
+			</initialbelief>
+		</beliefs>
+		<goals>
+			<initialgoal ref="completar_jugadores"></initialgoal>
+
+		</goals>
+
+		</configuration>
+		<configuration name="default1">
+		<goals>
+			<!-- Register the dealer at the df on startup. -->
+			<initialgoal ref="df_register">
+				<!-- The services to register. -->
+				<parameter ref="description">
+					<value>
+						<!-- This is the agent-description for the dealer. With this description
+								 the dealers is registered at the directory facilitator.
+								 Note, that the dealer only offers one service, that is 'dealing'
+								 (see service description below).	-->
+						SFipa.createAgentDescription(null,
+							SFipa.createServiceDescription("Tablero", "Partida", "Grupo04"))
+					</value>
+				</parameter>
+			</initialgoal>
+			<initialgoal ref="completar_jugadores"/>
+			<endgoal ref="df_deregister"/>
+		</goals>
+		</configuration>
+	</configurations>
+
+</agent>

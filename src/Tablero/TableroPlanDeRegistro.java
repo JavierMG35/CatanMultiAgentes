@@ -10,8 +10,8 @@ public class TableroPlanDeRegistro extends Plan{
 	public void body()
 	{
 		ServiceDescription sd = new ServiceDescription();
-		sd.setType("Jugador");
-		sd.setName("Jugador1");
+		sd.setType("jugador");
+		sd.setName("jugador");
 		AgentDescription adesc = new AgentDescription();
 		adesc.addService(sd);
 		SearchConstraints sc = new SearchConstraints();

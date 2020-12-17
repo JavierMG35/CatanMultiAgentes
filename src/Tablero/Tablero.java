@@ -1,6 +1,9 @@
 package src.Tablero;
+
+import src.Jugador.*;
 import java.util.ArrayList;
 import java.util.List;
+
 public class Tablero {
 	private List<Node> nodos;
 	private List<Edge> edges;
@@ -12,7 +15,9 @@ public class Tablero {
 	public int madera ;
 	public int desierto;
 	public List<Integer> valores;
+	public List<Jugador> turnos; 
 	
+
 	public Tablero() {
 		this.arcilla = 3;
 		this.lana = 4;

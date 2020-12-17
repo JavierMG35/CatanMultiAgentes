@@ -2,6 +2,7 @@ M:\git\Catan\CatanMultiAgentes\cons\Constantes.java
 M:\git\Catan\CatanMultiAgentes\cons\Hexagono.java
 M:\git\Catan\CatanMultiAgentes\src\Jugador\Cartas.java
 M:\git\Catan\CatanMultiAgentes\src\Jugador\Jugador.java
+M:\git\Catan\CatanMultiAgentes\src\Jugador\estrategias\AbstractEstrategias.java
 M:\git\Catan\CatanMultiAgentes\src\Manager\ManagerTableroRegisterPlan.java
 M:\git\Catan\CatanMultiAgentes\src\Tablero\Casilla.java
 M:\git\Catan\CatanMultiAgentes\src\Tablero\ComenzarPartidaPlan.java
