@@ -38,14 +38,14 @@
 
 <!--para registrarse en el DF -->
 	<goals>
-		<achievegoalref name="df_register">
-			<concrete ref="dfcap.df_register"/>
-		</achievegoalref>
+		<maintaingoalref name="df_keep_registered">
+			<concrete ref="dfcap.df_keep_registered"/>
+		</maintaingoalref>
 	</goals>
 
 	<configurations>
 		<configuration name="registro_inicial">
-			<goals><initialgoal ref="df_register">
+			<goals><initialgoal ref="df_keep_registered">
 				<parameter ref="description"> <value>
 					SFipa.createAgentDescription(null,SFipa.createServiceDescription("jugador","jugador", null))</value></parameter>
 			</initialgoal></goals>

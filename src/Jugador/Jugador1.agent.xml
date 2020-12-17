@@ -28,26 +28,52 @@
 				<fact>new Jugador("Joselu", "Caballería")</fact>
 		</belief>
 
-		<belief name="tablero" class="Tablero" exported="true"/>
-
+		<belief name="tablero" class="AgentIdentifier" exported="true">
+			</belief>
 
 		<belief name="puntuacion" class="int" />
+		<belief name="valor_dador" class="int" />
 
 
 	</beliefs>
 
 <!--para registrarse en el DF -->
 	<goals>
-		<achievegoalref name="df_register">
-			<concrete ref="dfcap.df_register"/>
-		</achievegoalref>
+		<maintaingoalref name="df_keep_registered">
+			<concrete ref="dfcap.df_keep_registered"/>
+		</maintaingoalref>
+
 	</goals>
 
+<plans>
+	<plan name="Tirar_dados">
+			<body class="TirarDadosPlan"/>
+			<trigger><messageevent ref="offer_tirar_dados"/></trigger>
+	</plan>
+</plans>
+
+
+
+
+
+	<events>
+		<messageevent name="offer_tirar_dados" type="fipa" direction="receive">
+		<parameter name="performative" class="String" direction="fixed">
+		<value> SFipa.CFP </value>
+		</parameter>
+		<parameter name="content" class= "src.Tablero.Dados" direction="fixed">
+		</parameter>
+	</messageevent>
+	</events>
+
+
+
 	<configurations>
-		<configuration name="jugador">
-			<goals><initialgoal ref="df_register">
+		<configuration name="registro_inicial">
+			<goals><initialgoal ref="df_keep_registered">
 				<parameter ref="description"> <value>
-					SFipa.createAgentDescription(null,SFipa.createServiceDescription("jugador","jugador", null))</value></parameter>
+					SFipa.createAgentDescription(null,SFipa.createServiceDescription("jugador","jugador", null))</value>
+				</parameter>
 			</initialgoal></goals>
 		</configuration>
 

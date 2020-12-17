@@ -16,6 +16,7 @@ public class Tablero {
 	public int desierto;
 	public List<Integer> valores;
 	public List<Jugador> turnos; 
+	public int dados;
 	
 
 	public Tablero() {

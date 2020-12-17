@@ -28,7 +28,7 @@
 		<belief name="myself" class="src.Tablero.Tablero" exported="true">
 			<fact>new Tablero()</fact>
 		</belief>
-
+		<beliefset name="jugador" class="src.Jugador.Jugador" />
 		<belief name="jugadores" class="int"/>
 
 
@@ -51,11 +51,14 @@
 			<contextcondition>$beliefbase.jugadores &lt;= 3</contextcondition>
 		</performgoal>
 
-		<achievegoal name="comienza_partida">
+		<performgoal name="comienza_partida">
 			<creationcondition>
 			$beliefbase.jugadores &gt; 3
 			</creationcondition>
-		</achievegoal>
+		</performgoal>
+
+
+
 	</goals>
 
 	<plans>
@@ -70,6 +73,15 @@
 			<trigger><goal ref="comienza_partida"/></trigger>
 		</plan>
 	</plans>
+
+<events>
+	<messageevent name="offer_tirar_dados" direction="send" type="fipa">
+		<parameter name="performative" class="String" direction="fixed">
+			<value>SFipa.PROPOSE</value>
+		</parameter>
+	</messageevent>
+
+</events>
 
 	<configurations>
 		<configuration name="default">
