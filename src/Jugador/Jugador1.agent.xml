@@ -39,6 +39,10 @@
 
 <!--para registrarse en el DF -->
 	<goals>
+		<achievegoalref name="df_search">
+			<concrete ref="dfcap.df_search"/>
+		</achievegoalref>
+
 		<maintaingoalref name="df_keep_registered">
 			<concrete ref="dfcap.df_keep_registered"/>
 		</maintaingoalref>
@@ -57,11 +61,18 @@
 
 
 	<events>
-		<messageevent name="offer_tirar_dados" type="fipa" direction="receive">
+		<messageevent name="offer_tirar_dados"  direction="receive" type="fipa">
 		<parameter name="performative" class="String" direction="fixed">
-		<value> SFipa.CFP </value>
+		<value> SFipa.REQUEST </value>
 		</parameter>
-		<parameter name="content" class= "src.Tablero.Dados" direction="fixed">
+
+	</messageevent>
+	<messageevent name="offer_tirada_dadosMsg" direction="send" type="fipa">
+		<parameter name="performative" class="String" direction="fixed">
+			<value>SFipa.INFORM</value>
+		</parameter>
+		<parameter name="language" class="String" direction="fixed">
+			<value>SFipa.NUGGETS_XML</value>
 		</parameter>
 	</messageevent>
 	</events>

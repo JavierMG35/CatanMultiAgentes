@@ -5,6 +5,8 @@ M:\git\Catan\CatanMultiAgentes\src\Jugador\Jugador.java
 M:\git\Catan\CatanMultiAgentes\src\Jugador\TirarDadosPlan.java
 M:\git\Catan\CatanMultiAgentes\src\Jugador\estrategias\AbstractEstrategias.java
 M:\git\Catan\CatanMultiAgentes\src\Manager\ManagerTableroRegisterPlan.java
+M:\git\Catan\CatanMultiAgentes\src\ontologia\Action.java
+M:\git\Catan\CatanMultiAgentes\src\ontologia\TirarDados.java
 M:\git\Catan\CatanMultiAgentes\src\Tablero\Casilla.java
 M:\git\Catan\CatanMultiAgentes\src\Tablero\ComenzarPartidaPlan.java
 M:\git\Catan\CatanMultiAgentes\src\Tablero\Dados.java

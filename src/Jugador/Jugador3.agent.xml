@@ -43,6 +43,30 @@
 		</maintaingoalref>
 	</goals>
 
+	<plans>
+		<plan name="Tirar_dados">
+				<body class="TirarDadosPlan"/>
+				<trigger><messageevent ref="offer_tirar_dados"/></trigger>
+		</plan>
+	</plans>
+
+	<events>
+		<messageevent name="offer_tirar_dados" type="fipa" direction="receive">
+		<parameter name="performative" class="String" direction="fixed">
+		<value> SFipa.CFP </value>
+		</parameter>
+	</messageevent>
+
+	<messageevent name="offer_tirada_dadosMsg" direction="send" type="fipa">
+		<parameter name="performative" class="String" direction="fixed">
+			<value>SFipa.INFORM</value>
+		</parameter>
+		<parameter name="language" class="String" direction="fixed">
+			<value>SFipa.NUGGETS_XML</value>
+		</parameter>
+	</messageevent>
+	</events>
+
 	<configurations>
 		<configuration name="registro_inicial">
 			<goals><initialgoal ref="df_keep_registered">

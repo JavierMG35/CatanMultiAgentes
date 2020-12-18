@@ -22,6 +22,7 @@ public class TableroPlanDeRegistro extends Plan{
 		dispatchSubgoalAndWait(busqueda);
 		
 		AgentDescription[] result =(AgentDescription[])busqueda.getParameterSet("result").getValues();
+		
 		int numero_jugadores= result.length;
 		System.out.println(numero_jugadores + " jugadores  encontrados");
 		getBeliefbase().getBelief("jugadores").setFact(numero_jugadores);

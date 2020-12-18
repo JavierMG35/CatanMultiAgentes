@@ -4,14 +4,14 @@ import jadex.adapter.fipa.AgentIdentifier;
 //import jadex.examples.blackjack.player.strategies.IStrategy;
 //import jadex.examples.blackjack.player.strategies.*;
 import jadex.runtime.BasicAgentIdentifier;
-import jadex.util.SUtil;
+//import jadex.util.SUtil;
 import jadex.util.SimplePropertyChangeSupport;
 
-import java.beans.PropertyChangeListener;
-import java.awt.Color;
-import java.util.ArrayList;
+//import java.beans.PropertyChangeListener;
+//import java.awt.Color;
+//import java.util.ArrayList;
 import java.util.List;
-import jadex.runtime.*;
+//import jadex.runtime.*;
 
 
 public class Jugador {

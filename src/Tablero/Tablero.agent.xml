@@ -75,9 +75,18 @@
 	</plans>
 
 <events>
-	<messageevent name="offer_tirar_dados" direction="send" type="fipa">
+	<messageevent name="offer_tirar_dadosMsg" direction="send" type="fipa">
 		<parameter name="performative" class="String" direction="fixed">
-			<value>SFipa.PROPOSE</value>
+			<value>SFipa.REQUEST</value>
+		</parameter>
+		<parameter name="language" class="String" direction="fixed">
+			<value>SFipa.NUGGETS_XML</value>
+		</parameter>
+	</messageevent>
+
+		<messageevent name="receIve_tirada_dadosMsg"  direction="receive" type="fipa">
+		<parameter name="performative" class="String" direction="fixed">
+		<value> SFipa.REQUEST </value>
 		</parameter>
 	</messageevent>
 
