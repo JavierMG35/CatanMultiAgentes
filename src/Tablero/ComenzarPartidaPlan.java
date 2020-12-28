@@ -1,7 +1,7 @@
 package src.Tablero;
 
 import jadex.runtime.*;
-import src.Jugador.*;
+//import src.Jugador.*;
 //import jadex.util.SUtil;
 import java.util.List;
 import jadex.adapter.fipa.*;
@@ -11,8 +11,11 @@ public class ComenzarPartidaPlan extends Plan{
 	
 	public List<Integer> valores;
 	public int max_valor = 0;
+	protected long timeout;
+	
 	public void body() {
-		System.out.println("Hasta aquí  funciona");
+		this.timeout = ((Number)getBeliefbase().getBelief("playerwaitmillis").getFact()).longValue();
+		System.out.println("Comienza el juego");
 		Tablero	yo	= (Tablero)getBeliefbase().getBelief("myself").getFact();
 		
 		ServiceDescription sd = new ServiceDescription();
@@ -28,8 +31,6 @@ public class ComenzarPartidaPlan extends Plan{
 		dispatchSubgoalAndWait(busqueda);
 		
 		AgentDescription[] result =(AgentDescription[])busqueda.getParameterSet("result").getValues();
-
-		
 		
 		IMessageEvent mensaje_enviar = createMessageEvent("offer_tirar_dadosMsg");
 		AgentIdentifier receptor = result[0].getName();
@@ -39,13 +40,13 @@ public class ComenzarPartidaPlan extends Plan{
 		
 		//mensaje_enviar.getParameterSet(SFipa.SENDER).addValue(yo);
 		System.out.println("Enviado de tablero a jugador");
-		IMessageEvent	respuesta	= sendMessageAndWait(mensaje_enviar, 5000);		
+		IMessageEvent	respuesta	= sendMessageAndWait(mensaje_enviar, timeout);		
 		System.out.println("Recibido de jugador a tablero (o no)");
 		System.out.println(respuesta);
 		Dados dados = (Dados)respuesta.getContent();
 		valores.add(dados.getDados());
 		System.out.println(dados.getDados());
-		getLogger().info("Mensaje de TirarDados enviado a" );
+		getLogger().info("Mensaje de TirarDados enviado a" + result[0].getName());
 		/*for(int i=0;i<4;i++) {
 			IMessageEvent mensaje_enviar = createMessageEvent("offer_tirar_dadosMsg");
 			AgentIdentifier receptor = result[i].getName();

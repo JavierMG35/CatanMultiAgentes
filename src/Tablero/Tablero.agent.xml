@@ -30,6 +30,11 @@
 		</belief>
 		<beliefset name="jugador" class="src.Jugador.Jugador" />
 		<belief name="jugadores" class="int"/>
+		
+		<!-- The number of seconds to wait for answers from players. -->
+		<belief name="playerwaitmillis" class="long">
+			<fact>(Integer)$propertybase.getProperty("standard.timeout")</fact>
+		</belief>
 
 
 	</beliefs>

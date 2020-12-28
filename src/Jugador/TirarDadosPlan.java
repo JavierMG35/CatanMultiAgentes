@@ -4,7 +4,7 @@ import jadex.adapter.fipa.*;
 import jadex.runtime.IMessageEvent;
 import jadex.runtime.Plan;
 import src.Tablero.Dados;
-import jadex.util.SUtil;
+//import jadex.util.SUtil;
 
 
 public class TirarDadosPlan extends Plan {
@@ -20,12 +20,13 @@ public class TirarDadosPlan extends Plan {
 		
 		Jugador	yo	= (Jugador)getBeliefbase().getBelief("myself").getFact();
 		
-		IMessageEvent mensaje_enviar = createMessageEvent("offer_tirada_dadosMsg");
+		IMessageEvent mensaje_enviar = request.createReply("offer_tirada_dadosMsg");
 		mensaje_enviar.setContent(dados);
 		mensaje_enviar.getParameterSet(SFipa.RECEIVERS).addValue(tablero);
 		//mensaje_enviar.getParameterSet(SFipa.SENDER).addValue(yo);
-	    sendMessage(mensaje_enviar);		
 		getLogger().info("Tirada de dados de" + yo.nombre);
+	    sendMessage(mensaje_enviar);		
+		
 	}
 
 }
