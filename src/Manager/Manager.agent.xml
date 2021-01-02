@@ -40,7 +40,7 @@
 			<fact>new Jugador("Joselu", "Caballería")</fact>
 			<fact>new Jugador("Victor", "Puertos")</fact>
 			<fact>new Jugador("Pablo", "Monopolio")</fact>
-	</beliefset>
+	    </beliefset>
 
 		<!-- The id of a manually started local dealer. -->
 		<belief name="localDealerAID"  class="AgentIdentifier" />
