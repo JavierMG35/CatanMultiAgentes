@@ -7,6 +7,7 @@
 
 	<imports>
 		<import>src.Jugador.*</import>
+		<import>src.Ontologia.*</import>
 		<import>src.Tablero.*</import>
 		<import>Tablero.beliefs.*</import>
 		<import>Tablero.plans.*</import>
@@ -28,14 +29,19 @@
 		<belief name="myself" class="src.Tablero.Tablero" exported="true">
 			<fact>new Tablero()</fact>
 		</belief>
+		<belief name="esperando_dados_jugador" class="boolean"></belief>
 		<beliefset name="jugador" class="src.Jugador.Jugador" />
 		<belief name="jugadores" class="int"/>
+		<belief name="inicializado" class="int">
+		<fact>0</fact>
+		</belief>
 		
 		<!-- The number of seconds to wait for answers from players. -->
 		<belief name="playerwaitmillis" class="long">
 			<fact>(Integer)$propertybase.getProperty("standard.timeout")</fact>
 		</belief>
-
+		<belief name="orden" class="src.ontologia.Orden">
+		</belief>
 
 	</beliefs>
 
@@ -56,6 +62,13 @@
 			<contextcondition>$beliefbase.jugadores &lt;= 3</contextcondition>
 		</performgoal>
 
+		<performgoal name="tirar_dados"  retry="true" retrydelay="3000" exclude="never" >
+			<contextcondition>
+				(($beliefbase.esperando_dados_jugador) )
+			</contextcondition></performgoal>
+
+
+
 		<performgoal name="comienza_partida">
 			<creationcondition>
 			$beliefbase.jugadores &gt; 3
@@ -67,16 +80,29 @@
 	</goals>
 
 	<plans>
+		<plan name="TirarDados">
+			<body class="ComenzarPartidaPlan" />
+			<trigger> <goal ref="tirar_dados"/> </trigger>
+		</plan>
+		
+		<plan name="ComenzarPartida">
+			<body class="ComenzarPartidaPlan" />
+			<trigger> <goal ref="comienza_partida"/> </trigger>
+		</plan>
 
 		<plan name="completar_jugadores_plan">
 			<body class="TableroPlanDeRegistro" />
 			<trigger> <goal ref="completar_jugadores"/> </trigger>
 		</plan>
 
-		<plan name="comienza_partida_plan">
-			<body class="ComenzarPartidaPlan" />
-			<trigger><goal ref="comienza_partida"/></trigger>
+			
+		<plan name="Recibir_Dados_Plan">
+			<body class="RecibirDadosPlan" />
+			<trigger>
+				<messageevent ref="recive_tirada" /> 
+			</trigger>
 		</plan>
+		
 	</plans>
 
 <events>
@@ -89,9 +115,9 @@
 		</parameter>
 	</messageevent>
 
-		<messageevent name="receIve_tirada_dadosMsg"  direction="receive" type="fipa">
+		<messageevent name="recive_tirada"  direction="receive" type="fipa">
 		<parameter name="performative" class="String" direction="fixed">
-		<value> SFipa.REQUEST </value>
+		<value> SFipa.INFORM </value>
 		</parameter>
 	</messageevent>
 

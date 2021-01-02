@@ -1,6 +1,8 @@
 package src.Tablero;
 
 import jadex.runtime.*;
+
+import java.util.ArrayList;
 //import src.Jugador.*;
 //import jadex.util.SUtil;
 import java.util.List;
@@ -11,12 +13,21 @@ public class ComenzarPartidaPlan extends Plan{
 	
 	public List<Integer> valores;
 	public int max_valor = 0;
+	public int turno = 0;
 	protected long timeout;
 	
+	
 	public void body() {
+		
+		
+		
+		
+		
 		this.timeout = ((Number)getBeliefbase().getBelief("playerwaitmillis").getFact()).longValue();
 		System.out.println("Comienza el juego");
 		Tablero	yo	= (Tablero)getBeliefbase().getBelief("myself").getFact();
+		
+		
 		
 		ServiceDescription sd = new ServiceDescription();
 		sd.setType("jugador");
@@ -34,6 +45,23 @@ public class ComenzarPartidaPlan extends Plan{
 		
 		IMessageEvent mensaje_enviar = createMessageEvent("offer_tirar_dadosMsg");
 		AgentIdentifier receptor = result[0].getName();
+		
+		Orden Lista = new Orden();
+		int i2 = ((int)getBeliefbase().getBelief("inicializado").getFact());
+		if (i2==0) {
+			System.out.println("Iniciamos la lista");
+			for (int i = 0 ; i> result.length;i++) { Lista.getJugadores().add(result[i]); }
+			getBeliefbase().getBelief("orden").setFact(Lista);
+			Lista.setTurno(0);
+			Lista.setInicializada(1);
+			getBeliefbase().getBelief("inicializado").setFact(i2);
+		}
+		else {
+			turno = Lista.getTurno();
+		}
+		
+				
+		
 		TirarDados tirardados = new TirarDados();
 		mensaje_enviar.getParameterSet(SFipa.RECEIVERS).addValue(receptor);
 		mensaje_enviar.setContent(tirardados);
@@ -46,7 +74,10 @@ public class ComenzarPartidaPlan extends Plan{
 		Dados dados = (Dados)respuesta.getContent();
 		valores.add(dados.getDados());
 		System.out.println(dados.getDados());
-		getLogger().info("Mensaje de TirarDados enviado a" + result[0].getName());
+		getLogger().info("Mensaje de TirarDados enviado a" + result[turno].getName());
+		
+		getBeliefbase().getBelief("esperando_dados_jugador").setFact(new Boolean(true));
+		
 		/*for(int i=0;i<4;i++) {
 			IMessageEvent mensaje_enviar = createMessageEvent("offer_tirar_dadosMsg");
 			AgentIdentifier receptor = result[i].getName();

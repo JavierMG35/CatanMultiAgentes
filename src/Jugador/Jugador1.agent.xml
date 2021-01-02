@@ -69,7 +69,7 @@
 			</parameter>
 
 		</messageevent>
-		<messageevent name="offer_tirada_dadosMsg"
+		<messageevent name="recive_tirar"
 			direction="send" type="fipa">
 			<parameter name="performative" class="String"
 				direction="fixed">
