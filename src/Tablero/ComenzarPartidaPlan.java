@@ -2,12 +2,16 @@ package src.Tablero;
 
 import jadex.runtime.*;
 
+
 import java.util.ArrayList;
 //import src.Jugador.*;
 //import jadex.util.SUtil;
 import java.util.List;
 import jadex.adapter.fipa.*;
+import src.Jugador.Jugador;
 import src.ontologia.*;
+import java.util.Collections;
+import java.util.Comparator;
 
 public class ComenzarPartidaPlan extends Plan{
 	
@@ -20,10 +24,11 @@ public class ComenzarPartidaPlan extends Plan{
 	public void body() {
 		
 		
-		this.timeout = ((Number)getBeliefbase().getBelief("playerwaitmillis").getFact()).longValue();
-		System.out.println("Comienza el juego");
-		Tablero	yo	= (Tablero)getBeliefbase().getBelief("myself").getFact();
 		
+		
+		
+		this.timeout = ((Number)getBeliefbase().getBelief("playerwaitmillis").getFact()).longValue();
+		System.out.println("Comienza el juego");	
 		
 		
 		ServiceDescription sd = new ServiceDescription();
@@ -40,10 +45,7 @@ public class ComenzarPartidaPlan extends Plan{
 		
 		AgentDescription[] result =(AgentDescription[])busqueda.getParameterSet("result").getValues();
 		
-		IMessageEvent mensaje_enviar = createMessageEvent("offer_tirar_dadosMsg");
-		AgentIdentifier receptor = result[0].getName();
-		
-		Orden Lista = new Orden();
+		/*
 		int i2 = ((int)getBeliefbase().getBelief("inicializado").getFact());
 		if (i2==0) {
 			System.out.println("Iniciamos la lista");
@@ -51,49 +53,48 @@ public class ComenzarPartidaPlan extends Plan{
 			getBeliefbase().getBelief("orden").setFact(Lista);
 			Lista.setTurno(0);
 			Lista.setInicializada(1);
+			i2++;
 			getBeliefbase().getBelief("inicializado").setFact(i2);
 		}
 		else {
 			turno = Lista.getTurno();
-		}
+		}*/
 		
 				
-		
+		List<Integer> valores = new ArrayList<>();
 		TirarDados tirardados = new TirarDados();
-		mensaje_enviar.getParameterSet(SFipa.RECEIVERS).addValue(receptor);
-		mensaje_enviar.setContent(tirardados);
-		
-		//mensaje_enviar.getParameterSet(SFipa.SENDER).addValue(yo);
-		System.out.println("Enviado de tablero a jugador: "+ result[turno].getName());
-		IMessageEvent	respuesta	= sendMessageAndWait(mensaje_enviar, timeout);		
-		
-		
-		System.out.println("Recibido de jugador a tablero (o no)");
-		System.out.println(respuesta);
-		Dados dados = (Dados)respuesta.getContent();
-		valores.add(dados.getDados());
-		System.out.println(dados.getDados());
-		getLogger().info("Mensaje de TirarDados enviado a" + result[turno].getName());
-		
-		getBeliefbase().getBelief("esperando_dados_jugador").setFact(new Boolean(true));
-		
-		/*for(int i=0;i<4;i++) {
-			IMessageEvent mensaje_enviar = createMessageEvent("offer_tirar_dadosMsg");
-			AgentIdentifier receptor = result[i].getName();
-			TirarDados tirardados = new TirarDados();
-			mensaje_enviar.getParameterSet(SFipa.RECEIVERS).addValue(receptor);
+		for(int i=0;i< result.length;i++) {
+			IMessageEvent mensaje_enviar = createMessageEvent("offer_tirar_dados");
+			mensaje_enviar.getParameterSet(SFipa.RECEIVERS).addValue(result[i].getName());
 			mensaje_enviar.setContent(tirardados);
-			
-			//mensaje_enviar.getParameterSet(SFipa.SENDER).addValue(yo);
 			System.out.println("Enviado de tablero a jugador");
-			IMessageEvent	respuesta	= sendMessageAndWait(mensaje_enviar, 15000);		
+			IMessageEvent	respuesta	= sendMessageAndWait(mensaje_enviar);		
 			System.out.println("Recibido de jugador a tablero (o no)");
-			System.out.println(respuesta);
 			Dados dados = (Dados)respuesta.getContent();
+			System.out.println(dados.getDados());
+			System.out.println(respuesta);
+			
 			valores.add(dados.getDados());
-			getLogger().info("Mensaje de TirarDados enviado a" + i);
+			
+			getLogger().info("Mensaje de TirarDados enviado a" + result[turno].getName());
 		}
-		*/
+		Orden Lista = new Orden();
+		Jugador[] jugadores	= (Jugador[])getBeliefbase().getBeliefSet("jugador").getFacts();
+		for(int i=0;i< result.length;i++) {
+			Lista.addJugador(jugadores[i]);
+		}
+	
+		
+		Collections.sort(Lista.getJugadores(), new Comparator<Jugador>() {
+	            @Override
+	            public int compare(Jugador p1, Jugador p2) {
+	                return p1.getTirada() - p2.getTirada();
+	            }
+	        });
+	 
+		
+		System.out.println( Lista.getJugadores());
+				
 		System.out.println("Protocolo Terminado");
 		
 		
@@ -101,38 +102,7 @@ public class ComenzarPartidaPlan extends Plan{
 		
 		
 		
-		
-		
-		
-		
-		
-		
-		
-		//Jugador[]	jugadores	= (Jugador[])getBeliefbase().getBeliefSet("jugador").getFacts();
-		
-
-		//System.out.println("A");
-		//System.out.println(jugadores);
-		/*
-		for(int i=0;i<4;i++) {
-			IMessageEvent mensaje_enviar = createMessageEvent("offer_tirar_dados");
-			mensaje_enviar.getParameterSet(SFipa.RECEIVERS).addValue(jugadores[i].getAgentID());
-			mensaje_enviar.getParameterSet(SFipa.SENDER).addValue(yo);
-			System.out.println("Enviado de tablero a jugador");
-			IMessageEvent	respuesta	= sendMessageAndWait(mensaje_enviar, 15000);		
-			System.out.println("Recibido de jugador a tablero (o no)");
-			System.out.println(respuesta);
-			Dados dados = (Dados)respuesta.getContent();
-			valores.add(dados.getDados());
-			getLogger().info("Mensaje de TirarDados enviado a" + i);
-		}
-		for(int i=0;i<valores.size();i++) {
-			if(valores.get(i)>max_valor) {
-				max_valor = valores.get(i);
-			}
-		}
-		
-		System.out.println("we made it ");*/
+	
 		
 	}
 

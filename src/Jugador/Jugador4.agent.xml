@@ -51,21 +51,28 @@
 	</plans>
 
 	<events>
-		<messageevent name="offer_tirar_dados" type="fipa" direction="receive">
-		<parameter name="performative" class="String" direction="fixed">
-		<value> SFipa.CFP </value>
-		</parameter>
-	</messageevent>
 
-	<messageevent name="offer_tirada_dadosMsg" direction="send" type="fipa">
-		<parameter name="performative" class="String" direction="fixed">
-			<value>SFipa.INFORM</value>
-		</parameter>
-		<parameter name="language" class="String" direction="fixed">
-			<value>SFipa.NUGGETS_XML</value>
-		</parameter>
-	</messageevent>
-	</events>
+
+		<messageevent name="offer_tirar_dados" type="fipa" direction="receive">
+<parameter name="performative" class="String" direction="fixed">
+<value>SFipa.REQUEST</value>
+</parameter>
+<parameter name="language" class="String" direction="fixed">
+				<value>SFipa.NUGGETS_XML</value>
+ 			</parameter>
+</messageevent>
+
+
+<messageevent name="receive_tirar" type="fipa" direction="send">
+<parameter name="performative" class="String">
+<value>SFipa.INFORM</value>
+</parameter>
+<parameter name="language" class="String" direction="fixed">
+				<value>SFipa.NUGGETS_XML</value>
+ 			</parameter>
+</messageevent>
+
+</events>
 
 	<configurations>
 		<configuration name="registro_inicial">

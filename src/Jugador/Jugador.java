@@ -63,6 +63,8 @@ public class Jugador {
 		
 		protected List construcciones;
 		
+		protected int tirada;
+		
 		protected int posicion_mesa;
 		
 		protected int puntuacion;
@@ -80,6 +82,62 @@ public class Jugador {
 		protected String	state;
 		
 		public SimplePropertyChangeSupport	pcs;
+
+		public String getNombre() {
+			return nombre;
+		}
+		public void setNombre(String nombre) {
+			this.nombre = nombre;
+		}
+		public List getCartas() {
+			return cartas;
+		}
+		public void setCartas(List cartas) {
+			this.cartas = cartas;
+		}
+		public List getConstrucciones() {
+			return construcciones;
+		}
+		public void setConstrucciones(List construcciones) {
+			this.construcciones = construcciones;
+		}
+		public int getTirada() {
+			return tirada;
+		}
+		public void setTirada(int tirada) {
+			this.tirada = tirada;
+		}
+		public int getPosicion_mesa() {
+			return posicion_mesa;
+		}
+		public void setPosicion_mesa(int posicion_mesa) {
+			this.posicion_mesa = posicion_mesa;
+		}
+		public int getPuntuacion() {
+			return puntuacion;
+		}
+		public void setPuntuacion(int puntuacion) {
+			this.puntuacion = puntuacion;
+		}
+		public String getStrategyname() {
+			return strategyname;
+		}
+		public void setStrategyname(String strategyname) {
+			this.strategyname = strategyname;
+		}
+		public BasicAgentIdentifier getAid() {
+			return aid;
+		}
+		public void setAid(BasicAgentIdentifier aid) {
+			this.aid = aid;
+		}
+		public String getState() {
+			return state;
+		}
+		public void setState(String state) {
+			this.state = state;
+		}
+		
 		
 		
 }

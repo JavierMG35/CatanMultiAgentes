@@ -1,10 +1,11 @@
 package src.ontologia;
 
 import java.util.ArrayList;
-
+import src.Jugador.Jugador;
+import java.util.List;
 public class Orden {
 	
-	ArrayList jugadores;
+	List<Jugador> jugadores;
 	int turno;
 	int inicializada=0;
 	
@@ -19,7 +20,7 @@ public class Orden {
 	}
 
 	public Orden() {
-		this.jugadores = new ArrayList();
+		this.jugadores = new ArrayList<>();
 	}
 
 	public int getTurno() {
@@ -34,12 +35,19 @@ public class Orden {
 		this.turno = turno;
 	}
 
-	public ArrayList getJugadores() {
+	public List<Jugador>  getJugadores() {
 		return jugadores;
 	}
 
-	public void setJugadores(ArrayList jugadores) {
+	public void setJugadores(List<Jugador>  jugadores) {
 		this.jugadores = jugadores;
+	}
+	
+	public void addJugador(Jugador jugador) {
+		if (jugadores ==null) {
+			jugadores = new ArrayList<>();
+		}
+		jugadores.add(jugador);
 	}
 
 

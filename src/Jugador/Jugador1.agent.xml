@@ -29,8 +29,7 @@
 		<belief name="tablero" class="AgentIdentifier" exported="true">
 		</belief>
 
-		<belief name="puntuacion" class="int" />
-		<belief name="valor_dador" class="int" />
+
 
 
 	</beliefs>
@@ -61,27 +60,28 @@
 
 
 	<events>
-		<messageevent name="offer_tirar_dados"
-			direction="receive" type="fipa">
-			<parameter name="performative" class="String"
-				direction="fixed">
-				<value> SFipa.REQUEST </value>
-			</parameter>
 
-		</messageevent>
-		<messageevent name="recive_tirar"
-			direction="send" type="fipa">
-			<parameter name="performative" class="String"
-				direction="fixed">
-				<value>SFipa.INFORM</value>
-			</parameter>
-			<parameter name="language" class="String" direction="fixed">
+
+		<messageevent name="offer_tirar_dados" type="fipa" direction="receive">
+<parameter name="performative" class="String" direction="fixed">
+<value>SFipa.REQUEST</value>
+</parameter>
+<parameter name="language" class="String" direction="fixed">
 				<value>SFipa.NUGGETS_XML</value>
-			</parameter>
-		</messageevent>
-	</events>
+ 			</parameter>
+</messageevent>
 
 
+<messageevent name="receive_tirar" type="fipa" direction="send">
+<parameter name="performative" class="String">
+<value>SFipa.INFORM</value>
+</parameter>
+<parameter name="language" class="String" direction="fixed">
+				<value>SFipa.NUGGETS_XML</value>
+ 			</parameter>
+</messageevent>
+
+</events>
 
 	<configurations>
 		<configuration name="registro_inicial">

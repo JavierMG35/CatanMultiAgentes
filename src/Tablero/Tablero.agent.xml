@@ -2,7 +2,8 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://jadex.sourceforge.net/jadex
 	                    http://jadex.sourceforge.net/jadex-0.96.xsd"
-	name="Tablero" package="Tablero">
+	name="Tablero"
+	package="Tablero">
 
 	<imports>
 		<import>src.Jugador.*</import>
@@ -19,21 +20,19 @@
 	</imports>
 
 	<capabilities>
-		<capability name="dfcap" file="jadex.planlib.DF" />
+		<capability name="dfcap" file="jadex.planlib.DF"/>
 	</capabilities>
 
 
 
 	<beliefs>
-		<belief name="myself" class="src.Tablero.Tablero"
-			exported="true">
+		<belief name="myself" class="src.Tablero.Tablero" exported="true">
 			<fact>new Tablero()</fact>
 		</belief>
-		<belief name="esperando_dados_jugador" class="boolean"></belief>
 		<beliefset name="jugador" class="src.Jugador.Jugador" />
-		<belief name="jugadores" class="int" />
+		<belief name="jugadores" class="int"/>
 		<belief name="inicializado" class="int">
-			<fact>0</fact>
+		<fact>0</fact>
 		</belief>
 
 		<!-- The number of seconds to wait for answers from players. -->
@@ -47,34 +46,31 @@
 
 	<goals>
 		<achievegoalref name="df_search">
-			<concrete ref="dfcap.df_search" />
+			<concrete ref="dfcap.df_search"/>
 		</achievegoalref>
 		<!-- Used for registering the dealer at the df. -->
 		<achievegoalref name="df_register">
-			<concrete ref="dfcap.df_register" />
+			<concrete ref="dfcap.df_register"/>
 		</achievegoalref>
 		<!-- Used for deregistering the dealer at the df. -->
 		<achievegoalref name="df_deregister">
-			<concrete ref="dfcap.df_deregister" />
+			<concrete ref="dfcap.df_deregister"/>
 		</achievegoalref>
 
-		<performgoal name="completar_jugadores" recur="true"
-			recurdelay="2000">
+		<performgoal name="completar_jugadores" recur="true" recurdelay="2000">
 			<contextcondition>$beliefbase.jugadores &lt;= 3</contextcondition>
 		</performgoal>
 
-		<performgoal name="tirar_dados" retry="true"
-			retrydelay="3000" exclude="never">
+		<performgoal name="tirar_dados"  retry="true" retrydelay="3000" exclude="never" >
 			<contextcondition>
 				(($beliefbase.esperando_dados_jugador) )
-			</contextcondition>
-		</performgoal>
+			</contextcondition></performgoal>
 
 
 
 		<performgoal name="comienza_partida">
 			<creationcondition>
-				$beliefbase.jugadores &gt; 3
+			$beliefbase.jugadores &gt; 3
 			</creationcondition>
 		</performgoal>
 
@@ -85,111 +81,84 @@
 	<plans>
 		<plan name="TirarDados">
 			<body class="ComenzarPartidaPlan" />
-			<trigger>
-				<goal ref="tirar_dados" />
-			</trigger>
+			<trigger> <goal ref="tirar_dados"/> </trigger>
 		</plan>
 
 		<plan name="ComenzarPartida">
 			<body class="ComenzarPartidaPlan" />
-			<trigger>
-				<goal ref="comienza_partida" />
-			</trigger>
+			<trigger> <goal ref="comienza_partida"/> </trigger>
 		</plan>
 
 		<plan name="completar_jugadores_plan">
 			<body class="TableroPlanDeRegistro" />
-			<trigger>
-				<goal ref="completar_jugadores" />
-			</trigger>
+			<trigger> <goal ref="completar_jugadores"/> </trigger>
 		</plan>
 
 
-		<plan name="Recibir_Dados_Plan">
-			<body class="RecibirDadosPlan" />
-			<trigger>
-				<messageevent ref="recive_tirada" />
-			</trigger>
-		</plan>
-		
-		<!-- Añadido esto -->
-		<plan name="Vuelta_tablero">
-			<body class="ComenzarPartidaPlan" />
-			<trigger>
-				<messageevent ref="vuelta_tablero" />
-			</trigger>
-		</plan>
+
 
 	</plans>
 
-	<events>
-		<messageevent name="offer_tirar_dadosMsg"
-			direction="send" type="fipa">
-			<parameter name="performative" class="String"
-				direction="fixed">
-				<value>SFipa.REQUEST</value>
-			</parameter>
-			<parameter name="language" class="String" direction="fixed">
-				<value>SFipa.NUGGETS_XML</value>
-			</parameter>
-		</messageevent>
+<events>
 
-		<messageevent name="recive_tirada" direction="receive"
-			type="fipa">
-			<parameter name="performative" class="String"
-				direction="fixed">
-				<value> SFipa.INFORM </value>
-			</parameter>
-			<parameter name="language" class="String" direction="fixed">
-				<value>SFipa.NUGGETS_XML</value>
-			</parameter>
-		</messageevent>
-		
-		<!-- Añadido esto -->
-		<messageevent name="vuelta_tablero" direction="send"
-			type="fipa">
-			<parameter name="performative" class="String"
-				direction="fixed">
-				<value> SFipa.REQUEST </value>
-			</parameter>
-			<parameter name="language" class="String" direction="fixed">
-				<value>SFipa.NUGGETS_XML</value>
-			</parameter>
-		</messageevent>
 
-	</events>
+	<messageevent name="offer_tirar_dados" type="fipa" direction="send">
+<parameter name="performative" class="String">
+<value>SFipa.REQUEST</value>
+</parameter>
+<parameter name="conversation-id" class="String">
+<value>SFipa.createUniqueId($scope.getAgentName())</value>
+</parameter>
+<parameter name="language" class="String" direction="fixed">
+				<value>SFipa.NUGGETS_XML</value>
+ 			</parameter>
+</messageevent>
+
+
+	<messageevent name="receive_tirar" type="fipa" direction="receive">
+<parameter name="performative" class="String" direction="fixed">
+<value>SFipa.INFORM</value>
+</parameter>
+<parameter name="language" class="String" direction="fixed">
+				<value>SFipa.NUGGETS_XML</value>
+ 			</parameter>
+</messageevent>
+
+
+</events>
 
 	<configurations>
 		<configuration name="default">
-			<beliefs>
-				<initialbelief ref="jugadores">
-					<fact>0</fact>
-				</initialbelief>
-			</beliefs>
-			<goals>
-				<initialgoal ref="completar_jugadores"></initialgoal>
+		<beliefs>
+			<initialbelief ref="jugadores">
+				<fact>0</fact>
+			</initialbelief>
+		</beliefs>
+		<goals>
+			<initialgoal ref="completar_jugadores"></initialgoal>
 
-			</goals>
+		</goals>
 
 		</configuration>
 		<configuration name="default1">
-			<goals>
-				<!-- Register the dealer at the df on startup. -->
-				<initialgoal ref="df_register">
-					<!-- The services to register. -->
-					<parameter ref="description">
-						<value>
-							<!-- This is the agent-description for the dealer. With this description 
-								the dealers is registered at the directory facilitator. Note, that the dealer 
-								only offers one service, that is 'dealing' (see service description below). -->
-							SFipa.createAgentDescription(null,
+		<goals>
+			<!-- Register the dealer at the df on startup. -->
+			<initialgoal ref="df_register">
+				<!-- The services to register. -->
+				<parameter ref="description">
+					<value>
+						<!-- This is the agent-description for the dealer. With this description
+								 the dealers is registered at the directory facilitator.
+								 Note, that the dealer only offers one service, that is 'dealing'
+								 (see service description below).	-->
+						SFipa.createAgentDescription(null,
 							SFipa.createServiceDescription("Tablero", "Partida", "Grupo04"))
-						</value>
-					</parameter>
-				</initialgoal>
-				<initialgoal ref="completar_jugadores" />
-				<endgoal ref="df_deregister" />
-			</goals>
+					</value>
+				</parameter>
+			</initialgoal>
+			<initialgoal ref="completar_jugadores"/>
+			<endgoal ref="df_deregister"/>
+		</goals>
 		</configuration>
 	</configurations>
 

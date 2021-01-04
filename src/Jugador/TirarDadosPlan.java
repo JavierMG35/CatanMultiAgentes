@@ -19,18 +19,14 @@ public class TirarDadosPlan extends Plan {
 			
 		
 		Jugador	yo	= (Jugador)getBeliefbase().getBelief("myself").getFact();
-		
-		IMessageEvent mensaje_enviar = request.createReply("recive_tirar");
-		mensaje_enviar.setContent(dados);
+		yo.setTirada(dados.getDados());
+		IMessageEvent mensaje_enviar = request.createReply("receive_tirar",dados);
 		mensaje_enviar.getParameterSet(SFipa.RECEIVERS).addValue(tablero);
-		//mensaje_enviar.getParameterSet(SFipa.SENDER).addValue(yo);
 		getLogger().info("Tirada de dados de" + yo.nombre);
+		System.out.println("Tirada de dados de " + yo.nombre);
 		System.out.println("Envio el mensaje");
 	    sendMessage(mensaje_enviar);	
 	    System.out.println("Ya Envio el mensaje");
-	    
-	    
-	    
 		
 	}
 
