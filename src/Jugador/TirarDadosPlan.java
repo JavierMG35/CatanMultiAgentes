@@ -28,6 +28,9 @@ public class TirarDadosPlan extends Plan {
 		System.out.println("Envio el mensaje");
 	    sendMessage(mensaje_enviar);	
 	    System.out.println("Ya Envio el mensaje");
+	    
+	    
+	    
 		
 	}
 

@@ -20,9 +20,6 @@ public class ComenzarPartidaPlan extends Plan{
 	public void body() {
 		
 		
-		
-		
-		
 		this.timeout = ((Number)getBeliefbase().getBelief("playerwaitmillis").getFact()).longValue();
 		System.out.println("Comienza el juego");
 		Tablero	yo	= (Tablero)getBeliefbase().getBelief("myself").getFact();
@@ -67,8 +64,10 @@ public class ComenzarPartidaPlan extends Plan{
 		mensaje_enviar.setContent(tirardados);
 		
 		//mensaje_enviar.getParameterSet(SFipa.SENDER).addValue(yo);
-		System.out.println("Enviado de tablero a jugador");
+		System.out.println("Enviado de tablero a jugador: "+ result[turno].getName());
 		IMessageEvent	respuesta	= sendMessageAndWait(mensaje_enviar, timeout);		
+		
+		
 		System.out.println("Recibido de jugador a tablero (o no)");
 		System.out.println(respuesta);
 		Dados dados = (Dados)respuesta.getContent();
