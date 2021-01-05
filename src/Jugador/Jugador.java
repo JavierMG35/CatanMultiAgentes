@@ -1,6 +1,7 @@
 package src.Jugador;
 
 import jadex.adapter.fipa.AgentIdentifier;
+import jadex.model.jibximpl.Agent;
 //import jadex.examples.blackjack.player.strategies.IStrategy;
 //import jadex.examples.blackjack.player.strategies.*;
 import jadex.runtime.BasicAgentIdentifier;
@@ -14,7 +15,7 @@ import java.util.List;
 //import jadex.runtime.*;
 
 
-public class Jugador {
+public class Jugador extends Agent{
 	
 	//-------- constructors --------
 			public Jugador()
@@ -126,7 +127,7 @@ public class Jugador {
 			this.strategyname = strategyname;
 		}
 		public BasicAgentIdentifier getAid() {
-			return aid;
+			return this.aid;
 		}
 		public void setAgentID(BasicAgentIdentifier aid) {
 			this.aid = aid;

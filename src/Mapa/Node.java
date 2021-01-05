@@ -1,4 +1,4 @@
-package src.Tablero;
+package src.Mapa;
 import java.util.ArrayList;
 import java.util.List;
 public class Node {

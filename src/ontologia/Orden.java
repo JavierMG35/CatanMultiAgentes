@@ -8,9 +8,18 @@ public class Orden {
 	List<Jugador> jugadores;
 	int turno;
 	int inicializada=0;
+	Jugador siguiente_jugador;
 	
 	
 	
+	public Jugador getSiguiente_jugador() {
+		return siguiente_jugador;
+	}
+
+	public void setSiguiente_jugador(Jugador siguiente_jugador) {
+		this.siguiente_jugador = siguiente_jugador;
+	}
+
 	public int getInicializada() {
 		return inicializada;
 	}

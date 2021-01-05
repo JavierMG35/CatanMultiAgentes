@@ -1,4 +1,4 @@
-package src.Tablero;
+package src.Tablero.plans;
 
 import jadex.runtime.*;
 
@@ -23,14 +23,15 @@ public class ComenzarPartidaPlan extends Plan{
 	
 	public void body() {
 		
+		Orden Lista = new Orden();
+		int[] lista2;
+		int minimo = 13;
+		int index = 0;
 		
-		
-		
+		///////////////////////Buscamos los jugadores en el df
 		
 		this.timeout = ((Number)getBeliefbase().getBelief("playerwaitmillis").getFact()).longValue();
 		System.out.println("Comienza el juego");	
-		
-		
 		ServiceDescription sd = new ServiceDescription();
 		sd.setType("jugador");
 		sd.setName("jugador");
@@ -42,23 +43,9 @@ public class ComenzarPartidaPlan extends Plan{
 		busqueda.getParameter("description").setValue(adesc);
 		busqueda.getParameter("constraints").setValue(sc);
 		dispatchSubgoalAndWait(busqueda);
-		
 		AgentDescription[] result =(AgentDescription[])busqueda.getParameterSet("result").getValues();
 		
-		/*
-		int i2 = ((int)getBeliefbase().getBelief("inicializado").getFact());
-		if (i2==0) {
-			System.out.println("Iniciamos la lista");
-			for (int i = 0 ; i> result.length;i++) { Lista.getJugadores().add(result[i]); }
-			getBeliefbase().getBelief("orden").setFact(Lista);
-			Lista.setTurno(0);
-			Lista.setInicializada(1);
-			i2++;
-			getBeliefbase().getBelief("inicializado").setFact(i2);
-		}
-		else {
-			turno = Lista.getTurno();
-		}*/
+		/////////////////////////////////////////////////////////
 		
 		Jugador[]  jugadores	= new Jugador[result.length];
 		List<Integer> valores = new ArrayList<>();
@@ -67,63 +54,49 @@ public class ComenzarPartidaPlan extends Plan{
 			IMessageEvent mensaje_enviar = createMessageEvent("offer_tirar_dados");
 			mensaje_enviar.getParameterSet(SFipa.RECEIVERS).addValue(result[i].getName());
 			mensaje_enviar.setContent(tirardados);
-			System.out.println("Enviado de tablero a jugador");
 			IMessageEvent	respuesta	= sendMessageAndWait(mensaje_enviar);		
-			System.out.println("Recibido de jugador a tablero (o no)");
 			Jugador player = (Jugador)respuesta.getContent();
-			System.out.println(player.getTirada());
+			System.out.println("El jugador: "+ player.getNombre()+" saca un : "+player.getTirada() + " Aid : "+ player.getAid());
 			System.out.println(respuesta);
+			player.setAgentID((AgentIdentifier)respuesta.getParameter("sender").getValue());
 			jugadores[i] = player;
-			
 			valores.add(player.getTirada());
-			
-			getLogger().info("Mensaje de TirarDados enviado a" + result[turno].getName());
 		}
-		Orden Lista = new Orden();
-		int[] lista2 = new int[result.length];
-		int minimo = 13;
-		int index = 0;
 		
-		
-		//////////////////////////////////////////////////////////
-		
-		
-		Jugador[]  jugadores2	= jugadores;
-		System.out.println( jugadores[0].getNombre());
-		System.out.println( jugadores[0].getAid());
-	
-		for( int j =0; j<jugadores.length;j++) {
 
-			System.out.println("Ronda" + j);
+		//////////////////////////////////////////////////////////
+				
+		Jugador[]  jugadores2	= jugadores;		
+		lista2 = new int[result.length];
+		
+		for( int j =0; j<jugadores.length;j++) {
 			for (int i=0;i<jugadores.length;i++) {
 				if(jugadores2[i].getTirada() <= minimo) { 
-					minimo = jugadores2[i].getTirada(); 
-					index = i; }	
+					minimo = jugadores2[i].getTirada();
+					index = i; 
+				}	
 			}
-			minimo=13;
 			lista2[j] = index;
 			jugadores2[index].setTirada(13);
+			minimo=13;
 		}
 		
-		for(int i = jugadores2.length-1; i>=0;i--) {
-			Lista.addJugador(jugadores[lista2[i]]);
-		}
-		
-		////////////////////////////
-		
-		System.out.println( Lista.getJugadores().get(0).getNombre());
-		System.out.println( Lista.getJugadores().get(1).getNombre());
-		System.out.println( Lista.getJugadores().get(2).getNombre());
-		System.out.println( Lista.getJugadores().get(3).getNombre());
-				
-		System.out.println("Protocolo Terminado");
+		for(int i = jugadores2.length-1; i>=0;i--) {Lista.addJugador(jugadores[lista2[i]]);	}
+
+		Lista.setTurno(0);
+		Lista.setSiguiente_jugador(Lista.getJugadores().get(0));
+		getBeliefbase().getBelief("orden").setFact(Lista);
 		
 		
-		
-		
-		
-		
-	
+		/////////////////////////Test para la lista orden
+		Orden check= (Orden)getBeliefbase().getBelief("orden").getFact();
+		System.out.println("jugador: "+ check.getJugadores().get(1).getNombre());
+		System.out.println( Lista.getJugadores().get(0).getNombre()+" Aid : "+ Lista.getJugadores().get(0).getAid());
+		System.out.println( Lista.getJugadores().get(1).getNombre()+" Aid : "+ Lista.getJugadores().get(1).getAid());
+		System.out.println( Lista.getJugadores().get(2).getNombre()+" Aid : "+ Lista.getJugadores().get(2).getAid());
+		System.out.println( Lista.getJugadores().get(3).getNombre()+" Aid : "+ Lista.getJugadores().get(3).getAid());
+		////////////////////////////		
+		System.out.println("Protocolo Terminado");	
 		
 	}
 

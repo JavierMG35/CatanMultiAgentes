@@ -1,4 +1,4 @@
-package src.Tablero;
+package src.Mapa;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -29,7 +29,7 @@ public class Casilla {
 		return nodos_adyacentes;
 	}
 	
-	public void setCasilla(Tablero mapa, List<Integer> valores) {
+	public void setCasilla(Mapa mapa, List<Integer> valores) {
 		Node nodo = new Node("00");
 		boolean set = false;
 		while(!set) {
@@ -58,7 +58,7 @@ public class Casilla {
 		
 	}
 	
-	public void setValor(Tablero mapa, List<Integer> valores) {
+	public void setValor(Mapa mapa, List<Integer> valores) {
 		Random random = new Random();
 		int numero_random = random.nextInt(valores.size());
 		this.valor = Integer.parseInt(valores.get( Integer.valueOf(numero_random) ).toString());		
@@ -68,7 +68,7 @@ public class Casilla {
 	
 	
 	
-	public void setRecurso(Tablero mapa) {
+	public void setRecurso(Mapa mapa) {
 		//l = lana = 0
 		//m = madera = 1
 		//r = piedra = 2

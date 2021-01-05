@@ -1,7 +1,8 @@
-package src.Tablero;
+package src.Tablero.plans;
 
 import jadex.runtime.IMessageEvent;
 import jadex.runtime.Plan;
+import src.Tablero.Dados;
 import src.ontologia.Orden;
 
 public class RecibirDadosPlan extends Plan {

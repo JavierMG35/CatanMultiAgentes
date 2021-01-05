@@ -8,6 +8,7 @@
 	<imports>
 		<import>src.Jugador.*</import>
 		<import>src.Tablero.*</import>
+		<import>src.Tablero.plans</import>
 		<import>src.ontologia.*</import>
 		<import>Tablero.beliefs.*</import>
 		<import>Tablero.plans.*</import>
@@ -29,6 +30,8 @@
 		<belief name="myself" class="src.Tablero.Tablero" exported="true">
 			<fact>new Tablero()</fact>
 		</belief>
+		<belief name="EstadoJuego" class="src.EstadoJuego.EstadoJuego"/>
+		
 		<beliefset name="jugador" class="src.Jugador.Jugador" />
 		<belief name="jugadores" class="int"/>
 		<belief name="inicializado" class="int">
@@ -57,6 +60,8 @@
 			<concrete ref="dfcap.df_deregister"/>
 		</achievegoalref>
 
+
+
 		<performgoal name="completar_jugadores" recur="true" recurdelay="2000">
 			<contextcondition>$beliefbase.jugadores &lt;= 3</contextcondition>
 		</performgoal>
@@ -68,20 +73,27 @@
 		</performgoal>
 
 
+		<performgoal name="turno_inicial" recur="true" recurdelay="2000">
+			<creationcondition>$beliefbase.orden!=null</creationcondition>
+		</performgoal>
+
 
 	</goals>
 
 	<plans>
-
-
 		<plan name="ComenzarPartida">
-			<body class="ComenzarPartidaPlan" />
+			<body class="src.Tablero.plans.ComenzarPartidaPlan" />
 			<trigger> <goal ref="comienza_partida"/> </trigger>
 		</plan>
 
 		<plan name="completar_jugadores_plan">
-			<body class="TableroPlanDeRegistro" />
+			<body class="src.Tablero.plans.TableroPlanDeRegistro" />
 			<trigger> <goal ref="completar_jugadores"/> </trigger>
+		</plan>
+		
+		<plan name="turno_inicial_plan">
+			<body class="src.Tablero.plans.TurnoInicialPlan" />
+			<trigger> <goal ref="turno_inicial"/> </trigger>
 		</plan>
 
 
@@ -103,38 +115,54 @@
 	</messageevent>
 
 	<messageevent name="unirse_partida" type="fipa" direction="receive">
-<parameter name="performative" class="String" direction="fixed">
-<value>SFipa.INFORM</value>
-</parameter>
-<parameter name="language" class="String" direction="fixed">
-				<value>SFipa.NUGGETS_XML</value>
-			</parameter>
-<parameter name="content-class" class="Class" direction="fixed">
-					<value>Request_unirse_partida.class</value>
-				</parameter>
-</messageevent>
+		<parameter name="performative" class="String" direction="fixed">
+			<value>SFipa.INFORM</value>
+		</parameter>
+		<parameter name="language" class="String" direction="fixed">
+			<value>SFipa.NUGGETS_XML</value>
+		</parameter>
+		<parameter name="content-class" class="Class" direction="fixed">
+			<value>Request_unirse_partida.class</value>
+		</parameter>
+	</messageevent>
 
 	<messageevent name="offer_tirar_dados" type="fipa" direction="send">
-<parameter name="performative" class="String">
-<value>SFipa.REQUEST</value>
-</parameter>
-<parameter name="conversation-id" class="String">
-<value>SFipa.createUniqueId($scope.getAgentName())</value>
-</parameter>
-<parameter name="language" class="String" direction="fixed">
+		<parameter name="performative" class="String">
+			<value>SFipa.REQUEST</value>
+		</parameter>
+		<parameter name="conversation-id" class="String">
+				<value>SFipa.createUniqueId($scope.getAgentName())</value>
+		</parameter>
+		<parameter name="language" class="String" direction="fixed">
 				<value>SFipa.NUGGETS_XML</value>
- 			</parameter>
-</messageevent>
+	 	</parameter>
+	</messageevent>
 
 
 	<messageevent name="receive_tirar" type="fipa" direction="receive">
-<parameter name="performative" class="String" direction="fixed">
-<value>SFipa.INFORM</value>
-</parameter>
-<parameter name="language" class="String" direction="fixed">
-				<value>SFipa.NUGGETS_XML</value>
- 			</parameter>
+		<parameter name="performative" class="String" direction="fixed">
+			<value>SFipa.INFORM</value>
+		</parameter>
+		<parameter name="language" class="String" direction="fixed">
+			<value>SFipa.NUGGETS_XML</value>
+ 		</parameter>
+	</messageevent>
+	
+	<messageevent name="coloca_fichas_iniciales" type="fipa" direction="send">
+		<parameter name="performative" class="String">
+			<value>SFipa.REQUEST</value>
+		</parameter>
+		<parameter name="conversation-id" class="String">
+			<value>SFipa.createUniqueId($scope.getAgentName())</value>
+		</parameter>
+		<parameter name="language" class="String" direction="fixed">
+			<value>SFipa.NUGGETS_XML</value>
+ 		</parameter>
 </messageevent>
+	
+	
+	
+	
 
 
 </events>

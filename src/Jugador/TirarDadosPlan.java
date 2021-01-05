@@ -10,23 +10,20 @@ import src.Tablero.Dados;
 public class TirarDadosPlan extends Plan {
 	public void body() {
 		
+		
+		///////////////////////////////// 
 		IMessageEvent	request	= (IMessageEvent)getInitialEvent();
 		AgentIdentifier tablero = (AgentIdentifier) request.getParameter("sender").getValue();
-		System.out.println("Recibido mensaje de Tablero a Jugador");
 		Dados dados = new Dados();
-		dados.tirarDados();
-		System.out.println("Valor dados: " + dados.getDados());
-			
-		
 		Jugador	yo	= (Jugador)getBeliefbase().getBelief("myself").getFact();
 		yo.setTirada(dados.getDados());
+		
 		IMessageEvent mensaje_enviar = request.createReply("receive_tirar",yo);
 		mensaje_enviar.getParameterSet(SFipa.RECEIVERS).addValue(tablero);
 		getLogger().info("Tirada de dados de" + yo.nombre);
-		System.out.println("Tirada de dados de " + yo.nombre);
-		System.out.println("Envio el mensaje");
-	    sendMessage(mensaje_enviar);	
-	    System.out.println("Ya Envio el mensaje");
+	    sendMessage(mensaje_enviar);
+	    System.out.println("Tiro soy: "+ yo.getNombre()+" saca un : "+yo.getTirada() + " Aid : "+ yo.getAid());
+		
 		
 	}
 

@@ -27,27 +27,34 @@
 		<!-- The player's knowledge about itself, encapsulated as player object. -->
 		<belief name="myself" class="Jugador" exported="true">
 			<fact>new Jugador("Pablo", "Monopolio")</fact>
+				</belief>
+
+		<belief name="tablero" class="AgentIdentifier" exported="true">
 		</belief>
 
-		<belief name="tablero" class="Tablero" exported="true"/>
 
-
-		<belief name="puntuacion" class="int" />
 
 
 	</beliefs>
 
-<!--para registrarse en el DF -->
+	<!--para registrarse en el DF -->
 	<goals>
+		<achievegoalref name="df_search">
+			<concrete ref="dfcap.df_search" />
+		</achievegoalref>
+
 		<maintaingoalref name="df_keep_registered">
-			<concrete ref="dfcap.df_keep_registered"/>
+			<concrete ref="dfcap.df_keep_registered" />
 		</maintaingoalref>
+
 	</goals>
 
 	<plans>
 		<plan name="Tirar_dados">
-				<body class="TirarDadosPlan"/>
-				<trigger><messageevent ref="offer_tirar_dados"/></trigger>
+			<body class="TirarDadosPlan" />
+			<trigger>
+				<messageevent ref="offer_tirar_dados" />
+			</trigger>
 		</plan>
 		<plan name="Unirse_partida">
 			<body class="Unirse_partida_Plan" />
@@ -55,7 +62,26 @@
 				<messageevent ref="request_unirse_partida" />
 			</trigger>
 		</plan>
+		
+		<plan name="coloca_fichas_Plan">
+			<body class="src.Jugador.Plan.ColocaFichasInicialesPlan" />
+			<trigger>
+				<messageevent ref="coloca_fichas_iniciales" />
+			</trigger>
+		</plan>
+		
+		
 	</plans>
+		
+		
+	
+		
+	
+	
+
+
+
+
 
 	<events>
 
@@ -77,8 +103,10 @@
 	</parameter>
 	<parameter name="language" class="String" direction="fixed">
 					<value>SFipa.NUGGETS_XML</value>
-				</parameter>
+	 			</parameter>
 	</messageevent>
+
+
 		<messageevent name="offer_tirar_dados" type="fipa" direction="receive">
 <parameter name="performative" class="String" direction="fixed">
 <value>SFipa.REQUEST</value>
@@ -98,14 +126,36 @@
  			</parameter>
 </messageevent>
 
+	<messageevent name="coloca_fichas_iniciales" type="fipa" direction="receive">
+		<parameter name="performative" class="String" direction="fixed">
+			<value>SFipa.REQUEST</value>
+		</parameter>
+		<parameter name="language" class="String" direction="fixed">
+				<value>SFipa.NUGGETS_XML</value>
+		</parameter>
+		<parameter name="content" class="String" direction="fixed">
+			<value>"hola"</value>
+		</parameter>
+	</messageevent>
+
+
+
+
+
 </events>
 
 	<configurations>
 		<configuration name="registro_inicial">
-			<goals><initialgoal ref="df_keep_registered">
-				<parameter ref="description"> <value>
-					SFipa.createAgentDescription(null,SFipa.createServiceDescription("jugador","jugador", null))</value></parameter>
-			</initialgoal></goals>
+			<goals>
+				<initialgoal ref="df_keep_registered">
+					<parameter ref="description">
+						<value>
+							SFipa.createAgentDescription(null,SFipa.createServiceDescription("jugador","jugador",
+							null))
+						</value>
+					</parameter>
+				</initialgoal>
+			</goals>
 		</configuration>
 
 	</configurations>

@@ -1,4 +1,4 @@
-package src.Tablero;
+package src.Mapa;
 
 public class Edge {
 	private Node origen;

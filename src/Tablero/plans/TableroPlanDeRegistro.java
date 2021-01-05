@@ -1,4 +1,4 @@
-package src.Tablero;
+package src.Tablero.plans;
 
 import jadex.runtime.*;
 import src.ontologia.*;
@@ -30,7 +30,7 @@ public class TableroPlanDeRegistro extends Plan{
 		int numero_jugadores= result.length;
 		System.out.println(numero_jugadores + " jugadores  encontrados");
 		Jugador[] jugadores = new Jugador[numero_jugadores];
-		//AgentIdentifier	myself	= (AgentIdentifier)getBeliefbase().getBelief("myself").getFact();
+		
 		for(int i=0;i< result.length;i++) {
 			IMessageEvent	msg	= createMessageEvent("request_unirse_partida");
 			msg.getParameterSet(SFipa.RECEIVERS).addValue(result[i].getName());
@@ -44,14 +44,12 @@ public class TableroPlanDeRegistro extends Plan{
 			//Request_unirse_partida rj = (Request_unirse_partida)reply.getContent();
 			Jugador rj = (Jugador)reply.getContent();
 			jugadores[i] = rj;
-			System.out.println(rj.getNombre());
-			//jugadores[i].setAgentID((AgentIdentifier)reply.getParameter("sender").getValue());
-			
+			System.out.println(rj.getNombre());		
+
 		
 		}
 
 		getBeliefbase().getBeliefSet("jugador").addFacts(jugadores);
-
 		getBeliefbase().getBelief("jugadores").setFact(numero_jugadores);
 	}
 
