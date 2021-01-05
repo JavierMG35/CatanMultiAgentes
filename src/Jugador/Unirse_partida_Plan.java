@@ -4,7 +4,6 @@ import jadex.adapter.fipa.AgentIdentifier;
 import jadex.runtime.IMessageEvent;
 import jadex.runtime.Plan;
 import jadex.adapter.fipa.SFipa;
-import src.Tablero.Dados;
 import src.ontologia.*;
 
 public class Unirse_partida_Plan extends Plan {
@@ -18,9 +17,9 @@ public class Unirse_partida_Plan extends Plan {
 	rj.setJugador(yo);
 	IMessageEvent mensaje_enviar = request.createReply("unirse_partida");
 	mensaje_enviar.getParameterSet(SFipa.RECEIVERS).addValue(tablero);
-	mensaje_enviar.setContent(rj);
+	mensaje_enviar.setContent(yo);
 	getLogger().info(yo.nombre + "envía petición de unida a la partida");
-	System.out.println(yo.nombre + "envía petición de unida a la partida");
+	System.out.println(yo.getNombre() + " envía petición de unida a la partida");
 	System.out.println("Envio el mensaje");
     sendMessage(mensaje_enviar);	
     System.out.println("Ya Envio el mensaje");

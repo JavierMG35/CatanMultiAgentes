@@ -32,21 +32,26 @@ public class TableroPlanDeRegistro extends Plan{
 		Jugador[] jugadores = new Jugador[numero_jugadores];
 		//AgentIdentifier	myself	= (AgentIdentifier)getBeliefbase().getBelief("myself").getFact();
 		for(int i=0;i< result.length;i++) {
-		IMessageEvent	msg	= createMessageEvent("request_unirse_partida");
-		msg.getParameterSet(SFipa.RECEIVERS).addValue(result[i].getName());
-		Request_unirse_partida request = new Request_unirse_partida();
-		msg.setContent(request);
-		getLogger().info("sending join-message");
-		// send the join-message and wait for a response
-		System.out.println("envio peticion a: " + result[i].getName());
-		IMessageEvent	reply	= sendMessageAndWait(msg);
-		Jugador jugador = new Jugador();
-		Request_unirse_partida rj = (Request_unirse_partida)reply.getContent();
-		jugadores[i] = rj.getJugador();
-		
+			IMessageEvent	msg	= createMessageEvent("request_unirse_partida");
+			msg.getParameterSet(SFipa.RECEIVERS).addValue(result[i].getName());
+			Request_unirse_partida request = new Request_unirse_partida();
+			msg.setContent(request);
+			getLogger().info("sending join-message");
+			// send the join-message and wait for a response
+			System.out.println("envio peticion a: " + result[i].getName());
+			IMessageEvent	reply	= sendMessageAndWait(msg);
+			//Jugador jugador = new Jugador();
+			//Request_unirse_partida rj = (Request_unirse_partida)reply.getContent();
+			Jugador rj = (Jugador)reply.getContent();
+			jugadores[i] = rj;
+			System.out.println(rj.getNombre());
+			//jugadores[i].setAgentID((AgentIdentifier)reply.getParameter("sender").getValue());
+			
 		
 		}
+
 		getBeliefbase().getBeliefSet("jugador").addFacts(jugadores);
+
 		getBeliefbase().getBelief("jugadores").setFact(numero_jugadores);
 	}
 

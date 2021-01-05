@@ -21,7 +21,7 @@ public class Request_unirse_partida extends AgentAction{
 		protected  int  timeout;
 
 		/** Attribute for slot player. */
-		protected  Jugador  jugador;
+		public  Jugador  jugador;
 
 		//-------- constructors --------
 
@@ -62,8 +62,8 @@ public class Request_unirse_partida extends AgentAction{
 		 *  Set the player of this RequestJoin.
 		 * @param player the value to be set
 		 */
-		public void  setJugador(Jugador player) {
-			this.jugador = player;
+		public void  setJugador(Jugador jugador) {
+			this.jugador = jugador;
 		}
 
 		//-------- bean related methods --------

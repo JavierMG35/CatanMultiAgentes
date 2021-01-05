@@ -30,12 +30,7 @@ public class ComenzarPartidaPlan extends Plan{
 		this.timeout = ((Number)getBeliefbase().getBelief("playerwaitmillis").getFact()).longValue();
 		System.out.println("Comienza el juego");	
 		
-		Jugador[]  jugadores	= (Jugador[])getBeliefbase().getBeliefSet("jugador").getFacts();
-		System.out.println(jugadores.length);
-		System.out.println(jugadores[0].getNombre());
-		System.out.println(jugadores[1].getNombre());
-		System.out.println(jugadores[2].getNombre());
-		System.out.println(jugadores[3].getNombre());
+		
 		ServiceDescription sd = new ServiceDescription();
 		sd.setType("jugador");
 		sd.setName("jugador");
@@ -65,7 +60,7 @@ public class ComenzarPartidaPlan extends Plan{
 			turno = Lista.getTurno();
 		}*/
 		
-		
+		Jugador[]  jugadores	= new Jugador[result.length];
 		List<Integer> valores = new ArrayList<>();
 		TirarDados tirardados = new TirarDados();
 		for(int i=0;i< result.length;i++) {
@@ -75,30 +70,44 @@ public class ComenzarPartidaPlan extends Plan{
 			System.out.println("Enviado de tablero a jugador");
 			IMessageEvent	respuesta	= sendMessageAndWait(mensaje_enviar);		
 			System.out.println("Recibido de jugador a tablero (o no)");
-			Dados dados = (Dados)respuesta.getContent();
-			System.out.println(dados.getDados());
+			Jugador player = (Jugador)respuesta.getContent();
+			System.out.println(player.getTirada());
 			System.out.println(respuesta);
+			jugadores[i] = player;
 			
-			valores.add(dados.getDados());
+			valores.add(player.getTirada());
 			
 			getLogger().info("Mensaje de TirarDados enviado a" + result[turno].getName());
 		}
 		Orden Lista = new Orden();
-		//Jugador[]  jugadores	= (Jugador[])getBeliefbase().getBeliefSet("jugador").getFacts();
-		for(int i=0;i< result.length;i++) {
-			Lista.addJugador(jugadores[i]);
-		}
+		int[] lista2 = new int[result.length];
+		int minimo = 13;
+		int index = 0;
+		
+		Jugador[]  jugadores2	= jugadores;
+		System.out.println( jugadores[0].getNombre());
+		System.out.println( jugadores[0].getAid());
 	
+		for( int j =0; j<jugadores.length;j++) {
+			for (int i=0;i<jugadores.length;i++) {
+				if(jugadores2[i].getTirada() <= minimo) { minimo = jugadores2[i].getTirada(); index = i; System.out.println("Tiradas: " + jugadores2[i].getTirada());}	
+			}
+			System.out.print("minimo: " + minimo);
+			
+			lista2[j] = index;
+			jugadores2[index].setTirada(13);
+		}
 		
-		Collections.sort(Lista.getJugadores(), new Comparator<Jugador>() {
-	            @Override
-	            public int compare(Jugador p1, Jugador p2) {
-	                return p1.getTirada() - p2.getTirada();
-	            }
-	        });
-	 
+		for(int i = 0; i<jugadores2.length;i++) {
+			Lista.addJugador(jugadores[lista2[i]]);
+		}
 		
-		System.out.println( Lista.getJugadores());
+		
+		
+		System.out.println( Lista.getJugadores().get(0).getNombre());
+		System.out.println( Lista.getJugadores().get(1).getNombre());
+		System.out.println( Lista.getJugadores().get(2).getNombre());
+		System.out.println( Lista.getJugadores().get(3).getNombre());
 				
 		System.out.println("Protocolo Terminado");
 		

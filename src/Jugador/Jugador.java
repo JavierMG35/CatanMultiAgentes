@@ -128,7 +128,7 @@ public class Jugador {
 		public BasicAgentIdentifier getAid() {
 			return aid;
 		}
-		public void setAid(BasicAgentIdentifier aid) {
+		public void setAgentID(BasicAgentIdentifier aid) {
 			this.aid = aid;
 		}
 		public String getState() {
