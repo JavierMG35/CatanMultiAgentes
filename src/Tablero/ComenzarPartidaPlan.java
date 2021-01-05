@@ -84,25 +84,32 @@ public class ComenzarPartidaPlan extends Plan{
 		int minimo = 13;
 		int index = 0;
 		
+		
+		//////////////////////////////////////////////////////////
+		
+		
 		Jugador[]  jugadores2	= jugadores;
 		System.out.println( jugadores[0].getNombre());
 		System.out.println( jugadores[0].getAid());
 	
 		for( int j =0; j<jugadores.length;j++) {
+
+			System.out.println("Ronda" + j);
 			for (int i=0;i<jugadores.length;i++) {
-				if(jugadores2[i].getTirada() <= minimo) { minimo = jugadores2[i].getTirada(); index = i; System.out.println("Tiradas: " + jugadores2[i].getTirada());}	
+				if(jugadores2[i].getTirada() <= minimo) { 
+					minimo = jugadores2[i].getTirada(); 
+					index = i; }	
 			}
-			System.out.print("minimo: " + minimo);
-			
+			minimo=13;
 			lista2[j] = index;
 			jugadores2[index].setTirada(13);
 		}
 		
-		for(int i = 0; i<jugadores2.length;i++) {
+		for(int i = jugadores2.length-1; i>=0;i--) {
 			Lista.addJugador(jugadores[lista2[i]]);
 		}
 		
-		
+		////////////////////////////
 		
 		System.out.println( Lista.getJugadores().get(0).getNombre());
 		System.out.println( Lista.getJugadores().get(1).getNombre());
