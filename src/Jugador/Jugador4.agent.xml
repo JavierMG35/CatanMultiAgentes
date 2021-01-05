@@ -9,6 +9,7 @@
 	<imports>
 		<import>src.Jugador.*</import>
 		<import>src.Tablero.*</import>
+		<import>src.ontologia.*</import>
 		<import>Jugador.beliefs.*</import>
 		<import>Jugador.plans.*</import>
 		<import>jadex.runtime.*</import>
@@ -48,11 +49,36 @@
 				<body class="TirarDadosPlan"/>
 				<trigger><messageevent ref="offer_tirar_dados"/></trigger>
 		</plan>
+		<plan name="Unirse_partida">
+			<body class="Unirse_partida_Plan" />
+			<trigger>
+				<messageevent ref="request_unirse_partida" />
+			</trigger>
+		</plan>
 	</plans>
 
 	<events>
 
+		<messageevent name="request_unirse_partida" type="fipa" direction="receive">
+	<parameter name="performative" class="String" direction="fixed">
+	<value>SFipa.REQUEST</value>
+	</parameter>
+	<parameter name="language" class="String" direction="fixed">
+				<value>SFipa.NUGGETS_XML</value>
+			</parameter>
+	<parameter name="content-class" class="Class" direction="fixed">
+					<value>Request_unirse_partida.class</value>
+				</parameter>
+	</messageevent>
 
+	<messageevent name="unirse_partida" type="fipa" direction="send">
+	<parameter name="performative" class="String">
+	<value>SFipa.INFORM</value>
+	</parameter>
+	<parameter name="language" class="String" direction="fixed">
+					<value>SFipa.NUGGETS_XML</value>
+				</parameter>
+	</messageevent>
 		<messageevent name="offer_tirar_dados" type="fipa" direction="receive">
 <parameter name="performative" class="String" direction="fixed">
 <value>SFipa.REQUEST</value>

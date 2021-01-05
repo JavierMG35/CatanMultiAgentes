@@ -1,8 +1,12 @@
 package src.Tablero;
 
 import jadex.runtime.*;
+import src.ontologia.*;
 import jadex.util.SUtil;
 import jadex.adapter.fipa.*;
+import src.Jugador.Jugador;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class TableroPlanDeRegistro extends Plan{
@@ -25,15 +29,25 @@ public class TableroPlanDeRegistro extends Plan{
 		
 		int numero_jugadores= result.length;
 		System.out.println(numero_jugadores + " jugadores  encontrados");
-		getBeliefbase().getBelief("jugadores").setFact(numero_jugadores);
+		Jugador[] jugadores = new Jugador[numero_jugadores];
+		//AgentIdentifier	myself	= (AgentIdentifier)getBeliefbase().getBelief("myself").getFact();
+		for(int i=0;i< result.length;i++) {
+		IMessageEvent	msg	= createMessageEvent("request_unirse_partida");
+		msg.getParameterSet(SFipa.RECEIVERS).addValue(result[i].getName());
+		Request_unirse_partida request = new Request_unirse_partida();
+		msg.setContent(request);
+		getLogger().info("sending join-message");
+		// send the join-message and wait for a response
+		System.out.println("envio peticion a: " + result[i].getName());
+		IMessageEvent	reply	= sendMessageAndWait(msg);
+		Jugador jugador = new Jugador();
+		Request_unirse_partida rj = (Request_unirse_partida)reply.getContent();
+		jugadores[i] = rj.getJugador();
 		
-		if(numero_jugadores==4) {
-			for(int i=0;i<result.length;i++) {
-				AgentDescription agente = result[i];
-				getBeliefbase().getBeliefSet("jugador").addFact(agente);
-			}
-			
+		
 		}
+		getBeliefbase().getBeliefSet("jugador").addFacts(jugadores);
+		getBeliefbase().getBelief("jugadores").setFact(numero_jugadores);
 	}
 
 

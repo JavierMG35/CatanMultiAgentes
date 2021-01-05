@@ -6,5 +6,5 @@ javac @sources.txt
 
 
 jar cvf Catan.jar *
-pause 
+
 

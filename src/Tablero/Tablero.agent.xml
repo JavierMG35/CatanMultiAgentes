@@ -7,8 +7,8 @@
 
 	<imports>
 		<import>src.Jugador.*</import>
-		<import>src.Ontologia.*</import>
 		<import>src.Tablero.*</import>
+		<import>src.ontologia.*</import>
 		<import>Tablero.beliefs.*</import>
 		<import>Tablero.plans.*</import>
 		<import>jadex.runtime.*</import>
@@ -61,13 +61,6 @@
 			<contextcondition>$beliefbase.jugadores &lt;= 3</contextcondition>
 		</performgoal>
 
-		<performgoal name="tirar_dados"  retry="true" retrydelay="3000" exclude="never" >
-			<contextcondition>
-				(($beliefbase.esperando_dados_jugador) )
-			</contextcondition></performgoal>
-
-
-
 		<performgoal name="comienza_partida">
 			<creationcondition>
 			$beliefbase.jugadores &gt; 3
@@ -79,10 +72,7 @@
 	</goals>
 
 	<plans>
-		<plan name="TirarDados">
-			<body class="ComenzarPartidaPlan" />
-			<trigger> <goal ref="tirar_dados"/> </trigger>
-		</plan>
+
 
 		<plan name="ComenzarPartida">
 			<body class="ComenzarPartidaPlan" />
@@ -100,7 +90,29 @@
 	</plans>
 
 <events>
+	<messageevent name="request_unirse_partida" type="fipa" direction="send">
+	<parameter name="performative" class="String">
+	<value>SFipa.REQUEST</value>
+	</parameter>
+	<parameter name="conversation-id" class="String">
+	<value>SFipa.createUniqueId($scope.getAgentName())</value>
+	</parameter>
+	<parameter name="language" class="String" direction="fixed">
+				<value>SFipa.NUGGETS_XML</value>
+			</parameter>
+	</messageevent>
 
+	<messageevent name="unirse_partida" type="fipa" direction="receive">
+<parameter name="performative" class="String" direction="fixed">
+<value>SFipa.INFORM</value>
+</parameter>
+<parameter name="language" class="String" direction="fixed">
+				<value>SFipa.NUGGETS_XML</value>
+			</parameter>
+<parameter name="content-class" class="Class" direction="fixed">
+					<value>Request_unirse_partida.class</value>
+				</parameter>
+</messageevent>
 
 	<messageevent name="offer_tirar_dados" type="fipa" direction="send">
 <parameter name="performative" class="String">

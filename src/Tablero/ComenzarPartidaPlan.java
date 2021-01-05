@@ -30,7 +30,12 @@ public class ComenzarPartidaPlan extends Plan{
 		this.timeout = ((Number)getBeliefbase().getBelief("playerwaitmillis").getFact()).longValue();
 		System.out.println("Comienza el juego");	
 		
-		
+		Jugador[]  jugadores	= (Jugador[])getBeliefbase().getBeliefSet("jugador").getFacts();
+		System.out.println(jugadores.length);
+		System.out.println(jugadores[0].getNombre());
+		System.out.println(jugadores[1].getNombre());
+		System.out.println(jugadores[2].getNombre());
+		System.out.println(jugadores[3].getNombre());
 		ServiceDescription sd = new ServiceDescription();
 		sd.setType("jugador");
 		sd.setName("jugador");
@@ -60,7 +65,7 @@ public class ComenzarPartidaPlan extends Plan{
 			turno = Lista.getTurno();
 		}*/
 		
-				
+		
 		List<Integer> valores = new ArrayList<>();
 		TirarDados tirardados = new TirarDados();
 		for(int i=0;i< result.length;i++) {
@@ -79,7 +84,7 @@ public class ComenzarPartidaPlan extends Plan{
 			getLogger().info("Mensaje de TirarDados enviado a" + result[turno].getName());
 		}
 		Orden Lista = new Orden();
-		Jugador[] jugadores	= (Jugador[])getBeliefbase().getBeliefSet("jugador").getFacts();
+		//Jugador[]  jugadores	= (Jugador[])getBeliefbase().getBeliefSet("jugador").getFacts();
 		for(int i=0;i< result.length;i++) {
 			Lista.addJugador(jugadores[i]);
 		}
