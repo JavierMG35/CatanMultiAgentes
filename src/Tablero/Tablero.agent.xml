@@ -158,6 +158,9 @@
 		<parameter name="language" class="String" direction="fixed">
 			<value>SFipa.NUGGETS_XML</value>
  		</parameter>
+ 		<parameter name="content-class" class="Class" direction="fixed">
+			<value>src.EstadoJuego.EstadoJuego.class</value>
+		</parameter>
 </messageevent>
 	
 	
