@@ -31,6 +31,20 @@ public class Mapa {
 		iniciarTablero();
 	}
 	
+	public boolean fichaInicial(Mapa mapa, int posicion) {
+		boolean posible= false;
+		List<Node> colocar = mapa.nodos;
+		
+		Node opcion = colocar.get(posicion);
+		
+		if (!opcion.isConstruccion()) {
+			opcion.setConstruccion(true);
+			posible = true;
+		}
+		
+		return posible;
+	}
+	
 	public void crearTablero() {
 		String posicion;
 		int nivel = 0;

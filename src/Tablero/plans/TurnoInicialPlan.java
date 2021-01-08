@@ -1,12 +1,13 @@
 package src.Tablero.plans;
 
-import jadex.adapter.fipa.AgentDescription;
+//import jadex.adapter.fipa.AgentDescription;
+//import jadex.adapter.fipa.AgentIdentifier;
 import jadex.adapter.fipa.SFipa;
 import jadex.runtime.BasicAgentIdentifier;
 import jadex.runtime.IMessageEvent;
 import jadex.runtime.Plan;
 import src.EstadoJuego.EstadoJuego;
-import src.Jugador.Jugador;
+//import src.Jugador.Jugador;
 import src.Mapa.Mapa;
 import src.ontologia.Orden;
 
@@ -17,7 +18,7 @@ public class TurnoInicialPlan extends Plan{
 		System.out.println("////////////////////////////////////////////////////////");
 		System.out.println("Creamos el mapa y declaramos el estado del juego Inicial");
 		Mapa Mapa = new Mapa();
-		System.out.println(Mapa.getArcilla());
+		
 		EstadoJuego EstadoJuego = new EstadoJuego(Mapa);
 		//////////////////////////////////////
 		Orden Orden = ((Orden)getBeliefbase().getBelief("orden").getFact());
@@ -30,21 +31,20 @@ public class TurnoInicialPlan extends Plan{
 		System.out.println("Aid siguiente : "+ AidSiguiente);
 		
 		
-		EstadoJuego mapa	= (EstadoJuego)getBeliefbase().getBelief("EstadoJuego").getFact();
-		System.out.println(mapa.getMapa().getArcilla());
 		IMessageEvent mensaje_enviar = createMessageEvent("coloca_fichas_iniciales");
 		mensaje_enviar.getParameterSet(SFipa.RECEIVERS).addValue(AidSiguiente);
-		mensaje_enviar.setContent(mapa);
+		mensaje_enviar.setContent(Mapa);
 		System.out.println("Mensaje enviado esperando respuesta");
+		
 		IMessageEvent	respuesta	= sendMessageAndWait(mensaje_enviar);
-		System.out.println("Respuesta recividas");
-		Jugador player = (Jugador)respuesta.getContent();
 		
+		System.out.println("Respuesta recibidas");
 		
+		EstadoJuego estado = new EstadoJuego((Mapa)respuesta.getContent());
+		getBeliefbase().getBelief("EstadoJuego").setFact(estado);
 		
-		
-		
-		
+		System.out.println("Protocolo terminado.");
+		System.out.println("////////////////////////////////////////////////////////");
 		
 	}
 

@@ -2,8 +2,7 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://jadex.sourceforge.net/jadex
 	                    http://jadex.sourceforge.net/jadex-0.96.xsd"
-	name="Tablero"
-	package="Tablero">
+	name="Tablero" package="Tablero">
 
 	<imports>
 		<import>src.Jugador.*</import>
@@ -21,21 +20,23 @@
 	</imports>
 
 	<capabilities>
-		<capability name="dfcap" file="jadex.planlib.DF"/>
+		<capability name="dfcap" file="jadex.planlib.DF" />
 	</capabilities>
 
 
 
 	<beliefs>
-		<belief name="myself" class="src.Tablero.Tablero" exported="true">
+		<belief name="myself" class="src.Tablero.Tablero"
+			exported="true">
 			<fact>new Tablero()</fact>
 		</belief>
-		<belief name="EstadoJuego" class="src.EstadoJuego.EstadoJuego"/>
-		
+		<belief name="EstadoJuego" class="src.EstadoJuego.EstadoJuego"
+			exported="true" />
+
 		<beliefset name="jugador" class="src.Jugador.Jugador" />
-		<belief name="jugadores" class="int"/>
+		<belief name="jugadores" class="int" />
 		<belief name="inicializado" class="int">
-		<fact>0</fact>
+			<fact>0</fact>
 		</belief>
 
 		<!-- The number of seconds to wait for answers from players. -->
@@ -49,31 +50,33 @@
 
 	<goals>
 		<achievegoalref name="df_search">
-			<concrete ref="dfcap.df_search"/>
+			<concrete ref="dfcap.df_search" />
 		</achievegoalref>
 		<!-- Used for registering the dealer at the df. -->
 		<achievegoalref name="df_register">
-			<concrete ref="dfcap.df_register"/>
+			<concrete ref="dfcap.df_register" />
 		</achievegoalref>
 		<!-- Used for deregistering the dealer at the df. -->
 		<achievegoalref name="df_deregister">
-			<concrete ref="dfcap.df_deregister"/>
+			<concrete ref="dfcap.df_deregister" />
 		</achievegoalref>
 
 
 
-		<performgoal name="completar_jugadores" recur="true" recurdelay="2000">
+		<performgoal name="completar_jugadores" recur="true"
+			recurdelay="2000">
 			<contextcondition>$beliefbase.jugadores &lt;= 3</contextcondition>
 		</performgoal>
 
 		<performgoal name="comienza_partida">
 			<creationcondition>
-			$beliefbase.jugadores &gt; 3
+				$beliefbase.jugadores &gt; 3
 			</creationcondition>
 		</performgoal>
 
 
-		<performgoal name="turno_inicial" recur="true" recurdelay="2000">
+		<performgoal name="turno_inicial" recur="true"
+			recurdelay="2000">
 			<creationcondition>$beliefbase.orden!=null</creationcondition>
 		</performgoal>
 
@@ -83,17 +86,23 @@
 	<plans>
 		<plan name="ComenzarPartida">
 			<body class="src.Tablero.plans.ComenzarPartidaPlan" />
-			<trigger> <goal ref="comienza_partida"/> </trigger>
+			<trigger>
+				<goal ref="comienza_partida" />
+			</trigger>
 		</plan>
 
 		<plan name="completar_jugadores_plan">
 			<body class="src.Tablero.plans.TableroPlanDeRegistro" />
-			<trigger> <goal ref="completar_jugadores"/> </trigger>
+			<trigger>
+				<goal ref="completar_jugadores" />
+			</trigger>
 		</plan>
-		
+
 		<plan name="turno_inicial_plan">
 			<body class="src.Tablero.plans.TurnoInicialPlan" />
-			<trigger> <goal ref="turno_inicial"/> </trigger>
+			<trigger>
+				<goal ref="turno_inicial" />
+			</trigger>
 		</plan>
 
 
@@ -101,107 +110,135 @@
 
 	</plans>
 
-<events>
-	<messageevent name="request_unirse_partida" type="fipa" direction="send">
-	<parameter name="performative" class="String">
-	<value>SFipa.REQUEST</value>
-	</parameter>
-	<parameter name="conversation-id" class="String">
-	<value>SFipa.createUniqueId($scope.getAgentName())</value>
-	</parameter>
-	<parameter name="language" class="String" direction="fixed">
+	
+	<events>
+	
+	<!-- Unirse a la partida -->
+	
+		<messageevent name="request_unirse_partida" type="fipa"
+			direction="send">
+			<parameter name="performative" class="String">
+				<value>SFipa.REQUEST</value>
+			</parameter>
+			<parameter name="conversation-id" class="String">
+				<value>SFipa.createUniqueId($scope.getAgentName())</value>
+			</parameter>
+			<parameter name="language" class="String" direction="fixed">
 				<value>SFipa.NUGGETS_XML</value>
 			</parameter>
-	</messageevent>
+		</messageevent>
 
-	<messageevent name="unirse_partida" type="fipa" direction="receive">
-		<parameter name="performative" class="String" direction="fixed">
-			<value>SFipa.INFORM</value>
-		</parameter>
-		<parameter name="language" class="String" direction="fixed">
-			<value>SFipa.NUGGETS_XML</value>
-		</parameter>
-		<parameter name="content-class" class="Class" direction="fixed">
-			<value>Request_unirse_partida.class</value>
-		</parameter>
-	</messageevent>
-
-	<messageevent name="offer_tirar_dados" type="fipa" direction="send">
-		<parameter name="performative" class="String">
-			<value>SFipa.REQUEST</value>
-		</parameter>
-		<parameter name="conversation-id" class="String">
-				<value>SFipa.createUniqueId($scope.getAgentName())</value>
-		</parameter>
-		<parameter name="language" class="String" direction="fixed">
+		<messageevent name="unirse_partida" type="fipa"
+			direction="receive">
+			<parameter name="performative" class="String"
+				direction="fixed">
+				<value>SFipa.INFORM</value>
+			</parameter>
+			<parameter name="language" class="String" direction="fixed">
 				<value>SFipa.NUGGETS_XML</value>
-	 	</parameter>
-	</messageevent>
+			</parameter>
+			<parameter name="content-class" class="Class"
+				direction="fixed">
+				<value>Request_unirse_partida.class</value>
+			</parameter>
+		</messageevent>
+
+	<!-- Tirar los dados -->
+		
+		<messageevent name="offer_tirar_dados" type="fipa"
+			direction="send">
+			<parameter name="performative" class="String">
+				<value>SFipa.REQUEST</value>
+			</parameter>
+			<parameter name="conversation-id" class="String">
+				<value>SFipa.createUniqueId($scope.getAgentName())</value>
+			</parameter>
+			<parameter name="language" class="String" direction="fixed">
+				<value>SFipa.NUGGETS_XML</value>
+			</parameter>
+		</messageevent>
 
 
-	<messageevent name="receive_tirar" type="fipa" direction="receive">
-		<parameter name="performative" class="String" direction="fixed">
-			<value>SFipa.INFORM</value>
-		</parameter>
-		<parameter name="language" class="String" direction="fixed">
-			<value>SFipa.NUGGETS_XML</value>
- 		</parameter>
-	</messageevent>
-	
-	<messageevent name="coloca_fichas_iniciales" type="fipa" direction="send">
-		<parameter name="performative" class="String">
-			<value>SFipa.REQUEST</value>
-		</parameter>
-		<parameter name="conversation-id" class="String">
-			<value>SFipa.createUniqueId($scope.getAgentName())</value>
-		</parameter>
-		<parameter name="language" class="String" direction="fixed">
-			<value>SFipa.NUGGETS_XML</value>
- 		</parameter>
- 		<parameter name="content-class" class="Class" direction="fixed">
-			<value>src.EstadoJuego.EstadoJuego.class</value>
-		</parameter>
-</messageevent>
-	
-	
-	
-	
+		<messageevent name="receive_tirar" type="fipa"
+			direction="receive">
+			<parameter name="performative" class="String"
+				direction="fixed">
+				<value>SFipa.INFORM</value>
+			</parameter>
+			<parameter name="language" class="String" direction="fixed">
+				<value>SFipa.NUGGETS_XML</value>
+			</parameter>
+		</messageevent>
+
+	<!-- Colocar fichas -->
+		
+		<messageevent name="coloca_fichas_iniciales" type="fipa"
+			direction="send">
+			<parameter name="performative" class="String">
+				<value>SFipa.REQUEST</value>
+			</parameter>
+			<parameter name="conversation-id" class="String">
+				<value>SFipa.createUniqueId($scope.getAgentName())</value>
+			</parameter>
+			<parameter name="language" class="String" direction="fixed">
+				<value>SFipa.NUGGETS_XML</value>
+			</parameter>
+			<parameter name="content-class" class="Class"
+				direction="fixed">
+				<value>src.Mapa.Mapa.class</value>
+			</parameter>
+		</messageevent>
 
 
-</events>
+<!-- 		<messageevent name="ficha_colocada" type="fipa"
+			direction="receive">
+			<parameter name="performative" class="String"
+				direction="fixed">
+				<value>SFipa.INFORM</value>
+			</parameter>
+			<parameter name="language" class="String" direction="fixed">
+				<value>SFipa.NUGGETS_XML</value>
+			</parameter>
+		</messageevent> -->
+
+
+
+	</events>
+
+
+
 
 	<configurations>
 		<configuration name="default">
-		<beliefs>
-			<initialbelief ref="jugadores">
-				<fact>0</fact>
-			</initialbelief>
-		</beliefs>
-		<goals>
-			<initialgoal ref="completar_jugadores"></initialgoal>
+			<beliefs>
+				<initialbelief ref="jugadores">
+					<fact>0</fact>
+				</initialbelief>
+			</beliefs>
+			<goals>
+				<initialgoal ref="completar_jugadores"></initialgoal>
 
-		</goals>
+			</goals>
 
 		</configuration>
 		<configuration name="default1">
-		<goals>
-			<!-- Register the dealer at the df on startup. -->
-			<initialgoal ref="df_register">
-				<!-- The services to register. -->
-				<parameter ref="description">
-					<value>
-						<!-- This is the agent-description for the dealer. With this description
-								 the dealers is registered at the directory facilitator.
-								 Note, that the dealer only offers one service, that is 'dealing'
-								 (see service description below).	-->
-						SFipa.createAgentDescription(null,
+			<goals>
+				<!-- Register the dealer at the df on startup. -->
+				<initialgoal ref="df_register">
+					<!-- The services to register. -->
+					<parameter ref="description">
+						<value>
+							<!-- This is the agent-description for the dealer. With this description 
+								the dealers is registered at the directory facilitator. Note, that the dealer 
+								only offers one service, that is 'dealing' (see service description below). -->
+							SFipa.createAgentDescription(null,
 							SFipa.createServiceDescription("Tablero", "Partida", "Grupo04"))
-					</value>
-				</parameter>
-			</initialgoal>
-			<initialgoal ref="completar_jugadores"/>
-			<endgoal ref="df_deregister"/>
-		</goals>
+						</value>
+					</parameter>
+				</initialgoal>
+				<initialgoal ref="completar_jugadores" />
+				<endgoal ref="df_deregister" />
+			</goals>
 		</configuration>
 	</configurations>
 

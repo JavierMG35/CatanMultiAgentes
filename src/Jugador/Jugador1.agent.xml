@@ -60,22 +60,17 @@
 				<messageevent ref="request_unirse_partida" />
 			</trigger>
 		</plan>
-		
+
 		<plan name="coloca_fichas_Plan">
 			<body class="src.Jugador.Plan.ColocaFichasInicialesPlan" />
 			<trigger>
 				<messageevent ref="coloca_fichas_iniciales" />
 			</trigger>
 		</plan>
-		
-		
+
+
 	</plans>
-		
-		
-	
-		
-	
-	
+
 
 
 
@@ -83,64 +78,87 @@
 
 	<events>
 
-		<messageevent name="request_unirse_partida" type="fipa" direction="receive">
-	<parameter name="performative" class="String" direction="fixed">
-	<value>SFipa.REQUEST</value>
-	</parameter>
-	<parameter name="language" class="String" direction="fixed">
+	<!-- Unirse a la partida -->
+	
+		<messageevent name="request_unirse_partida" type="fipa"
+			direction="receive">
+			<parameter name="performative" class="String"
+				direction="fixed">
+				<value>SFipa.REQUEST</value>
+			</parameter>
+			<parameter name="language" class="String" direction="fixed">
 				<value>SFipa.NUGGETS_XML</value>
 			</parameter>
-	<parameter name="content-class" class="Class" direction="fixed">
-					<value>Request_unirse_partida.class</value>
-				</parameter>
-	</messageevent>
+			<parameter name="content-class" class="Class"
+				direction="fixed">
+				<value>Request_unirse_partida.class</value>
+			</parameter>
+		</messageevent>
 
-	<messageevent name="unirse_partida" type="fipa" direction="send">
-	<parameter name="performative" class="String">
-	<value>SFipa.INFORM</value>
-	</parameter>
-	<parameter name="language" class="String" direction="fixed">
-					<value>SFipa.NUGGETS_XML</value>
-	 			</parameter>
-	</messageevent>
-
-
-		<messageevent name="offer_tirar_dados" type="fipa" direction="receive">
-<parameter name="performative" class="String" direction="fixed">
-<value>SFipa.REQUEST</value>
-</parameter>
-<parameter name="language" class="String" direction="fixed">
+		<messageevent name="unirse_partida" type="fipa"
+			direction="send">
+			<parameter name="performative" class="String">
+				<value>SFipa.INFORM</value>
+			</parameter>
+			<parameter name="language" class="String" direction="fixed">
 				<value>SFipa.NUGGETS_XML</value>
- 			</parameter>
-</messageevent>
+			</parameter>
+		</messageevent>
 
-
-<messageevent name="receive_tirar" type="fipa" direction="send">
-<parameter name="performative" class="String">
-<value>SFipa.INFORM</value>
-</parameter>
-<parameter name="language" class="String" direction="fixed">
+	<!-- Tirar los dados -->
+	
+		<messageevent name="offer_tirar_dados" type="fipa"
+			direction="receive">
+			<parameter name="performative" class="String"
+				direction="fixed">
+				<value>SFipa.REQUEST</value>
+			</parameter>
+			<parameter name="language" class="String" direction="fixed">
 				<value>SFipa.NUGGETS_XML</value>
- 			</parameter>
-</messageevent>
+			</parameter>
+		</messageevent>
 
-	<messageevent name="coloca_fichas_iniciales" type="fipa" direction="receive">
-		<parameter name="performative" class="String" direction="fixed">
-			<value>SFipa.REQUEST</value>
-		</parameter>
-		<parameter name="language" class="String" direction="fixed">
+
+		<messageevent name="receive_tirar" type="fipa"
+			direction="send">
+			<parameter name="performative" class="String">
+				<value>SFipa.INFORM</value>
+			</parameter>
+			<parameter name="language" class="String" direction="fixed">
 				<value>SFipa.NUGGETS_XML</value>
-		</parameter>
-			<parameter name="content-class" class="Class" direction="fixed">
-					<value>src.EstadoJuego.EstadoJuego.class</value>
-				</parameter>
-	</messageevent>
+			</parameter>
+		</messageevent>
+		
+	<!-- Colocar fichas -->
+	
+		<messageevent name="coloca_fichas_iniciales" type="fipa"
+			direction="receive">
+			<parameter name="performative" class="String"
+				direction="fixed">
+				<value>SFipa.REQUEST</value>
+			</parameter>
+			<parameter name="language" class="String" direction="fixed">
+				<value>SFipa.NUGGETS_XML</value>
+			</parameter>
+			<parameter name="content-class" class="Class"
+				direction="fixed">
+				<value>src.Mapa.Mapa.class</value>
+			</parameter>
+		</messageevent>
+
+		<messageevent name="ficha_colocada" type="fipa"
+			direction="send">
+			<parameter name="performative" class="String">
+				<value>SFipa.INFORM</value>
+			</parameter>
+			<parameter name="language" class="String" direction="fixed">
+				<value>SFipa.NUGGETS_XML</value>
+			</parameter>
+		</messageevent>
 
 
 
-
-
-</events>
+	</events>
 
 	<configurations>
 		<configuration name="registro_inicial">
