@@ -13,12 +13,18 @@ public class Orden {
 	
 	
 	public Jugador getSiguiente_jugador() {
-		return siguiente_jugador;
+		this.turno = this.turno + 1;
+		if(turno==jugadores.size()) {
+			this.turno = 0;
+			return jugadores.get(jugadores.size()-1);
+		}
+		else {return jugadores.get(this.turno-1);}
 	}
 
 	public void setSiguiente_jugador(Jugador siguiente_jugador) {
 		this.siguiente_jugador = siguiente_jugador;
 	}
+
 
 	public int getInicializada() {
 		return inicializada;
@@ -47,6 +53,10 @@ public class Orden {
 	public List<Jugador>  getJugadores() {
 		return jugadores;
 	}
+	public int  getNumeroJugadores() {
+		return jugadores.size();
+	}
+
 
 	public void setJugadores(List<Jugador>  jugadores) {
 		this.jugadores = jugadores;

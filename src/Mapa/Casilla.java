@@ -1,16 +1,18 @@
 package src.Mapa;
 import java.util.ArrayList;
+import src.Tablero.Recurso;
 import java.util.List;
 import java.util.Random;
 public class Casilla {
 	private List<Node> nodos_adyacentes;
 	private List<Edge> edges_adyacentes;
 	private int valor;
-	private String recurso;
+	private Recurso recurso;
 	private boolean ladron;
 	
 	public Casilla() {
 		this.ladron = false;
+		this.recurso = new Recurso();
 	}
 	
 	public void crearAdyacentes(Node n1,Node n2,Node n3,Node n4,Node n5,Node n6) {
@@ -35,14 +37,14 @@ public class Casilla {
 		while(!set) {
 			//System.out.println("WHile setCasilla");
 			if(nodos_adyacentes.get(0).getPosicion().equals("63")) {
-				this.recurso = "Desierto";set=true;
+				this.recurso.setTipo("Desierto");;set=true;
 		//		System.out.println("desierto!!!!");
 				}
 		
 			for(int i=0;i<nodos_adyacentes.size();i++) {
 				nodo = nodos_adyacentes.get(i);
 				if(nodo.getEdges().size()==2) {
-					this.recurso = "Agua"; 
+					this.recurso.setTipo("Agua");
 					set = true;
 					//System.out.println("Agua");
 					//System.out.println(set);
@@ -84,31 +86,31 @@ public class Casilla {
 			switch(numero_random) {
 			  case 0:
 				if(mapa.getLana()>0) {
-					this.recurso = "Lana";
+					this.recurso.setTipo("Lana");
 					mapa.setLana();
 					hecho = true;}
 			    break;
 			  case 1:
 				if(mapa.getMadera()>0) {
-					this.recurso = "Madera";
+					this.recurso.setTipo("Madera");
 					mapa.setMadera();;
 					hecho = true;}
 			    break;
 			  case 2:
 				if(mapa.getPiedra()>0) {
-					this.recurso = "Piedra";
+					this.recurso.setTipo("Piedra");
 					mapa.setPiedra();
 					hecho = true;}
 				break;
 			  case 3:
 				if(mapa.getArcilla()>0) {
-					this.recurso = "Arcilla";
+					this.recurso.setTipo("Arcilla");
 					mapa.setArcilla();	
 					hecho = true;}
 				break;
 			  case 4:
 				if(mapa.getPaja()>0) {
-					this.recurso = "Paja";
+					this.recurso.setTipo("Paja");
 					mapa.setPaja();
 					hecho = true;}
 				break;
@@ -133,11 +135,11 @@ public class Casilla {
 		this.valor = valor;
 	}
 
-	public String getRecurso() {
+	public Recurso getRecurso() {
 		return recurso;
 	}
 
-	public void setRecurso(String recurso) {
+	public void setRecurso(Recurso recurso) {
 		this.recurso = recurso;
 	}
 

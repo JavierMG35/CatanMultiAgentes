@@ -79,7 +79,7 @@
 	<events>
 
 	<!-- Unirse a la partida -->
-	
+
 		<messageevent name="request_unirse_partida" type="fipa"
 			direction="receive">
 			<parameter name="performative" class="String"
@@ -106,7 +106,7 @@
 		</messageevent>
 
 	<!-- Tirar los dados -->
-	
+
 		<messageevent name="offer_tirar_dados" type="fipa"
 			direction="receive">
 			<parameter name="performative" class="String"
@@ -128,9 +128,9 @@
 				<value>SFipa.NUGGETS_XML</value>
 			</parameter>
 		</messageevent>
-		
+
 	<!-- Colocar fichas -->
-	
+
 		<messageevent name="coloca_fichas_iniciales" type="fipa"
 			direction="receive">
 			<parameter name="performative" class="String"
@@ -153,6 +153,10 @@
 			</parameter>
 			<parameter name="language" class="String" direction="fixed">
 				<value>SFipa.NUGGETS_XML</value>
+			</parameter>
+			<parameter name="content-class" class="Class"
+				direction="fixed">
+				<value>src.Mapa.Mapa.class</value>
 			</parameter>
 		</messageevent>
 

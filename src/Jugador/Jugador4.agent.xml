@@ -62,22 +62,22 @@
 				<messageevent ref="request_unirse_partida" />
 			</trigger>
 		</plan>
-		
+
 		<plan name="coloca_fichas_Plan">
 			<body class="src.Jugador.Plan.ColocaFichasInicialesPlan" />
 			<trigger>
 				<messageevent ref="coloca_fichas_iniciales" />
 			</trigger>
 		</plan>
-		
-		
+
+
 	</plans>
-		
-		
-	
-		
-	
-	
+
+
+
+
+
+
 
 
 
@@ -125,16 +125,34 @@
 				<value>SFipa.NUGGETS_XML</value>
  			</parameter>
 </messageevent>
+<!-- Colocar fichas -->
 
-	<messageevent name="coloca_fichas_iniciales" type="fipa" direction="receive">
-		<parameter name="performative" class="String" direction="fixed">
+	<messageevent name="coloca_fichas_iniciales" type="fipa"
+		direction="receive">
+		<parameter name="performative" class="String"
+			direction="fixed">
 			<value>SFipa.REQUEST</value>
 		</parameter>
 		<parameter name="language" class="String" direction="fixed">
-				<value>SFipa.NUGGETS_XML</value>
+			<value>SFipa.NUGGETS_XML</value>
 		</parameter>
-		<parameter name="content" class="String" direction="fixed">
-			<value>"hola"</value>
+		<parameter name="content-class" class="Class"
+			direction="fixed">
+			<value>src.Mapa.Mapa.class</value>
+		</parameter>
+	</messageevent>
+
+	<messageevent name="ficha_colocada" type="fipa"
+		direction="send">
+		<parameter name="performative" class="String">
+			<value>SFipa.INFORM</value>
+		</parameter>
+		<parameter name="language" class="String" direction="fixed">
+			<value>SFipa.NUGGETS_XML</value>
+		</parameter>
+		<parameter name="content-class" class="Class"
+			direction="fixed">
+			<value>src.Mapa.Mapa.class</value>
 		</parameter>
 	</messageevent>
 

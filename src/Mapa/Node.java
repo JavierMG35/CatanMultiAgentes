@@ -1,10 +1,11 @@
 package src.Mapa;
 import java.util.ArrayList;
+import src.Jugador.*;
 import java.util.List;
 public class Node {
 	private boolean construccion;
 	private String tipo;
-	private String dueño;
+	private Jugador dueño;
 	private List<Edge> edges;
 	private String posicion;
 	
@@ -39,10 +40,10 @@ public class Node {
 	public void setTipo(String tipo) {
 		this.tipo = tipo;
 	}
-	public String getDueño() {
+	public Jugador getDueño() {
 		return dueño;
 	}
-	public void setDueño(String dueño) {
+	public void setDueño(Jugador dueño) {
 		this.dueño = dueño;
 	}
 	

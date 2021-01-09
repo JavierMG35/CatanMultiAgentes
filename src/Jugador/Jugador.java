@@ -60,7 +60,7 @@ public class Jugador extends Agent{
 		//-------- attributes --------
 		protected String nombre;
 		
-		protected List cartas;
+		protected Cartas cartas = new Cartas();
 		
 		protected List construcciones;
 		
@@ -90,10 +90,10 @@ public class Jugador extends Agent{
 		public void setNombre(String nombre) {
 			this.nombre = nombre;
 		}
-		public List getCartas() {
+		public Cartas getCartas() {
 			return cartas;
 		}
-		public void setCartas(List cartas) {
+		public void setCartas(Cartas cartas) {
 			this.cartas = cartas;
 		}
 		public List getConstrucciones() {

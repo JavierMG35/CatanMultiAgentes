@@ -1,6 +1,7 @@
 package src.Mapa;
 
 import src.Jugador.*;
+import src.Tablero.Recurso;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,17 +32,31 @@ public class Mapa {
 		iniciarTablero();
 	}
 	
-	public boolean fichaInicial(Mapa mapa, int posicion) {
+	public boolean fichaInicial(Mapa mapa, int posicion, Jugador dueño) {
+		
 		boolean posible= false;
-		List<Node> colocar = mapa.nodos;
+		List<Node> listanodos;
+		List<Casilla> listacasillas = mapa.casillas;
 		
-		Node opcion = colocar.get(posicion);
-		
-		if (!opcion.isConstruccion()) {
-			opcion.setConstruccion(true);
-			posible = true;
+		Casilla casilla = listacasillas.get(posicion);
+		listanodos = casilla.getAdyacentes();
+		Recurso recurso = casilla.getRecurso();
+		String recursos = recurso.getTipo();
+		if(!recursos.equals("Agua") && !recursos.equals("Desierto") ) {
+			System.out.println(recursos);
+		for(int i = 0; i < listanodos.size();i++) {
+			if (!listanodos.get(i).isConstruccion()) {
+				listanodos.get(i).setConstruccion(true);
+				listanodos.get(i).setTipo("Poblado");
+				listanodos.get(i).setDueño(dueño);
+				dueño.getCartas().añadirRecurso(casilla.getRecurso());
+				System.out.println(listanodos.get(i).getPosicion());
+				//System.out.println(dueño.getCartas());
+				posible = true;
+				break;
+			}
 		}
-		
+		}
 		return posible;
 	}
 	

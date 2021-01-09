@@ -24,25 +24,30 @@ public class TurnoInicialPlan extends Plan{
 		Orden Orden = ((Orden)getBeliefbase().getBelief("orden").getFact());
 		getBeliefbase().getBelief("EstadoJuego").setFact(EstadoJuego);
 		
-		
-		//AgentDescription[] result =(AgentDescription[])busqueda.getParameterSet("result").getValues();
-		BasicAgentIdentifier AidSiguiente = Orden.getSiguiente_jugador().getAid();
-		
-		System.out.println("Aid siguiente : "+ AidSiguiente);
-		
-		
-		IMessageEvent mensaje_enviar = createMessageEvent("coloca_fichas_iniciales");
-		mensaje_enviar.getParameterSet(SFipa.RECEIVERS).addValue(AidSiguiente);
-		mensaje_enviar.setContent(Mapa);
-		System.out.println("Mensaje enviado esperando respuesta");
-		
-		IMessageEvent	respuesta	= sendMessageAndWait(mensaje_enviar);
-		
-		System.out.println("Respuesta recibidas");
-		
-		EstadoJuego estado = new EstadoJuego((Mapa)respuesta.getContent());
-		getBeliefbase().getBelief("EstadoJuego").setFact(estado);
-		
+		/////////////////////////////////
+		for(int i=0;i< Orden.getNumeroJugadores();i++) {
+			
+			EstadoJuego = (EstadoJuego)getBeliefbase().getBelief("EstadoJuego").getFact();
+			Mapa = EstadoJuego.getMapa();
+			System.out.println("////////////////////////////////////////////////////////");
+			//AgentDescription[] result =(AgentDescription[])busqueda.getParameterSet("result").getValues();
+			BasicAgentIdentifier AidSiguiente = Orden.getSiguiente_jugador().getAid();
+			
+			System.out.println("Aid siguiente : "+ AidSiguiente);
+			
+			
+			IMessageEvent mensaje_enviar = createMessageEvent("coloca_fichas_iniciales");
+			mensaje_enviar.getParameterSet(SFipa.RECEIVERS).addValue(AidSiguiente);
+			mensaje_enviar.setContent(Mapa);
+			System.out.println("Mensaje enviado esperando respuesta");
+			
+			IMessageEvent	respuesta	= sendMessageAndWait(mensaje_enviar);
+			
+			System.out.println("Respuesta recibidas");
+			
+			EstadoJuego estado = new EstadoJuego((Mapa)respuesta.getContent());
+			getBeliefbase().getBelief("EstadoJuego").setFact(estado);
+		}
 		System.out.println("Protocolo terminado.");
 		System.out.println("////////////////////////////////////////////////////////");
 		

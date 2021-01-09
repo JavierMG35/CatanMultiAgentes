@@ -75,8 +75,7 @@
 		</performgoal>
 
 
-		<performgoal name="turno_inicial" recur="true"
-			recurdelay="2000">
+		<performgoal name="turno_inicial" >
 			<creationcondition>$beliefbase.orden!=null</creationcondition>
 		</performgoal>
 
@@ -110,11 +109,11 @@
 
 	</plans>
 
-	
+
 	<events>
-	
+
 	<!-- Unirse a la partida -->
-	
+
 		<messageevent name="request_unirse_partida" type="fipa"
 			direction="send">
 			<parameter name="performative" class="String">
@@ -144,7 +143,7 @@
 		</messageevent>
 
 	<!-- Tirar los dados -->
-		
+
 		<messageevent name="offer_tirar_dados" type="fipa"
 			direction="send">
 			<parameter name="performative" class="String">
@@ -171,7 +170,7 @@
 		</messageevent>
 
 	<!-- Colocar fichas -->
-		
+
 		<messageevent name="coloca_fichas_iniciales" type="fipa"
 			direction="send">
 			<parameter name="performative" class="String">
@@ -189,8 +188,7 @@
 			</parameter>
 		</messageevent>
 
-
-<!-- 		<messageevent name="ficha_colocada" type="fipa"
+ 		<messageevent name="ficha_colocada" type="fipa"
 			direction="receive">
 			<parameter name="performative" class="String"
 				direction="fixed">
@@ -199,7 +197,11 @@
 			<parameter name="language" class="String" direction="fixed">
 				<value>SFipa.NUGGETS_XML</value>
 			</parameter>
-		</messageevent> -->
+			<parameter name="content-class" class="Class"
+				direction="fixed">
+				<value>src.Mapa.Mapa.class</value>
+			</parameter>
+		</messageevent>
 
 
 
@@ -228,8 +230,8 @@
 					<!-- The services to register. -->
 					<parameter ref="description">
 						<value>
-							<!-- This is the agent-description for the dealer. With this description 
-								the dealers is registered at the directory facilitator. Note, that the dealer 
+							<!-- This is the agent-description for the dealer. With this description
+								the dealers is registered at the directory facilitator. Note, that the dealer
 								only offers one service, that is 'dealing' (see service description below). -->
 							SFipa.createAgentDescription(null,
 							SFipa.createServiceDescription("Tablero", "Partida", "Grupo04"))
