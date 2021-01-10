@@ -8,7 +8,9 @@ import java.util.ArrayList;
 //import jadex.util.SUtil;
 import java.util.List;
 import jadex.adapter.fipa.*;
+import src.EstadoJuego.EstadoJuego;
 import src.Jugador.Jugador;
+import src.Mapa.Mapa;
 import src.ontologia.*;
 import java.util.Collections;
 import java.util.Comparator;
@@ -27,7 +29,9 @@ public class ComenzarPartidaPlan extends Plan{
 		int[] lista2;
 		int minimo = 13;
 		int index = 0;
-		
+		Mapa Mapa = new Mapa();
+		EstadoJuego EstadoJuego = new EstadoJuego(Mapa);
+		getBeliefbase().getBelief("EstadoJuego").setFact(EstadoJuego);
 		///////////////////////Buscamos los jugadores en el df
 		
 		this.timeout = ((Number)getBeliefbase().getBelief("playerwaitmillis").getFact()).longValue();
@@ -96,6 +100,7 @@ public class ComenzarPartidaPlan extends Plan{
 		System.out.println( Lista.getJugadores().get(2).getNombre()+" Aid : "+ Lista.getJugadores().get(2).getAid());
 		System.out.println( Lista.getJugadores().get(3).getNombre()+" Aid : "+ Lista.getJugadores().get(3).getAid());
 		////////////////////////////		
+		
 		System.out.println("Protocolo Terminado");	
 		
 	}

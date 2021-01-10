@@ -3,6 +3,9 @@ import java.util.ArrayList;
 import src.Tablero.Recurso;
 import java.util.List;
 import java.util.Random;
+
+import src.Mapa.Mapa;
+import src.Mapa.Node;
 public class Casilla {
 	private List<Node> nodos_adyacentes;
 	private List<Edge> edges_adyacentes;
@@ -13,6 +16,7 @@ public class Casilla {
 	public Casilla() {
 		this.ladron = false;
 		this.recurso = new Recurso();
+		
 	}
 	
 	public void crearAdyacentes(Node n1,Node n2,Node n3,Node n4,Node n5,Node n6) {
@@ -27,18 +31,25 @@ public class Casilla {
 		nodos_adyacentes.add(n6);
 	}
 	
+	public void getAdyacentesString() {
+
+		for (int i =0; i<this.nodos_adyacentes.size();i++) {
+			System.out.println("Nodo adyacente : "+nodos_adyacentes.get(i).getPos_x()+nodos_adyacentes.get(i).getPos_y());
+		}
+	}
+	
 	public List<Node> getAdyacentes(){
 		return nodos_adyacentes;
 	}
 	
 	public void setCasilla(Mapa mapa, List<Integer> valores) {
-		Node nodo = new Node("00");
+		Node nodo = new Node();
 		boolean set = false;
 		while(!set) {
 			//System.out.println("WHile setCasilla");
-			if(nodos_adyacentes.get(0).getPosicion().equals("63")) {
-				this.recurso.setTipo("Desierto");;set=true;
-		//		System.out.println("desierto!!!!");
+			if(nodos_adyacentes.get(0).getPos_x()==6 && nodos_adyacentes.get(0).getPos_y()==3) {
+				this.recurso.setTipo("Desierto");set=true;
+			//	System.out.println("desierto!!!!");
 				}
 		
 			for(int i=0;i<nodos_adyacentes.size();i++) {
@@ -46,19 +57,21 @@ public class Casilla {
 				if(nodo.getEdges().size()==2) {
 					this.recurso.setTipo("Agua");
 					set = true;
-					//System.out.println("Agua");
+				//	System.out.println("Agua");
 					//System.out.println(set);
 					break;}
 			}
 			if(set==false)	{
-				//System.out.println("No es agua");
-				//System.out.println("setRecurso");
+				
 				setRecurso(mapa);
-				setValor(mapa,valores);}
+				setValor(mapa,valores);
+				}
+			
 			set = true;
 		}
 		
 	}
+	
 	
 	public void setValor(Mapa mapa, List<Integer> valores) {
 		Random random = new Random();

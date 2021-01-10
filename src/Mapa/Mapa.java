@@ -4,6 +4,10 @@ import src.Jugador.*;
 import src.Tablero.Recurso;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
+
+import src.Mapa.Casilla;
+import src.Mapa.Node;
 
 public class Mapa {
 	private List<Node> nodos;
@@ -30,303 +34,271 @@ public class Mapa {
 		crearValores();
 		crearTablero();
 		iniciarTablero();
+		ManejarCasillas();
 	}
 	
-	public boolean fichaInicial(Mapa mapa, int posicion, Jugador dueño) {
+	private void ManejarCasillas() {
+		 List<Node> nodos;
+		 List<Edge> edges;
+		for (int i= 0; i<this.casillas.size();i++) {
+			nodos=this.casillas.get(i).getAdyacentes();
+			for (int j= 0; j<nodos.size();j++) {
+				edges=nodos.get(j).getEdges();
+				for (int z=0; z<edges.size();z++) {
+					
+					Node nodoDestino=edges.get(z).getDestino();
+					for(int t = 0; t< nodos.size();t++) {
+						if (nodoDestino.equalspos(nodos.get(t).getPos_x(), nodos.get(t).getPos_y())) {
+							edges.get(z).getCasillas().add(this.casillas.get(i));
+						}
+					}
+					
+				}
+			}
+		}		
+	}
+
+	public Node fichaInicial(Mapa mapa, int posicion, Jugador dueño) {
 		
-		boolean posible= false;
 		List<Node> listanodos;
 		List<Casilla> listacasillas = mapa.casillas;
-		
+		int pos=-1;
 		Casilla casilla = listacasillas.get(posicion);
 		listanodos = casilla.getAdyacentes();
 		Recurso recurso = casilla.getRecurso();
 		String recursos = recurso.getTipo();
-		if(!recursos.equals("Agua") && !recursos.equals("Desierto") ) {
-			System.out.println(recursos);
-		for(int i = 0; i < listanodos.size();i++) {
-			if (!listanodos.get(i).isConstruccion()) {
-				listanodos.get(i).setConstruccion(true);
-				listanodos.get(i).setTipo("Poblado");
-				listanodos.get(i).setDueño(dueño);
-				dueño.getCartas().añadirRecurso(casilla.getRecurso());
-				System.out.println(listanodos.get(i).getPosicion());
-				//System.out.println(dueño.getCartas());
+		System.out.println(recursos);
+		
+		if (recursos.equals("Agua")) {
+			return null;}
+		else if (recursos.equals("Desierto")) {return null;}
+			else {
+				for(int i = 0; i < listanodos.size();i++) {
+					////cuidado esta linea es un poco trampa y puede dar fallos si se repite el numero
+					Random rand1 =  new Random();
+					int arista = rand1.nextInt(listanodos.size());
+					if (!listanodos.get(arista).isConstruccion()) {
+						listanodos.get(arista).setConstruccion(true);
+						listanodos.get(arista).setTipo("Poblado");
+						listanodos.get(arista).setDueño(dueño);
+						//dueño.getCartas().añadirRecurso(casilla.getRecurso());
+						//System.out.println(dueño.getCartas());
+						
+						pos = arista;
+						return listanodos.get(arista);
+				
+					}
+				}
+		}
+		return null;
+		
+	}
+	
+	public boolean caminoInicial(Mapa mapa, Node nodo, Jugador dueño) {
+		boolean posible= false;
+		List<Edge> listaAristas=nodo.getEdges();
+		int pos=0;
+		
+		
+		for(int i = 0; i < listaAristas.size();i++) {
+			System.out.println("correcto: "+listaAristas.size());
+			if (listaAristas.get(i).posible()) {
+				System.out.println("ha sido true");
+				/*listaAristas.get(i).setCarretera(true);
+				listaAristas.get(i).setDueño(dueño);*/
 				posible = true;
+				pos=i;
+				System.out.println("origen: "+listaAristas.get(i).getOrigen().getPos_x()+", "+listaAristas.get(i).getOrigen().getPos_y());
+				System.out.println("destino: "+listaAristas.get(i).getDestino().getPos_x()+", "+listaAristas.get(i).getDestino().getPos_y());
 				break;
-			}
+				}
+			
 		}
-		}
+		
 		return posible;
 	}
 	
 	public void crearTablero() {
-		String posicion;
+		String posicion = null;
 		int nivel = 0;
 		int cantidad = 4;
+		int node_counter=0;
+		nodos = new ArrayList<>();
+		int pos_x=0;
+		int pos_y=0;
 		
 		//no sabe que casillas son adyacentes a el (aunque se puede hacer con un metodo)
 		
-		for(nivel=0; nivel<16;nivel++) {
-			if(nivel<8) {
-			for (int j=0;j<cantidad;j++) {
-				if (nivel ==0) {
-					posicion = Integer.toString(nivel) + Integer.toString(j);
-					//System.out.print(posicion + " ");
-					Node nodo = new Node(posicion);
-					posicion = Integer.toString(nivel+1) + Integer.toString(j);
-					//System.out.print(posicion + " ");
-					Node nodo1 = new Node(posicion);
-					posicion = Integer.toString(nivel+1) + Integer.toString(j+1);
-					//System.out.println(posicion);
-					Node nodo2 = new Node(posicion);
-					Edge edge1 = new Edge(nodo, nodo1);
-					Edge edge2 = new Edge(nodo, nodo2);
-					 addNode( nodo );
-					nodo.addEdge(edge1);
-					nodo.addEdge(edge2);
+		
+		for (nivel=0; nivel<16; nivel++) {
+			pos_x=nivel;
+			if (nivel<8) {
+				int parcial=0;
+				for (int i=0; i<cantidad; i++) {
+					pos_y=i;
+					Node nodo = new Node(pos_x,pos_y);
+					nodos.add(nodo);
+					node_counter++;
+					parcial++;
 				}
-				if (nivel%2== 0 && nivel !=0) {
-					posicion = Integer.toString(nivel) + Integer.toString(j);
-					//System.out.print(posicion + " ");
-					Node nodo = new Node(posicion);
-					posicion = Integer.toString(nivel-1) + Integer.toString(j);
-					//System.out.print(posicion + " ");
-					Node nodo1 = new Node(posicion);
-					posicion = Integer.toString(nivel+1) + Integer.toString(j);
-					//System.out.print(posicion + " ");
-					Node nodo2 = new Node(posicion);
-					posicion = Integer.toString(nivel+1) + Integer.toString(j+1);
-					//System.out.println(posicion + " ");
-					Node nodo3 = new Node(posicion);
-					Edge edge1 = new Edge(nodo, nodo1);
-					Edge edge2 = new Edge(nodo, nodo2);
-					Edge edge3 = new Edge(nodo, nodo3);
-					 addNode(nodo);
-					nodo.addEdge(edge1);
-					nodo.addEdge(edge2);
-					nodo.addEdge(edge3);
-				}
-				if (nivel%2!= 0) {
-					if(j!=0 && j!=(cantidad-1)) {
-						posicion = Integer.toString(nivel) + Integer.toString(j);
-						//System.out.print(posicion + " ");
-						Node nodo = new Node(posicion);
-						posicion = Integer.toString(nivel-1) + Integer.toString(j-1);
-						//System.out.print(posicion + " ");
-						Node nodo1 = new Node(posicion);
-						posicion = Integer.toString(nivel-1) + Integer.toString(j);
-						//System.out.print(posicion + " ");
-						Node nodo2 = new Node(posicion);
-						posicion = Integer.toString(nivel+1) + Integer.toString(j);
-						//System.out.println(posicion + " ");
-						Node nodo3 = new Node(posicion);
-						Edge edge1 = new Edge(nodo, nodo1);
-						Edge edge2 = new Edge(nodo, nodo2);
-						Edge edge3 = new Edge(nodo, nodo3);
-						 addNode(nodo);
-						nodo.addEdge(edge1);
-						nodo.addEdge(edge2);
-						nodo.addEdge(edge3);
-					}
-					if(j==0 ) {
-						posicion = Integer.toString(nivel) + Integer.toString(j);
-						//System.out.println("B");
-						//System.out.print(posicion + " ");
-						Node nodo = new Node(posicion);
-						posicion = Integer.toString(nivel-1) + Integer.toString(j);
-						//System.out.print(posicion + " ");
-						Node nodo1 =  getNode(posicion);
-						posicion = Integer.toString(nivel+1) + Integer.toString(j);
-						//System.out.println(posicion + " ");
-						Node nodo2 =  getNode(posicion);
-						Edge edge1 = new Edge(nodo, nodo1);
-						Edge edge2 = new Edge(nodo, nodo2);
-						 addNode(nodo);
-						nodo.addEdge(edge1);
-						nodo.addEdge(edge2);
-					}
-					if( j==(cantidad-1)) {
-						posicion = Integer.toString(nivel) + Integer.toString(j);
-						//System.out.println("C");
-						//System.out.println(posicion);
-						Node nodo = new Node(posicion);
-						posicion = Integer.toString(nivel-1) + Integer.toString(j-1);
-						Node nodo1 =  getNode(posicion);
-						posicion = Integer.toString(nivel+1) + Integer.toString(j);
-						Node nodo2 =  getNode(posicion);
-						Edge edge1 = new Edge(nodo, nodo1);
-						Edge edge2 = new Edge(nodo, nodo2);
-						 addNode(nodo);
-						nodo.addEdge(edge1);
-						nodo.addEdge(edge2);
-					}
-				}				
+				if (nivel%2==0) {cantidad++;}			
 			}
-			if(nivel%2== 0 || nivel ==0) {cantidad++;}
+			else {
+				int parcial=0;
+				for (int i=0; i<cantidad; i++) {
+					pos_y=i;
+					Node nodo = new Node(pos_x,pos_y);
+					nodos.add(nodo);
+					node_counter++;
+					parcial++;
+				}
+				if (nivel%2==0) {cantidad--;}
+			}
 		}
-		if(nivel>=8) {
-			for (int j=0;j<cantidad;j++) {
-				if (nivel%2== 0) {
-					if(j!=0 && j!=(cantidad-1)) {
-						posicion = Integer.toString(nivel) + Integer.toString(j);
-						//System.out.println(posicion);
-						Node nodo = new Node(posicion);
-						posicion = Integer.toString(nivel-1) + Integer.toString(j);
-						Node nodo1 = new Node(posicion);
-						posicion = Integer.toString(nivel+1) + Integer.toString(j-1);
-						Node nodo2 = new Node(posicion);
-						posicion = Integer.toString(nivel+1) + Integer.toString(j);
-						Node nodo3 = new Node(posicion);
-						Edge edge1 = new Edge(nodo, nodo1);
-						Edge edge2 = new Edge(nodo, nodo2);
-						Edge edge3 = new Edge(nodo, nodo3);
-						 addNode(nodo);
-						nodo.addEdge(edge1);
-						nodo.addEdge(edge2);
-						nodo.addEdge(edge3);
-					}
-					if(j==0 ) {
-						posicion = Integer.toString(nivel) + Integer.toString(j);
-						//System.out.println("B");
-						//System.out.println(posicion);
-						Node nodo = new Node(posicion);
-						posicion = Integer.toString(nivel-1) + Integer.toString(j);
-						Node nodo1 =  getNode(posicion);
-						posicion = Integer.toString(nivel+1) + Integer.toString(j);
-						Node nodo2 =  getNode(posicion);
-						Edge edge1 = new Edge(nodo, nodo1);
-						Edge edge2 = new Edge(nodo, nodo2);
-						 addNode(nodo);
-						nodo.addEdge(edge1);
-						nodo.addEdge(edge2);
-					}
-					if( j==(cantidad-1)) {
-						posicion = Integer.toString(nivel) + Integer.toString(j);
-						//System.out.println("C");
-						//System.out.println(posicion);
-						Node nodo = new Node(posicion);
-						posicion = Integer.toString(nivel-1) + Integer.toString(j);
-						Node nodo1 =  getNode(posicion);
-						posicion = Integer.toString(nivel+1) + Integer.toString(j-1);
-						Node nodo2 =  getNode(posicion);
-						Edge edge1 = new Edge(nodo, nodo1);
-						Edge edge2 = new Edge(nodo, nodo2);
-						 addNode(nodo);
-						nodo.addEdge(edge1);
-						nodo.addEdge(edge2);
+		
+		
+		
+		
+	
+		
+		
+		
+		
+		
+		int contador_edge=0;
+		cantidad = 4;
+		for (nivel=0; nivel<15; nivel++) {
+			if (nivel<8) {
+				if (nivel%2==0) {
+					for (int i= 0; i< cantidad; i++){
+						Node nodo1=getNode(nivel, i);
+						Node nodo2=getNode(nivel+1, i);
+						Node nodo3=getNode(nivel+1, i+1);
+						nodo1.addEdge(nodo2);
+						nodo1.addEdge(nodo3);
+						nodo2.addEdge(nodo1);
+						nodo3.addEdge(nodo1);
+						contador_edge++;
+						contador_edge++;
+						
 					}
 				}
-				if (nivel%2!= 0 && nivel!=15) {	
-					
-					posicion = Integer.toString(nivel) + Integer.toString(j);
-					//System.out.println("A");
-					//System.out.println(posicion);
-					Node nodo = new Node(posicion);
-					posicion = Integer.toString(nivel-1) + Integer.toString(j);
-					Node nodo1 =  getNode(posicion);
-					posicion = Integer.toString(nivel-1) + Integer.toString(j+1);
-					Node nodo2 =  getNode(posicion);
-					posicion = Integer.toString(nivel+1) + Integer.toString(j);
-					Node nodo3 =  getNode(posicion);
-					Edge edge1 = new Edge(nodo, nodo1);
-					Edge edge2 = new Edge(nodo, nodo2);
-					Edge edge3 = new Edge(nodo, nodo3);
-					 addNode(nodo);
-					nodo.addEdge(edge1); 
-					nodo.addEdge(edge2);
-					nodo.addEdge(edge3);
-				}
-				if (nivel%2!= 0 && nivel==15) {	
-					posicion = Integer.toString(nivel) + Integer.toString(j);
-					//System.out.println("A");
-					//System.out.print(posicion + " ");
-					Node nodo = new Node(posicion);
-					posicion = Integer.toString(nivel-1) + Integer.toString(j);
-					//System.out.print(posicion + " ");
-					Node nodo1 =  getNode(posicion);
-					posicion = Integer.toString(nivel-1) + Integer.toString(j+1);
-					//System.out.println(posicion + " ");
-					Node nodo2 =  getNode(posicion);
-					Edge edge1 = new Edge(nodo, nodo1);
-					Edge edge2 = new Edge(nodo, nodo2);
-					 addNode(nodo);
-					nodo.addEdge(edge1); 
-					nodo.addEdge(edge2);
+				else {
+					for (int i= 0; i< cantidad; i++){
+					Node nodo1=getNode(nivel, i);
+					Node nodo2=getNode(nivel+1, i);
+					nodo1.addEdge(nodo2);
+					nodo2.addEdge(nodo1);	
+					contador_edge++;
+					}
 					
 				}
+				if (nivel%2==0) {cantidad++;}			
 			}
-			if(nivel%2== 0) {cantidad--;}
+			else {
+				if (nivel%2==0) {
+					for (int i=0; i<cantidad; i++) {
+						if (i<cantidad-1) {
+						Node nodo1=getNode(nivel, i);
+						Node nodo2=getNode(nivel+1, i);
+						nodo1.addEdge(nodo2);
+						nodo2.addEdge(nodo1);
+						contador_edge++;
+						}
+						if (i>0) {
+							Node nodo1=getNode(nivel, i);
+							Node nodo3=getNode(nivel+1, i-1); 
+							nodo1.addEdge(nodo3);
+							nodo3.addEdge(nodo1);
+							contador_edge++;						
+							
+						}
+
+					}
+					if (nivel%2==0) {cantidad--;}
+				}
+				else {
+					for (int i=0; i<cantidad; i++) {
+					Node nodo1=getNode(nivel, i);
+					Node nodo2=getNode(nivel+1, i); 
+					nodo1.addEdge(nodo2);
+					nodo2.addEdge(nodo1);
+					contador_edge++;
+					}
+				}
+			}
 		}
-		}
+		
+		
+		
+		
+		
+	
+		
+		
 		
 	
 	}
 
+	public void printMapa() {
+		System.out.println("///////////////////////////////////////////////////////////////Este es EL MAPA DE DORA");
+		System.out.println();
+		for (int i = 0 ; i < this.getCasillas().size() ;i++) {
+		System.out.println("Casilla: "+ (i+1));
+		System.out.println(this.getCasillas().get(i).getRecurso().getTipo());
+		System.out.println(this.getCasillas().get(i).getValor());
+		this.getCasillas().get(i).getAdyacentesString();
+		}
+	}
+	
+
 	public void iniciarTablero() {
+		int casillas_counter=0;
 		int nivel = 0;
 		int cantidad = 4;
-		for(nivel=0;nivel<16;nivel++) {
-			//System.out.println(nivel);
-			for(int j=0;j<cantidad;j++) {
-			if(nivel%2==0 && nivel!=14) {
-				if(nivel>=8) {
+		for(nivel=0;nivel<14;nivel++) {
+			if(nivel%2==0 ) {
+				for(int j=0;j<cantidad;j++) {
+			
+					if(nivel<8) {
+							Node n1=getNode(nivel, j);
+							Node n2=getNode(nivel+1, j+1);
+							Node n3=getNode(nivel+2, j+1);
+							Node n4=getNode(nivel+3, j+1);
+							Node n5=getNode(nivel+2, j);
+							Node n6=getNode(nivel+1, j);
+							Casilla casilla = new Casilla();
+							casilla.crearAdyacentes(n1, n2, n3, n4, n5, n6);
+							casilla.setCasilla(this,valores);
+							addCasilla(casilla);		
+							
+							
+							
+							casillas_counter++;
+							
+							
+						}
 					
-					if(j!=0 && j!=(cantidad-1)) {
-						String posicion1 = Integer.toString(nivel) + Integer.toString(j);
-						//System.out.println(posicion);
-						Node n1=  getNode(posicion1);
-						String posicion2 = Integer.toString(nivel+1) + Integer.toString(j);
-						//System.out.println(posicion);
-						Node n2=  getNode(posicion2);
-						String posicion3 = Integer.toString(nivel+2) + Integer.toString(j);
-						//System.out.println(posicion);
-						Node n3=  getNode(posicion3);
-						String posicion4 = Integer.toString(nivel+3) + Integer.toString(j-1);
-						//System.out.println(posicion);
-						Node n4=  getNode(posicion4);
-						String posicion5 = Integer.toString(nivel+2) + Integer.toString(j-1);
-						//System.out.println(posicion);
-						Node n5=  getNode(posicion5);
-						String posicion6 = Integer.toString(nivel+1) + Integer.toString(j-1);
-						//System.out.println(posicion);
-						//System.out.println("   ");
-						Node n6=  getNode(posicion6);
-						Casilla casilla = new Casilla();
-						casilla.crearAdyacentes(n1, n2, n3, n4, n5, n6);
-						casilla.setCasilla(this,valores);
-						addCasilla(casilla);
-						//System.out.println("OUT!!!!");
+					else {
+						if (j>0 && j < cantidad-1) {
+							Node n1=getNode(nivel, j);
+							Node n2=getNode(nivel+1, j);
+							Node n3=getNode(nivel+2, j);
+							Node n4=getNode(nivel+3, j-1);
+							Node n5=getNode(nivel+2, j-1);
+							Node n6=getNode(nivel+1, j-1);
+							Casilla casilla = new Casilla();
+							casilla.crearAdyacentes(n1, n2, n3, n4, n5, n6);
+							casilla.setCasilla(this,valores);
+							addCasilla(casilla);
+							casillas_counter++;
+							//System.out.println("OUT!!!!");
+							
+						}
 					}
 					
-				}
-				else {
-				String posicion1 = Integer.toString(nivel) + Integer.toString(j);
-				//System.out.println(posicion1);
-				Node n1=  getNode(posicion1);
-				String posicion2 = Integer.toString(nivel+1) + Integer.toString(j+1);
-				//System.out.println(posicion2);
-				Node n2=  getNode(posicion2);
-				String posicion3 = Integer.toString(nivel+2) + Integer.toString(j+1);
-				//System.out.println(posicion);
-				Node n3=  getNode(posicion3);
-				String posicion4 = Integer.toString(nivel+3) + Integer.toString(j+1);
-				//System.out.println(posicion);
-				Node n4=  getNode(posicion4);
-				String posicion5 = Integer.toString(nivel+2) + Integer.toString(j);
-				//System.out.println(posicion);
-				Node n5=  getNode(posicion5);
-				String posicion6 = Integer.toString(nivel+1) + Integer.toString(j);
-				//System.out.println(posicion);
-				//System.out.println("   ");
-				Node n6=  getNode(posicion6);
-				Casilla casilla = new Casilla();
-				casilla.crearAdyacentes(n1, n2, n3, n4, n5, n6);
-				casilla.setCasilla(this,valores);
-				addCasilla(casilla);
-				//System.out.println("OUT!!!!");
-				}
 			}
+				
 			}
 			if(nivel<8) {if(nivel%2==0) {cantidad++;}}
 			else {if(nivel%2==0) {cantidad--;}}
@@ -343,16 +315,7 @@ public class Mapa {
 		nodos.add(node);
 	}
 	
-	public Node getNode(String posicion) {
-		Node nodo = new Node(posicion);
-		for (int i=0;i< nodos.size();i++) {
-			 nodo = nodos.get(i);	
-			if(nodo.getPosicion().equals(posicion)) {
-				break;	
-			}
-		}
-		return nodo;
-	}
+	
 
 	//edges en node o en graph??
 	public void addEdge(Edge edge) {
@@ -367,6 +330,14 @@ public class Mapa {
 			casillas = new ArrayList<>();
 		}
 		casillas.add(casilla);
+	}
+	public Node getNode(int posx, int posy) {
+		Node nodo= new Node();
+		for (int i = 0; i < this.nodos.size();i++) 
+		{
+			if(this.nodos.get(i).equalspos(posx,posy)) {nodo=this.nodos.get(i); break;};
+		}
+		return nodo;
 	}
 	
 	public List<Casilla> getCasillas() {

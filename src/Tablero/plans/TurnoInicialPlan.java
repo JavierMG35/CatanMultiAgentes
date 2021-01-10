@@ -17,18 +17,18 @@ public class TurnoInicialPlan extends Plan{
 		////////////////////////Creamos el mapa y declaramos el estado del juego Inicial
 		System.out.println("////////////////////////////////////////////////////////");
 		System.out.println("Creamos el mapa y declaramos el estado del juego Inicial");
-		Mapa Mapa = new Mapa();
+	
 		
-		EstadoJuego EstadoJuego = new EstadoJuego(Mapa);
+	
 		//////////////////////////////////////
 		Orden Orden = ((Orden)getBeliefbase().getBelief("orden").getFact());
-		getBeliefbase().getBelief("EstadoJuego").setFact(EstadoJuego);
+		
 		
 		/////////////////////////////////
 		for(int i=0;i< Orden.getNumeroJugadores();i++) {
 			
-			EstadoJuego = (EstadoJuego)getBeliefbase().getBelief("EstadoJuego").getFact();
-			Mapa = EstadoJuego.getMapa();
+			EstadoJuego EstadoJuego = (EstadoJuego)getBeliefbase().getBelief("EstadoJuego").getFact();
+			Mapa Mapa = EstadoJuego.getMapa();
 			System.out.println("////////////////////////////////////////////////////////");
 			//AgentDescription[] result =(AgentDescription[])busqueda.getParameterSet("result").getValues();
 			BasicAgentIdentifier AidSiguiente = Orden.getSiguiente_jugador().getAid();

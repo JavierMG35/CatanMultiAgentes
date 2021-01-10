@@ -7,6 +7,7 @@ import jadex.runtime.IMessageEvent;
 import jadex.runtime.Plan;
 import src.Jugador.Jugador;
 import src.Mapa.Mapa;
+import src.Mapa.*;
 
 
 public class ColocaFichasInicialesPlan extends Plan{
@@ -20,14 +21,21 @@ public class ColocaFichasInicialesPlan extends Plan{
 		Mapa  mapa = (Mapa)request.getContent();
 		Jugador	yo	= (Jugador)getBeliefbase().getBelief("myself").getFact();
 		boolean posible = false;
-		
+		Node nodoPoblado= null;
 		//Generamos una posición aleatoria de inicio de las fichas
-		while(!posible) {
+		while(nodoPoblado == null) {
 			Random rand1 =  new Random();
 			int casilla = rand1.nextInt(37);
 			System.out.println("Casilla: " + (casilla+1));
-			posible = mapa.fichaInicial(mapa, casilla, yo);
+			nodoPoblado = mapa.fichaInicial(mapa, casilla, yo);
 		}	
+		
+		System.out.println("Poblado colocado en : "+nodoPoblado.getPos_x()+","+nodoPoblado.getPos_y());
+		posible = false;
+		/////Generamos una posicion para un camino aleatorio al lado del poblado puesto=?=?=??
+		posible = mapa.caminoInicial(mapa, nodoPoblado, yo);
+	
+	
 		
 		//Mandamos el nuevo mapa.
 		//Jugador	yo	= (Jugador)getBeliefbase().getBelief("myself").getFact();
