@@ -2,7 +2,7 @@ package src.Jugador;
 
 import java.util.*;
 import src.Mapa.Edge;
-import src.Tablero.Recurso;
+import src.ontologia.concepts.Recurso;
 
 
 public class Cartas {

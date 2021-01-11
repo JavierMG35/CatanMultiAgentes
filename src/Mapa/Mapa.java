@@ -1,13 +1,14 @@
 package src.Mapa;
 
 import src.Jugador.*;
-import src.Tablero.Recurso;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
 import src.Mapa.Casilla;
 import src.Mapa.Node;
+import src.ontologia.concepts.Recurso;
 
 public class Mapa {
 	private List<Node> nodos;

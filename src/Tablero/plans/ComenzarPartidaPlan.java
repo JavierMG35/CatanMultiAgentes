@@ -13,6 +13,8 @@ import src.EstadoJuego.EstadoJuego;
 import src.Jugador.Jugador;
 import src.Mapa.Mapa;
 import src.ontologia.*;
+import src.ontologia.actions.TirarDados;
+import src.ontologia.concepts.Orden;
 //import java.util.Collections;
 //import java.util.Comparator;
 import src.EstadoJuego.*;

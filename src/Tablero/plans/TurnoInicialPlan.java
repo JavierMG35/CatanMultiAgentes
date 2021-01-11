@@ -9,8 +9,8 @@ import jadex.runtime.Plan;
 import src.EstadoJuego.EstadoJuego;
 import src.Jugador.Jugador;
 import src.Tablero.Tablero;
+import src.ontologia.concepts.Orden;
 import src.Mapa.Mapa;
-import src.ontologia.Orden;
 
 public class TurnoInicialPlan extends Plan{
 	public void body()
@@ -18,7 +18,24 @@ public class TurnoInicialPlan extends Plan{
 		////////////////////////Creamos el mapa y declaramos el estado del juego Inicial
 		System.out.println("////////////////////////////////////////////////////////");
 		System.out.println("Creamos el mapa y declaramos el estado del juego Inicial");
-	
+	////Plan dados
+		///Evaluar dados
+			///Si es 7 
+					///Ladron (descarte y/o colocar(robas))
+			//No es 7 - Repartir recursos
+	//negociar
+		//negociar juigadores
+			//proponer
+			//recibir respuesta
+			//contraoferta
+		//negociar tablero - realizar
+	//o construir
+		//se selecciona tipo (carretera, poblado, ciudad)
+		//donde
+		//pagar recursos
+	//o comprar carta - realizar
+//fin turno
+
 		
 	
 		//////////////////////////////////////

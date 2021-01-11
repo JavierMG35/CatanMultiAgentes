@@ -1,11 +1,11 @@
 package src.Mapa;
 import java.util.ArrayList;
-import src.Tablero.Recurso;
 import java.util.List;
 import java.util.Random;
 
 import src.Mapa.Mapa;
 import src.Mapa.Node;
+import src.ontologia.concepts.Recurso;
 public class Casilla {
 	private List<Node> nodos_adyacentes;
 	private List<Edge> edges_adyacentes;

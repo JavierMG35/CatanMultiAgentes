@@ -1,4 +1,4 @@
-package src.ontologia;
+package src.ontologia.actions;
 import jadex.adapter.fipa.AgentAction;
 import src.Jugador.Jugador;
 

@@ -3,8 +3,7 @@ package src.Jugador;
 import jadex.adapter.fipa.*;
 import jadex.runtime.IMessageEvent;
 import jadex.runtime.Plan;
-import src.Tablero.Dados;
-//import jadex.util.SUtil;
+import src.ontologia.concepts.Dados;
 
 
 public class TirarDadosPlan extends Plan {

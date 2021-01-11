@@ -6,6 +6,7 @@ import jadex.runtime.IMessageEvent;
 import jadex.runtime.Plan;
 import jadex.adapter.fipa.SFipa;
 import src.ontologia.*;
+import src.ontologia.actions.Request_unirse_partida;
 
 public class Unirse_partida_Plan extends Plan {
 	public void body()

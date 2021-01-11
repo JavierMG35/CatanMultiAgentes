@@ -1,4 +1,4 @@
-package src.ontologia;
+package src.ontologia.concepts;
 
 import java.util.ArrayList;
 import src.Jugador.Jugador;

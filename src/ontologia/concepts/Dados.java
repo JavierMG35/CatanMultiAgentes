@@ -1,4 +1,4 @@
-package src.Tablero;
+package src.ontologia.concepts;
 
 import java.util.Random;
 

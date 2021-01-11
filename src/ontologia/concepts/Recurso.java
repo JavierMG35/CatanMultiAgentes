@@ -1,4 +1,4 @@
-package src.Tablero;
+package src.ontologia.concepts;
 
 public class Recurso {
 	
