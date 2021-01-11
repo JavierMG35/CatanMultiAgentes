@@ -25,6 +25,8 @@ public class TurnoInicialPlan extends Plan{
 		
 		
 		/////////////////////////////////
+		
+		//cada jugador coloca un poblado y una carretera por el orden de los turnos
 		for(int i=0;i< Orden.getNumeroJugadores();i++) {
 			
 			EstadoJuego EstadoJuego = (EstadoJuego)getBeliefbase().getBelief("EstadoJuego").getFact();
@@ -48,6 +50,33 @@ public class TurnoInicialPlan extends Plan{
 			EstadoJuego estado = new EstadoJuego((Mapa)respuesta.getContent());
 			getBeliefbase().getBelief("EstadoJuego").setFact(estado);
 		}
+		
+		//Ahora en el orden inverso
+		Orden.setTurno();
+		for(int i=Orden.getNumeroJugadores(); i>0 ;i--) {
+			
+			EstadoJuego EstadoJuego = (EstadoJuego)getBeliefbase().getBelief("EstadoJuego").getFact();
+			Mapa Mapa = EstadoJuego.getMapa();
+			System.out.println("////////////////////////////////////////////////////////");
+			//AgentDescription[] result =(AgentDescription[])busqueda.getParameterSet("result").getValues();
+			BasicAgentIdentifier AidAnterior = Orden.getAnterior_jugador().getAid();
+			
+			System.out.println("Aid anterior : "+ AidAnterior);
+			
+			
+			IMessageEvent mensaje_enviar = createMessageEvent("coloca_fichas_iniciales");
+			mensaje_enviar.getParameterSet(SFipa.RECEIVERS).addValue(AidAnterior);
+			mensaje_enviar.setContent(Mapa);
+			System.out.println("Mensaje enviado esperando respuesta");
+			
+			IMessageEvent	respuesta	= sendMessageAndWait(mensaje_enviar);
+			
+			System.out.println("Respuesta recibidas");
+			
+			EstadoJuego estado = new EstadoJuego((Mapa)respuesta.getContent());
+			getBeliefbase().getBelief("EstadoJuego").setFact(estado);
+		}
+		
 		System.out.println("Protocolo terminado.");
 		System.out.println("////////////////////////////////////////////////////////");
 		

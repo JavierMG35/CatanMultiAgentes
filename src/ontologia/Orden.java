@@ -9,6 +9,7 @@ public class Orden {
 	int turno;
 	int inicializada=0;
 	Jugador siguiente_jugador;
+	Jugador anterior_jugador;
 	
 	
 	
@@ -24,7 +25,27 @@ public class Orden {
 	public void setSiguiente_jugador(Jugador siguiente_jugador) {
 		this.siguiente_jugador = siguiente_jugador;
 	}
+	
+	public void setTurno() {
+		this.turno= jugadores.size();
+	}
+	
+	public int getTurno() {
+		return this.turno;
+	}
+	
+	public Jugador getAnterior_jugador() {
+		this.turno = this.turno - 1;
+		if(turno == -1) {
+			this.turno = jugadores.size();
+			return jugadores.get(jugadores.size());
+		}
+		else {return jugadores.get(this.turno);}
+	}
 
+	public void setAnterior_jugador(Jugador anterior_jugador) {
+		this.anterior_jugador = anterior_jugador;
+	}
 
 	public int getInicializada() {
 		return inicializada;
@@ -36,10 +57,6 @@ public class Orden {
 
 	public Orden() {
 		this.jugadores = new ArrayList<>();
-	}
-
-	public int getTurno() {
-		return turno;
 	}
 	
 	public boolean isEmpty() {
