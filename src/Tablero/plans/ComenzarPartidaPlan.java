@@ -3,6 +3,7 @@ package src.Tablero.plans;
 import jadex.runtime.*;
 
 
+
 import java.util.ArrayList;
 //import src.Jugador.*;
 //import jadex.util.SUtil;
@@ -12,8 +13,9 @@ import src.EstadoJuego.EstadoJuego;
 import src.Jugador.Jugador;
 import src.Mapa.Mapa;
 import src.ontologia.*;
-import java.util.Collections;
-import java.util.Comparator;
+//import java.util.Collections;
+//import java.util.Comparator;
+import src.EstadoJuego.*;
 
 public class ComenzarPartidaPlan extends Plan{
 	
@@ -90,8 +92,9 @@ public class ComenzarPartidaPlan extends Plan{
 		Lista.setTurno(0);
 		Lista.setSiguiente_jugador(Lista.getJugadores().get(0));
 		getBeliefbase().getBelief("orden").setFact(Lista);
+		EstadoJuego estadojuego = (EstadoJuego)getBeliefbase().getBelief("EstadoJuego").getFact();
 		
-		
+		estadojuego.setJugadores(Lista.getJugadores());
 		/////////////////////////Test para la lista orden
 		Orden check= (Orden)getBeliefbase().getBelief("orden").getFact();
 		System.out.println("jugador: "+ check.getJugadores().get(1).getNombre());

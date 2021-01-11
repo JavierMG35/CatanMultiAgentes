@@ -71,6 +71,8 @@ public class Tablero {
 		
 		/** The strategyname. */
 		protected String strategyname;
+		
+		protected int ready = 0;
 
 		/** The player's strategy. */
 		//protected IStrategy	strategy;
@@ -131,6 +133,12 @@ public class Tablero {
 		}
 		public void setState(String state) {
 			this.state = state;
+		}
+		public int getReady() {
+			return ready;
+		}
+		public void setReady(int ready) {
+			this.ready = ready;
 		}
 		
 		

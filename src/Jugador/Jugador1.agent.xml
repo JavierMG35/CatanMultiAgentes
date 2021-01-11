@@ -142,7 +142,7 @@
 			</parameter>
 			<parameter name="content-class" class="Class"
 				direction="fixed">
-				<value>src.Mapa.Mapa.class</value>
+				<value>src.EstadoJuego.EstadoJuego.class</value>
 			</parameter>
 		</messageevent>
 
@@ -156,7 +156,7 @@
 			</parameter>
 			<parameter name="content-class" class="Class"
 				direction="fixed">
-				<value>src.Mapa.Mapa.class</value>
+				<value>src.EstadoJuego.EstadoJuego.class</value>
 			</parameter>
 		</messageevent>
 

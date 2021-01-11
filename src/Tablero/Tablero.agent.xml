@@ -35,6 +35,7 @@
 
 		<beliefset name="jugador" class="src.Jugador.Jugador" />
 		<belief name="jugadores" class="int" />
+
 		<belief name="inicializado" class="int">
 			<fact>0</fact>
 		</belief>
@@ -79,6 +80,10 @@
 			<creationcondition>$beliefbase.orden!=null</creationcondition>
 		</performgoal>
 
+		<performgoal name="turno" >
+			<creationcondition>$beliefbase.inicializado &gt; 0
+			 </creationcondition>
+		</performgoal>
 
 	</goals>
 
@@ -101,6 +106,13 @@
 			<body class="src.Tablero.plans.TurnoInicialPlan" />
 			<trigger>
 				<goal ref="turno_inicial" />
+			</trigger>
+		</plan>
+
+		<plan name="turno_plan">
+			<body class="src.Tablero.plans.TurnoPlan" />
+			<trigger>
+				<goal ref="turno" />
 			</trigger>
 		</plan>
 
@@ -184,7 +196,7 @@
 			</parameter>
 			<parameter name="content-class" class="Class"
 				direction="fixed">
-				<value>src.Mapa.Mapa.class</value>
+				<value>src.EstadoJuego.EstadoJuego.class</value>
 			</parameter>
 		</messageevent>
 
@@ -199,7 +211,7 @@
 			</parameter>
 			<parameter name="content-class" class="Class"
 				direction="fixed">
-				<value>src.Mapa.Mapa.class</value>
+				<value>src.EstadoJuego.EstadoJuego.class</value>
 			</parameter>
 		</messageevent>
 

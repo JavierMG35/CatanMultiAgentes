@@ -81,8 +81,8 @@ public class Mapa {
 						listanodos.get(arista).setConstruccion(true);
 						listanodos.get(arista).setTipo("Poblado");
 						listanodos.get(arista).setDueño(dueño);
-						//dueño.getCartas().añadirRecurso(casilla.getRecurso());
-						//System.out.println(dueño.getCartas());
+						dueño.getCartas().añadirRecurso(casilla.getRecurso());
+						//System.out.println(dueño.getCartas().getTipoRecurso(recursos));
 						
 						pos = arista;
 						return listanodos.get(arista);

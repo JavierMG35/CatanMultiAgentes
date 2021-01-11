@@ -7,7 +7,9 @@ import jadex.runtime.IMessageEvent;
 import jadex.runtime.Plan;
 import src.Jugador.Jugador;
 import src.Mapa.Mapa;
+//import sun.jvm.hotspot.debugger.cdbg.ClosestSymbol;
 import src.Mapa.*;
+import src.EstadoJuego.*;
 
 
 public class ColocaFichasInicialesPlan extends Plan{
@@ -18,8 +20,14 @@ public class ColocaFichasInicialesPlan extends Plan{
 		IMessageEvent	request	= (IMessageEvent)getInitialEvent();
 		AgentIdentifier tablero = (AgentIdentifier) request.getParameter("sender").getValue();
 		System.out.println("Recibido mensaje de Tablero a Jugador");
-		Mapa  mapa = (Mapa)request.getContent();
+		EstadoJuego  estadojuego = (EstadoJuego)request.getContent();
+		Mapa mapa = estadojuego.getMapa();
 		Jugador	yo	= (Jugador)getBeliefbase().getBelief("myself").getFact();
+		//Jugador yoenestado = estadojuego.getMyself(yo);
+		System.out.println(yo.getNombre());
+		
+		
+		
 		boolean posible = false;
 		Node nodoPoblado= null;
 		//Generamos una posición aleatoria de inicio de las fichas
@@ -35,13 +43,15 @@ public class ColocaFichasInicialesPlan extends Plan{
 		/////Generamos una posicion para un camino aleatorio al lado del poblado puesto=?=?=??
 		posible = mapa.caminoInicial(mapa, nodoPoblado, yo);
 	
-	
+		estadojuego.setMyself(yo);
+		estadojuego.setMapa(mapa);
+		getBeliefbase().getBelief("myself").setFact(yo);
 		
 		//Mandamos el nuevo mapa.
 		//Jugador	yo	= (Jugador)getBeliefbase().getBelief("myself").getFact();
 		IMessageEvent mensaje_enviar = request.createReply("ficha_colocada");
 		//mensaje_enviar.getParameterSet(SFipa.RECEIVERS).addValue(tablero);
-		mensaje_enviar.setContent(mapa);
+		mensaje_enviar.setContent(estadojuego);
 	    sendMessage(mensaje_enviar);
 	    System.out.println("Mandado posicion inicial");
 		

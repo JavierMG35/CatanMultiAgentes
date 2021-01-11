@@ -7,7 +7,8 @@ import jadex.runtime.BasicAgentIdentifier;
 import jadex.runtime.IMessageEvent;
 import jadex.runtime.Plan;
 import src.EstadoJuego.EstadoJuego;
-//import src.Jugador.Jugador;
+import src.Jugador.Jugador;
+import src.Tablero.Tablero;
 import src.Mapa.Mapa;
 import src.ontologia.Orden;
 
@@ -30,7 +31,7 @@ public class TurnoInicialPlan extends Plan{
 		for(int i=0;i< Orden.getNumeroJugadores();i++) {
 			
 			EstadoJuego EstadoJuego = (EstadoJuego)getBeliefbase().getBelief("EstadoJuego").getFact();
-			Mapa Mapa = EstadoJuego.getMapa();
+			//Mapa Mapa = EstadoJuego.getMapa();
 			System.out.println("////////////////////////////////////////////////////////");
 			//AgentDescription[] result =(AgentDescription[])busqueda.getParameterSet("result").getValues();
 			BasicAgentIdentifier AidSiguiente = Orden.getSiguiente_jugador().getAid();
@@ -40,14 +41,14 @@ public class TurnoInicialPlan extends Plan{
 			
 			IMessageEvent mensaje_enviar = createMessageEvent("coloca_fichas_iniciales");
 			mensaje_enviar.getParameterSet(SFipa.RECEIVERS).addValue(AidSiguiente);
-			mensaje_enviar.setContent(Mapa);
+			mensaje_enviar.setContent(EstadoJuego);
 			System.out.println("Mensaje enviado esperando respuesta");
 			
 			IMessageEvent	respuesta	= sendMessageAndWait(mensaje_enviar);
 			
 			System.out.println("Respuesta recibidas");
 			
-			EstadoJuego estado = new EstadoJuego((Mapa)respuesta.getContent());
+			EstadoJuego estado = (EstadoJuego)respuesta.getContent();
 			getBeliefbase().getBelief("EstadoJuego").setFact(estado);
 		}
 		
@@ -56,7 +57,7 @@ public class TurnoInicialPlan extends Plan{
 		for(int i=Orden.getNumeroJugadores(); i>0 ;i--) {
 			
 			EstadoJuego EstadoJuego = (EstadoJuego)getBeliefbase().getBelief("EstadoJuego").getFact();
-			Mapa Mapa = EstadoJuego.getMapa();
+			//Mapa Mapa = EstadoJuego.getMapa();
 			System.out.println("////////////////////////////////////////////////////////");
 			//AgentDescription[] result =(AgentDescription[])busqueda.getParameterSet("result").getValues();
 			BasicAgentIdentifier AidAnterior = Orden.getAnterior_jugador().getAid();
@@ -66,19 +67,35 @@ public class TurnoInicialPlan extends Plan{
 			
 			IMessageEvent mensaje_enviar = createMessageEvent("coloca_fichas_iniciales");
 			mensaje_enviar.getParameterSet(SFipa.RECEIVERS).addValue(AidAnterior);
-			mensaje_enviar.setContent(Mapa);
+			mensaje_enviar.setContent(EstadoJuego);
 			System.out.println("Mensaje enviado esperando respuesta");
 			
 			IMessageEvent	respuesta	= sendMessageAndWait(mensaje_enviar);
 			
 			System.out.println("Respuesta recibidas");
 			
-			EstadoJuego estado = new EstadoJuego((Mapa)respuesta.getContent());
+			//EstadoJuego estado = new EstadoJuego((Mapa)respuesta.getContent());
+			EstadoJuego estado = (EstadoJuego)respuesta.getContent();
 			getBeliefbase().getBelief("EstadoJuego").setFact(estado);
 		}
-		
+		Jugador[] jugadores = (Jugador[])getBeliefbase().getBeliefSet("jugador").getFacts();
+		for(int i=0;i< Orden.getNumeroJugadores();i++) {
+			jugadores[i].setState(Jugador.STATE_PLAYING);
+			
+		}
+		Tablero yo = (Tablero)getBeliefbase().getBelief("myself").getFact();
+		int ini = 4;
+			getBeliefbase().getBelief("inicializado").setFact(ini);
+			/*System.out.println(yo.getState());
+			yo.setState(Tablero.STATE_PLAYING);
+			System.out.println(yo.getState());*/
+			Orden.setTurno(0);
+
+			getBeliefbase().getBelief("myself").setFact(yo);
+			getBeliefbase().getBelief("orden").setFact(Orden);
 		System.out.println("Protocolo terminado.");
 		System.out.println("////////////////////////////////////////////////////////");
+		
 		
 	}
 
