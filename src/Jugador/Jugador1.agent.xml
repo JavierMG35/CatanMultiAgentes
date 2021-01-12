@@ -67,8 +67,14 @@
 				<messageevent ref="coloca_fichas_iniciales" />
 			</trigger>
 		</plan>
-
-
+		
+		<plan name="ladron">
+			<body class="src.Jugador.Plan.Ladron" />
+			<trigger>
+				<messageevent ref="ladron_enviar" />
+			</trigger>
+		</plan>
+		
 	</plans>
 
 
@@ -158,10 +164,46 @@
 				direction="fixed">
 				<value>src.EstadoJuego.EstadoJuego.class</value>
 			</parameter>
+		</messageevent>	
+		
+		<!-- Escenario Ladron -->
+
+		<messageevent name="ladron_enviar" type="fipa"
+			direction="receive">
+			<parameter name="performative" class="String"
+				direction="fixed">
+				<value>SFipa.REQUEST</value>
+			</parameter>
+			<parameter name="language" class="String" direction="fixed">
+				<value>SFipa.NUGGETS_XML</value>
+			</parameter>
+			<parameter name="content-class" class="Class"
+				direction="fixed">
+				<value>src.EstadoJuego.EstadoJuego.class</value>
+			</parameter>
+			<parameter name="content" class="String"
+				direction="fixed">
+				<value>"EstadoJuegoLadron"</value>
+			</parameter>
 		</messageevent>
 
-
-
+		<!-- <messageevent name="ladron_recibir" type="fipa"
+			direction="send">
+			<parameter name="performative" class="String">
+				<value>SFipa.INFORM</value>
+			</parameter>
+			<parameter name="language" class="String" direction="fixed">
+				<value>SFipa.NUGGETS_XML</value>
+			</parameter>
+			<parameter name="content-class" class="Class"
+				direction="fixed">
+				<value>src.EstadoJuego.EstadoJuego.class</value>
+			</parameter>
+		</messageevent>	 -->
+		
+			<!-- Negociar -->
+		
+		
 	</events>
 
 	<configurations>

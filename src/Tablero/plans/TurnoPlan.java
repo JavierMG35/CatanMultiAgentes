@@ -9,7 +9,9 @@ import jadex.runtime.Plan;
 import src.EstadoJuego.EstadoJuego;
 import src.Jugador.Jugador;
 import src.Tablero.Tablero;
+import src.ontologia.actions.TirarDados;
 import src.ontologia.concepts.Orden;
+import src.Mapa.Dados;
 import src.Mapa.Mapa;
 
 public class TurnoPlan extends Plan{
@@ -24,27 +26,38 @@ public class TurnoPlan extends Plan{
 		Jugador[] jugadores = (Jugador[])getBeliefbase().getBeliefSet("jugador").getFacts();
 		Orden Orden = ((Orden)getBeliefbase().getBelief("orden").getFact());
 		for(int i=0;i< Orden.getNumeroJugadores();i++) {
-					////Plan dados    ///esto no está hecho, no hay nada aún
+				
 			EstadoJuego EstadoJuego = (EstadoJuego)getBeliefbase().getBelief("EstadoJuego").getFact();
 			BasicAgentIdentifier AidSiguiente = Orden.getSiguiente_jugador().getAid();			
-			System.out.println("Truno de siguiente : "+ AidSiguiente);
+			System.out.println("Turno de siguiente : "+ AidSiguiente);
 			
+			TirarDados tirardados = new TirarDados();
 			
-			IMessageEvent mensaje_enviar = createMessageEvent("tira_dados");
+			IMessageEvent mensaje_enviar = createMessageEvent("offer_tirar_dados");
 			mensaje_enviar.getParameterSet(SFipa.RECEIVERS).addValue(AidSiguiente);
-			mensaje_enviar.setContent(EstadoJuego);
+			mensaje_enviar.setContent(tirardados);
 			System.out.println("Petición dados enviado esperando respuesta");
 			
 			IMessageEvent	respuesta	= sendMessageAndWait(mensaje_enviar);
 			
 			System.out.println("Dados recibidos");
 			
-			EstadoJuego estado = (EstadoJuego)respuesta.getContent();
-			getBeliefbase().getBelief("EstadoJuego").setFact(estado);
-						///Evaluar dados
-							///Si es 7 
-									///Ladron (descarte y/o colocar(robas))
-							//No es 7 - Repartir recursos
+			Jugador dado = (Jugador)respuesta.getContent();
+			
+			System.out.println("Ha salido un" + dado.getTirada());
+			//EstadoJuego estado = (EstadoJuego)respuesta.getContent();
+			//getBeliefbase().getBelief("EstadoJuego").setFact(estado);
+			
+			if(dado.getTirada() == 7) {
+				IMessageEvent ladron_mensaje = createMessageEvent("ladron_enviar");
+				ladron_mensaje.getParameterSet(SFipa.RECEIVERS).addValue(AidSiguiente);
+				ladron_mensaje.setContent(EstadoJuego);
+				IMessageEvent	respuesta_ladron	= sendMessageAndWait(ladron_mensaje);
+			} else {
+				//No es 7 - Repartir recursos
+			}	
+			
+			
 					//negociar
 						//negociar juigadores
 							//proponer

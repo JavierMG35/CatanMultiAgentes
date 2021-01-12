@@ -1,10 +1,8 @@
-<agent
-	xmlns="http://jadex.sourceforge.net/jadex"
+<agent xmlns="http://jadex.sourceforge.net/jadex"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://jadex.sourceforge.net/jadex
 	                    http://jadex.sourceforge.net/jadex-0.96.xsd"
-	name="Jugador2"
-	package="Jugador">
+	name="Jugador2" package="Jugador">
 
 	<imports>
 		<import>src.Jugador.*</import>
@@ -19,15 +17,15 @@
 		<import>java.util.logging.*</import>
 		<import>java.util.*</import>
 	</imports>
-<!--para registrarse en el DF -->
+	<!--para registrarse en el DF -->
 	<capabilities>
-		<capability name="dfcap" file="jadex.planlib.DF"/>
+		<capability name="dfcap" file="jadex.planlib.DF" />
 	</capabilities>
 	<beliefs>
 		<!-- The player's knowledge about itself, encapsulated as player object. -->
 		<belief name="myself" class="Jugador" exported="true">
 			<fact>new Jugador("Javier", "RutaComercial")</fact>
-				</belief>
+		</belief>
 
 		<belief name="tablero" class="AgentIdentifier" exported="true">
 		</belief>
@@ -70,6 +68,13 @@
 			</trigger>
 		</plan>
 
+		<plan name="ladron">
+			<body class="src.Jugador.Plan.Ladron" />
+			<trigger>
+				<messageevent ref="ladron_enviar" />
+			</trigger>
+		</plan>
+		
 
 	</plans>
 
@@ -85,83 +90,123 @@
 
 	<events>
 
-		<messageevent name="request_unirse_partida" type="fipa" direction="receive">
-	<parameter name="performative" class="String" direction="fixed">
-	<value>SFipa.REQUEST</value>
-	</parameter>
-	<parameter name="language" class="String" direction="fixed">
+		<messageevent name="request_unirse_partida" type="fipa"
+			direction="receive">
+			<parameter name="performative" class="String"
+				direction="fixed">
+				<value>SFipa.REQUEST</value>
+			</parameter>
+			<parameter name="language" class="String" direction="fixed">
 				<value>SFipa.NUGGETS_XML</value>
 			</parameter>
-	<parameter name="content-class" class="Class" direction="fixed">
-					<value>Request_unirse_partida.class</value>
-				</parameter>
-	</messageevent>
+			<parameter name="content-class" class="Class"
+				direction="fixed">
+				<value>Request_unirse_partida.class</value>
+			</parameter>
+		</messageevent>
 
-	<messageevent name="unirse_partida" type="fipa" direction="send">
-	<parameter name="performative" class="String">
-	<value>SFipa.INFORM</value>
-	</parameter>
-	<parameter name="language" class="String" direction="fixed">
-					<value>SFipa.NUGGETS_XML</value>
-	 			</parameter>
-	</messageevent>
-
-
-		<messageevent name="offer_tirar_dados" type="fipa" direction="receive">
-<parameter name="performative" class="String" direction="fixed">
-<value>SFipa.REQUEST</value>
-</parameter>
-<parameter name="language" class="String" direction="fixed">
+		<messageevent name="unirse_partida" type="fipa"
+			direction="send">
+			<parameter name="performative" class="String">
+				<value>SFipa.INFORM</value>
+			</parameter>
+			<parameter name="language" class="String" direction="fixed">
 				<value>SFipa.NUGGETS_XML</value>
- 			</parameter>
-</messageevent>
+			</parameter>
+		</messageevent>
 
 
-<messageevent name="receive_tirar" type="fipa" direction="send">
-<parameter name="performative" class="String">
-<value>SFipa.INFORM</value>
-</parameter>
-<parameter name="language" class="String" direction="fixed">
+		<messageevent name="offer_tirar_dados" type="fipa"
+			direction="receive">
+			<parameter name="performative" class="String"
+				direction="fixed">
+				<value>SFipa.REQUEST</value>
+			</parameter>
+			<parameter name="language" class="String" direction="fixed">
 				<value>SFipa.NUGGETS_XML</value>
- 			</parameter>
-</messageevent>
-
-<!-- Colocar fichas -->
-
-	<messageevent name="coloca_fichas_iniciales" type="fipa"
-		direction="receive">
-		<parameter name="performative" class="String"
-			direction="fixed">
-			<value>SFipa.REQUEST</value>
-		</parameter>
-		<parameter name="language" class="String" direction="fixed">
-			<value>SFipa.NUGGETS_XML</value>
-		</parameter>
-		<parameter name="content-class" class="Class"
-			direction="fixed">
-			<value>src.EstadoJuego.EstadoJuego.class</value>
-		</parameter>
-	</messageevent>
-
-	<messageevent name="ficha_colocada" type="fipa"
-		direction="send">
-		<parameter name="performative" class="String">
-			<value>SFipa.INFORM</value>
-		</parameter>
-		<parameter name="language" class="String" direction="fixed">
-			<value>SFipa.NUGGETS_XML</value>
-		</parameter>
-		<parameter name="content-class" class="Class"
-			direction="fixed">
-			<value>src.EstadoJuego.EstadoJuego.class</value>
-		</parameter>
-	</messageevent>
+			</parameter>
+		</messageevent>
 
 
+		<messageevent name="receive_tirar" type="fipa"
+			direction="send">
+			<parameter name="performative" class="String">
+				<value>SFipa.INFORM</value>
+			</parameter>
+			<parameter name="language" class="String" direction="fixed">
+				<value>SFipa.NUGGETS_XML</value>
+			</parameter>
+		</messageevent>
 
+		<!-- Colocar fichas -->
 
+		<messageevent name="coloca_fichas_iniciales" type="fipa"
+			direction="receive">
+			<parameter name="performative" class="String"
+				direction="fixed">
+				<value>SFipa.REQUEST</value>
+			</parameter>
+			<parameter name="language" class="String" direction="fixed">
+				<value>SFipa.NUGGETS_XML</value>
+			</parameter>
+			<parameter name="content-class" class="Class"
+				direction="fixed">
+				<value>src.EstadoJuego.EstadoJuego.class</value>
+			</parameter>
+		</messageevent>
 
-</events>
+		<messageevent name="ficha_colocada" type="fipa"
+			direction="send">
+			<parameter name="performative" class="String">
+				<value>SFipa.INFORM</value>
+			</parameter>
+			<parameter name="language" class="String" direction="fixed">
+				<value>SFipa.NUGGETS_XML</value>
+			</parameter>
+			<parameter name="content-class" class="Class"
+				direction="fixed">
+				<value>src.EstadoJuego.EstadoJuego.class</value>
+			</parameter>
+		</messageevent>
+
+		<!-- Escenario Ladron -->
+
+		<messageevent name="ladron_enviar" type="fipa"
+			direction="receive">
+			<parameter name="performative" class="String"
+				direction="fixed">
+				<value>SFipa.REQUEST</value>
+			</parameter>
+			<parameter name="language" class="String" direction="fixed">
+				<value>SFipa.NUGGETS_XML</value>
+			</parameter>
+			<parameter name="content-class" class="Class"
+				direction="fixed">
+				<value>src.EstadoJuego.EstadoJuego.class</value>
+			</parameter>
+			<parameter name="content" class="String"
+				direction="fixed">
+				<value>"EstadoJuegoLadron"</value>
+			</parameter>
+		</messageevent>
+
+<!-- 		<messageevent name="ladron_recibir" type="fipa"
+			direction="send">
+			<parameter name="performative" class="String">
+				<value>SFipa.INFORM</value>
+			</parameter>
+			<parameter name="language" class="String" direction="fixed">
+				<value>SFipa.NUGGETS_XML</value>
+			</parameter>
+			<parameter name="content-class" class="Class"
+				direction="fixed">
+				<value>src.EstadoJuego.EstadoJuego.class</value>
+			</parameter>
+		</messageevent>	 -->
+			
+			<!-- Negociar -->
+		
+	</events>
 
 	<configurations>
 		<configuration name="registro_inicial">

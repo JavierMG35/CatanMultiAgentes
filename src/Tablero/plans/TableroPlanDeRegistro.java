@@ -2,10 +2,11 @@ package src.Tablero.plans;
 
 import jadex.runtime.*;
 import src.ontologia.*;
-import src.ontologia.actions.Request_unirse_partida;
 import jadex.util.SUtil;
 import jadex.adapter.fipa.*;
 import src.Jugador.Jugador;
+import src.Jugador.Request_unirse_partida;
+
 import java.util.ArrayList;
 import java.util.List;
 

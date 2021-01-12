@@ -1,6 +1,5 @@
-package src.ontologia.actions;
+package src.Jugador;
 import jadex.adapter.fipa.AgentAction;
-import src.Jugador.Jugador;
 
 public class Request_unirse_partida extends AgentAction{
 	/*

@@ -44,7 +44,7 @@
 		<belief name="playerwaitmillis" class="long">
 			<fact>(Integer)$propertybase.getProperty("standard.timeout")</fact>
 		</belief>
-		<belief name="orden" class="src.ontologia.Orden">
+		<belief name="orden" class="src.ontologia.concepts.Orden">
 		</belief>
 
 	</beliefs>
@@ -214,9 +214,45 @@
 				<value>src.EstadoJuego.EstadoJuego.class</value>
 			</parameter>
 		</messageevent>
+		
+		<!-- Escenario Ladron -->
 
-
-
+		<messageevent name="ladron_enviar" type="fipa"
+			direction="send">
+			<parameter name="performative" class="String">
+				<value>SFipa.REQUEST</value>
+			</parameter>
+			<parameter name="conversation-id" class="String">
+				<value>SFipa.createUniqueId($scope.getAgentName())</value>
+			</parameter>
+			<parameter name="language" class="String" direction="fixed">
+				<value>SFipa.NUGGETS_XML</value>
+			</parameter>
+			<parameter name="content-class" class="Class"
+				direction="fixed">
+				<value>src.EstadoJuego.EstadoJuego.class</value>
+			</parameter>
+			<parameter name="content" class="String"
+				direction="fixed">
+				<value>"EstadoJuegoLadron"</value>
+			</parameter>
+		</messageevent>
+		
+<!-- 		<messageevent name="ladron_recibir" type="fipa"
+			direction="receive">
+			<parameter name="performative" class="String"
+				direction="fixed">
+				<value>SFipa.INFORM</value>
+			</parameter>
+			<parameter name="language" class="String" direction="fixed">
+				<value>SFipa.NUGGETS_XML</value>
+			</parameter>
+			<parameter name="content-class" class="Class"
+				direction="fixed">
+				<value>src.EstadoJuego.EstadoJuego.class</value>
+			</parameter>
+		</messageevent> -->
+		
 	</events>
 
 
