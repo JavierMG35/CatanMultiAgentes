@@ -1,5 +1,7 @@
 package src.Tablero.plans;
 
+import java.util.List;
+
 //import jadex.adapter.fipa.AgentDescription;
 //import jadex.adapter.fipa.AgentIdentifier;
 import jadex.adapter.fipa.SFipa;
@@ -10,7 +12,9 @@ import src.EstadoJuego.EstadoJuego;
 import src.Jugador.Jugador;
 import src.Tablero.Tablero;
 import src.ontologia.concepts.Orden;
+import src.Mapa.Casilla;
 import src.Mapa.Mapa;
+import src.Mapa.Node;
 
 public class TurnoInicialPlan extends Plan{
 	public void body()
@@ -94,6 +98,22 @@ public class TurnoInicialPlan extends Plan{
 			//EstadoJuego estado = new EstadoJuego((Mapa)respuesta.getContent());
 			EstadoJuego estado = (EstadoJuego)respuesta.getContent();
 			getBeliefbase().getBelief("EstadoJuego").setFact(estado);
+			
+			
+			
+			//BUCLE DE NODOS
+			List<Casilla> casilleo = estado.getMapa().getCasillas();
+			for (int i2 = 0; i2 < estado.getMapa().getCasillas().size(); i2++) {
+				
+				Casilla casi = casilleo.get(i2);
+				for (int j = 0; j < casi.getAdyacentes().size(); j++) {
+					Node nodo = casi.getAdyacentes().get(j);
+					if ( nodo.isOcupado()) System.out.println("Nodo ocupado!!");
+				}
+			}
+			//BUCLE DE NODOS
+			
+			
 		}
 		Jugador[] jugadores = (Jugador[])getBeliefbase().getBeliefSet("jugador").getFacts();
 		for(int i=0;i< Orden.getNumeroJugadores();i++) {

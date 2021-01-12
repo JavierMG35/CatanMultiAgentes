@@ -14,6 +14,7 @@ public class Node {
 	private List<Edge> edges= new ArrayList<>();
 	private int pos_x;
 	private int pos_y;
+	private boolean ocupado = false;
 	
 	public Node(){
 	}
@@ -84,7 +85,17 @@ public class Node {
 	}
 	public void setDueño(Jugador dueño) {
 		this.dueño = dueño;
+		this.ocupado = true;
+		System.out.println("ocupamos un nodo");
+		System.out.println(dueño.getNombre());
 	}
+	public boolean isOcupado() {
+		return ocupado;
+	}
+	public void setOcupado(boolean ocupado) {
+		this.ocupado = ocupado;
+	}
+	
 	
 }
 

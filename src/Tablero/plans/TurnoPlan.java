@@ -7,12 +7,18 @@ import jadex.runtime.BasicAgentIdentifier;
 import jadex.runtime.IMessageEvent;
 import jadex.runtime.Plan;
 import src.EstadoJuego.EstadoJuego;
+import src.Jugador.Cartas;
 import src.Jugador.Jugador;
 import src.Tablero.Tablero;
 import src.ontologia.actions.TirarDados;
 import src.ontologia.concepts.Orden;
+import src.ontologia.concepts.Recurso;
 import src.Mapa.Dados;
 import src.Mapa.Mapa;
+import src.Mapa.Casilla;
+import src.Mapa.Node;
+import java.util.List;
+import java.util.ArrayList;
 
 public class TurnoPlan extends Plan{
 	public void body()
@@ -42,18 +48,56 @@ public class TurnoPlan extends Plan{
 			
 			System.out.println("Dados recibidos");
 			
-			Jugador dado = (Jugador)respuesta.getContent();
+			Jugador jugador = (Jugador)respuesta.getContent();
 			
-			System.out.println("Ha salido un" + dado.getTirada());
+			System.out.println("Ha salido un " + jugador.getTirada());
 			//EstadoJuego estado = (EstadoJuego)respuesta.getContent();
 			//getBeliefbase().getBelief("EstadoJuego").setFact(estado);
 			
-			if(dado.getTirada() == 7) {
+			if(jugador.getTirada() == 13) {
 				IMessageEvent ladron_mensaje = createMessageEvent("ladron_enviar");
 				ladron_mensaje.getParameterSet(SFipa.RECEIVERS).addValue(AidSiguiente);
 				ladron_mensaje.setContent(EstadoJuego);
 				IMessageEvent	respuesta_ladron	= sendMessageAndWait(ladron_mensaje);
+			
+			
 			} else {
+			
+				
+				Mapa mapa = EstadoJuego.getMapa();
+				List<Casilla> casillas = mapa.getCasillas();
+				System.out.println("Repartir recursos");
+				
+				List<Casilla> casilleo = mapa.getCasillas();
+				for (int i2 = 0; i2 < mapa.getCasillas().size(); i2++) {
+					
+					Casilla casi = casilleo.get(i2);
+					for (int j = 0; j < casi.getAdyacentes().size(); j++) {
+						Node nodo = casi.getAdyacentes().get(j);
+						if ( nodo.isOcupado()) System.out.println("Nodo ocupado!!");
+					}
+				}
+				//Recorremos las casillas
+				for (int j = 0; j < casillas.size(); j++) {
+					Casilla casilla = casillas.get(j);
+
+					if(casilla.getValor() == jugador.getTirada()) {
+						Recurso recurso_casilla = casilla.getRecurso();
+						List<Node> nodos = casilla.getAdyacentes();
+
+						for (int k = 0; k < nodos.size(); k++) {
+							Node nodo = nodos.get(k);
+							System.out.println("llego");
+							if(nodo.isOcupado()) {
+								Jugador player = nodo.getDueño();
+								//Añadimos un recurso
+								Cartas cartas = player.getCartas();
+								cartas.añadirRecurso(recurso_casilla);
+								System.out.println("Se reparte el recurso " +recurso_casilla.getTipo()+" al jugador "+player.getNombre());
+							}
+						}
+					}
+				}
 				//No es 7 - Repartir recursos
 			}	
 			
@@ -72,6 +116,7 @@ public class TurnoPlan extends Plan{
 				//fin turno
 
 				
+		//ACTUALIZAR EL ESTADO DE JUEGO
 		}
 		
 		
