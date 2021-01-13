@@ -29,8 +29,8 @@ public class TurnoPlan extends Plan{
 		for(int i=0;i< Orden.getJugadores().size();i++) {
 				
 			EstadoJuego EstadoJuego = (EstadoJuego)getBeliefbase().getBelief("EstadoJuego").getFact();
-			BasicAgentIdentifier AidSiguiente = Orden.getSiguiente_jugador().getAid();		
-			Orden.setSiguiente_jugador(Orden.getJugadores().get(i));
+			BasicAgentIdentifier AidSiguiente = Orden.getJugadores().get(i).getAid();		
+			
 			
 			System.out.println("Turno de siguiente : "+ AidSiguiente);
 			
@@ -71,7 +71,7 @@ public class TurnoPlan extends Plan{
 					Casilla casi = casilleo.get(i2);
 					for (int j = 0; j < casi.getAdyacentes().size(); j++) {
 						Node nodo = casi.getAdyacentes().get(j);
-						if ( nodo.isOcupado()) System.out.println("Nodo ocupado!!");
+						//if ( nodo.isOcupado()) System.out.println("Nodo ocupado!!");
 					}
 				}
 				//Recorremos las casillas
@@ -95,6 +95,37 @@ public class TurnoPlan extends Plan{
 						}
 					}
 				}
+				
+				
+				//////////////////////////////////////////////////////////////////////////////////////////////////
+				////////////////////////////Comerciar con el banco////////////////////////////////////////////////
+				//////////////////////////////////////////////////////////////////////////////////////////////////
+				System.out.println("////////////////////////////////////////////////////////////////////////////");
+				System.out.println("****************************Comercio con el banco**************************");
+				System.out.println("////////////////////////////////////////////////////////////////////////////");
+				AidSiguiente = Orden.getJugadores().get(i).getAid();;		
+				IMessageEvent mensaje_comercio_banco = createMessageEvent("offer_comercio_banco");
+				mensaje_comercio_banco.getParameterSet(SFipa.RECEIVERS).addValue(AidSiguiente);
+				
+				mensaje_comercio_banco.setContent(new OfertaComercio(EstadoJuego));
+				System.out.println("Notifico de la fase de comercio a: "+Orden.getSiguiente_jugador().getNombre());
+				IMessageEvent	respuestacomerciarbanco	= sendMessageAndWait(mensaje_comercio_banco);
+				///////oferta ="desado"+"ofrecido"				
+								
+				OfertaJugadorBanca oferta_jugador_banca = (OfertaJugadorBanca) respuestacomerciarbanco.getContent();
+				String[] oferta=oferta_jugador_banca.getOferta();
+				System.out.println("El jugador cambia" +oferta[1]+ " por "+oferta[0]);
+				if (oferta[0]!=null && oferta[1]!=null) {
+					for (int j = 0; j < 3; j++) {EstadoJuego.getJugadores().get(i).getCartas().removeRecurso(new Recurso(oferta[1]));}
+					EstadoJuego.getJugadores().get(i).getCartas().setRecurso(new Recurso(oferta[0]));
+				}
+				System.out.println("////////////////////////////////////////////////////////////////////////////");
+				System.out.println("***************************Fin comrecio con el banco************************");
+				System.out.println("////////////////////////////////////////////////////////////////////////////");
+				////////////////////////////////////////////////////////////////////////////////////////////////////
+				
+				
+				
 				//No es 7 - Repartir recursos
 			}	
 			

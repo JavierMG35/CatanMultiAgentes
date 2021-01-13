@@ -88,8 +88,8 @@ public class Node {
 	public void setDueño(Jugador dueño) {
 		this.dueño = dueño;
 		this.ocupado = true;
-		System.out.println("ocupamos un nodo");
-		System.out.println(dueño.getNombre());
+		//System.out.println("ocupamos un nodo");
+		//System.out.println(dueño.getNombre());
 	}
 	public boolean isOcupado() {
 		return ocupado;

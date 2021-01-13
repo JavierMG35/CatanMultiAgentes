@@ -50,6 +50,21 @@ public class Cartas {
 		} 
 	}
 	
+	public void removeRecurso(Recurso recurso) {
+		 switch(recurso.getTipo()) {
+	     case "Lana":
+	       this.lana.remove(lana.size());
+	     case "Madera":
+	         this.madera.remove(madera.size());
+	     case "Piedra":
+	         this.piedra.remove(piedra.size());
+	     case "Arcilla":
+	          this.arcilla.remove(arcilla.size());
+	     case  "Paja":
+	          this.paja.remove(paja.size());
+		 }
+	   } 
+	
 	public List<Recurso> getRecurso(Recurso recurso) {
 
         switch(recurso.getTipo()) {

@@ -62,7 +62,7 @@ public class TurnoInicialPlan extends Plan{
 			//EstadoJuego.getMapa().getCasillas().get(3).getAdyacentes().get(3).setOcupado(true);
 			
 			System.out.println("---------------------------Turno Inicial Plan antes de que se envie al jugador----------------------");
-			EstadoJuego.getMapa().printMapa();
+			//EstadoJuego.getMapa().printMapa();
 			//Mapa Mapa = EstadoJuego.getMapa();
 			System.out.println("////////////////////////////////////////////////////////");
 			//AgentDescription[] result =(AgentDescription[])busqueda.getParameterSet("result").getValues();
@@ -83,7 +83,7 @@ public class TurnoInicialPlan extends Plan{
 			getBeliefbase().getBelief("EstadoJuego").setFact(estado);
 
 			System.out.println("-----------------el tablero tiene este mapa despues de que el jugador lo envie----------------");
-			estado.getMapa().printMapa();
+			//estado.getMapa().printMapa();
 			System.out.println("---------------------------------------------------------");
 		}
 		

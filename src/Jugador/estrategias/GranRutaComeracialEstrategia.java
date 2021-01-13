@@ -19,6 +19,7 @@ public class GranRutaComeracialEstrategia extends AbstractEstrategias {
 	@Override
 	public Recurso propuestaNegociarJugadorRecibir(Jugador yo) {
 		Cartas cartas = yo.getCartas();
+		String dflaksjdfñlsdj;
 		boolean necesito_arcilla = false;
 		boolean necesito_madera = false;
 		List<Cartas> lana = cartas.getLana();
@@ -44,6 +45,7 @@ public class GranRutaComeracialEstrategia extends AbstractEstrategias {
 	}
 	
 	public  List<Recurso> propuestaNegociarJugadorOfrecer(Jugador yo) {
+		
 		Cartas cartas = yo.getCartas();
 		List<Cartas> lana = cartas.getLana();
 		List<Cartas> madera = cartas.getMadera();

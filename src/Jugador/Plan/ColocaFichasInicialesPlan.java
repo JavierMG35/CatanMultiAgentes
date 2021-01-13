@@ -47,9 +47,9 @@ public class ColocaFichasInicialesPlan extends Plan{
 		estadojuego=yo.setMyself(estadojuego);
 		estadojuego.setMapa(mapa);
 
-		System.out.println("-----------------el estado del jugador tiene este mapa----------------");
+		//System.out.println("-----------------el estado del jugador tiene este mapa----------------");
 		//estadojuego.getMapa().printMapa();
-		System.out.println("---------------------------------------------------------");
+		//System.out.println("---------------------------------------------------------");
 		
 		getBeliefbase().getBelief("myself").setFact(yo);
 		//BUCLE DE NODOS
@@ -63,8 +63,8 @@ public class ColocaFichasInicialesPlan extends Plan{
 		mensaje_enviar.getParameter(SFipa.CONTENT).setValue(estadojuego);
 		//mensaje_enviar.setContent(estadojuego);
 		EstadoJuego mensaje=(EstadoJuego) mensaje_enviar.getParameter(SFipa.CONTENT).getValue();
-		System.out.println("-----------------el mensaje que envia el jugador tiene este mapa----------------");
-		mensaje.getMapa().printMapa();
+		//System.out.println("-----------------el mensaje que envia el jugador tiene este mapa----------------");
+		//mensaje.getMapa().printMapa();
 	    sendMessage(mensaje_enviar);
 	    System.out.println("Mandado posicion inicial al tablero");
 		

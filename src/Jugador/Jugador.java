@@ -1,6 +1,7 @@
 package src.Jugador;
 
 import jadex.adapter.fipa.AgentIdentifier;
+import jadex.examples.blackjack.player.strategies.AbstractStrategy;
 import jadex.model.jibximpl.Agent;
 //import jadex.examples.blackjack.player.strategies.IStrategy;
 //import jadex.examples.blackjack.player.strategies.*;
@@ -50,7 +51,7 @@ public class Jugador extends Agent{
 				this.nombre	= nombre;
 				this.strategyname = strategyname;
 				//if(strategyname!=null)
-				//	this.strategy	= AbstractStrategy.getStrategy(strategyname);
+				//this.strategy	= AbstractStrategy.getStrategy(strategyname);
 				this.state	= STATE_UNREGISTERED;
 				this.pcs = new SimplePropertyChangeSupport(this);
 			}

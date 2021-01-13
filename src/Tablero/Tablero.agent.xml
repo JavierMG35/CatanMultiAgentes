@@ -185,6 +185,36 @@
 			<match>$content instanceof src.ontologia.concepts.Dados</match>	
 		</messageevent>
 
+<!-- Comerciar Banco -->
+
+<messageevent name="offer_comercio_banco" type="fipa"
+			direction="send">
+			<parameter name="performative" class="String">
+				<value>SFipa.REQUEST</value>
+			</parameter>
+			<parameter name="conversation-id" class="String">
+				<value>SFipa.createUniqueId($scope.getAgentName())</value>
+			</parameter>
+			<parameter name="language" class="String" direction="fixed">
+				<value>SFipa.NUGGETS_XML</value>
+			</parameter>
+			
+		</messageevent>
+
+ 		<messageevent name="oferta_comercio_banco" type="fipa"
+			direction="receive">
+			<parameter name="performative" class="String"
+				direction="fixed">
+				<value>SFipa.INFORM</value>
+			</parameter>
+			<parameter name="language" class="String" direction="fixed">
+				<value>SFipa.NUGGETS_XML</value>
+			</parameter>
+			 <match>$content instanceof src.ontologia.concepts.OfertaJugadorBanca</match>	
+		</messageevent>
+
+
+
 	<!-- Colocar fichas -->
 
 		<messageevent name="coloca_fichas_iniciales" type="fipa"

@@ -6,6 +6,7 @@ C:\Users\victo\Downloads\Git\CatanMultiAgentes\src\Jugador\estrategias\AbstractE
 C:\Users\victo\Downloads\Git\CatanMultiAgentes\src\Jugador\estrategias\CosmopolitaEstrategia.java
 C:\Users\victo\Downloads\Git\CatanMultiAgentes\src\Jugador\estrategias\GranRutaComeracialEstrategia.java
 C:\Users\victo\Downloads\Git\CatanMultiAgentes\src\Jugador\estrategias\IEstrategia.java
+C:\Users\victo\Downloads\Git\CatanMultiAgentes\src\Jugador\Plan\CambiarRecursosConBancaPlan.java
 C:\Users\victo\Downloads\Git\CatanMultiAgentes\src\Jugador\Plan\ColocaFichasInicialesPlan.java
 C:\Users\victo\Downloads\Git\CatanMultiAgentes\src\Jugador\Plan\Ladron.java
 C:\Users\victo\Downloads\Git\CatanMultiAgentes\src\Jugador\Plan\NegociarJugadoresPlan.java
@@ -26,6 +27,8 @@ C:\Users\victo\Downloads\Git\CatanMultiAgentes\src\ontologia\concepts\Construcci
 C:\Users\victo\Downloads\Git\CatanMultiAgentes\src\ontologia\concepts\Dados.java
 C:\Users\victo\Downloads\Git\CatanMultiAgentes\src\ontologia\concepts\EstadoJuego.java
 C:\Users\victo\Downloads\Git\CatanMultiAgentes\src\ontologia\concepts\Mapa.java
+C:\Users\victo\Downloads\Git\CatanMultiAgentes\src\ontologia\concepts\OfertaComercio.java
+C:\Users\victo\Downloads\Git\CatanMultiAgentes\src\ontologia\concepts\OfertaJugadorBanca.java
 C:\Users\victo\Downloads\Git\CatanMultiAgentes\src\ontologia\concepts\Orden.java
 C:\Users\victo\Downloads\Git\CatanMultiAgentes\src\ontologia\concepts\Recurso.java
 C:\Users\victo\Downloads\Git\CatanMultiAgentes\src\Tablero\Tablero.java

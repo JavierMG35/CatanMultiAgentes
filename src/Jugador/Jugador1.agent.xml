@@ -56,6 +56,15 @@
 				<messageevent ref="offer_tirar_dados" />
 			</trigger>
 		</plan>
+		
+		
+		<plan name="Cambiar_recursos_con_banca">
+			<body class="src.Jugador.Plan.CambiarRecursosConBancaPlan" />
+			<trigger>
+				<messageevent ref="offer_comercio_banco" />
+			</trigger>
+		</plan>
+		
 		<plan name="Unirse_partida">
 			<body class="src.Jugador.Plan.Unirse_partida_Plan" />
 			<trigger>
@@ -164,6 +173,58 @@
 				<value>SFipa.createUniqueId($scope.getAgentName())</value>
 			</parameter>
 		</messageevent>	
+		
+		
+		
+		
+		
+		<!-- Comerciar Banco -->
+
+		<messageevent name="offer_comercio_banco" type="fipa"
+			direction="receive">
+			<parameter name="performative" class="String"
+				direction="fixed">
+				<value>SFipa.REQUEST</value>
+			</parameter>
+			<parameter name="language" class="String" direction="fixed">
+				<value>SFipa.NUGGETS_XML</value>
+			</parameter>
+			<match>$content instanceof src.ontologia.concepts.OfertaComercio</match>
+		</messageevent>
+
+		<messageevent name="oferta_comercio_banco" type="fipa"
+			direction="send">
+			<parameter name="performative" class="String">
+				<value>SFipa.INFORM</value>
+			</parameter>
+			
+			<parameter name="language" class="String" direction="fixed">
+				<value>SFipa.NUGGETS_XML</value>
+			</parameter>
+			<parameter name="conversation-id" class="String">
+				<value>SFipa.createUniqueId($scope.getAgentName())</value>
+			</parameter>	
+		</messageevent>	
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 		
 		<!-- Escenario Ladron -->
 
