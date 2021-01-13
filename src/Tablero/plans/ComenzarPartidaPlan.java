@@ -9,15 +9,13 @@ import java.util.ArrayList;
 //import jadex.util.SUtil;
 import java.util.List;
 import jadex.adapter.fipa.*;
-import src.EstadoJuego.EstadoJuego;
 import src.Jugador.Jugador;
-import src.Mapa.Mapa;
 import src.ontologia.*;
 import src.ontologia.actions.TirarDados;
+import src.ontologia.concepts.Dados;
+import src.ontologia.concepts.EstadoJuego;
+import src.ontologia.concepts.Mapa;
 import src.ontologia.concepts.Orden;
-//import java.util.Collections;
-//import java.util.Comparator;
-import src.EstadoJuego.*;
 
 public class ComenzarPartidaPlan extends Plan{
 	
@@ -28,7 +26,7 @@ public class ComenzarPartidaPlan extends Plan{
 	
 	
 	public void body() {
-		
+		System.out.println("comenzar partida plan");		
 		Orden Lista = new Orden();
 		int[] lista2;
 		int minimo = 13;
@@ -36,8 +34,16 @@ public class ComenzarPartidaPlan extends Plan{
 		Mapa Mapa = new Mapa();
 		EstadoJuego EstadoJuego = new EstadoJuego(Mapa);
 		getBeliefbase().getBelief("EstadoJuego").setFact(EstadoJuego);
+		try {
+			Thread.sleep(5*1000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		System.out.println("---------------------------Comenzar Partida Plan----------------------");
+		Mapa.printMapa();
 		///////////////////////Buscamos los jugadores en el df
-		
+	/*	
 		this.timeout = ((Number)getBeliefbase().getBelief("playerwaitmillis").getFact()).longValue();
 		System.out.println("Comienza el juego");	
 		ServiceDescription sd = new ServiceDescription();
@@ -51,31 +57,37 @@ public class ComenzarPartidaPlan extends Plan{
 		busqueda.getParameter("description").setValue(adesc);
 		busqueda.getParameter("constraints").setValue(sc);
 		dispatchSubgoalAndWait(busqueda);
-		AgentDescription[] result =(AgentDescription[])busqueda.getParameterSet("result").getValues();
+		*/
+		//AgentDescription[] result =(AgentDescription[])busqueda.getParameterSet("result").getValues();
+		
+		
+	
 		
 		/////////////////////////////////////////////////////////
 		
-		Jugador[]  jugadores	= new Jugador[result.length];
+		Jugador[]  jugadores	= (Jugador[])getBeliefbase().getBeliefSet("jugador").getFacts();
+		System.out.println("mi name est "+ jugadores[0].getName());
 		List<Integer> valores = new ArrayList<>();
 		TirarDados tirardados = new TirarDados();
-		for(int i=0;i< result.length;i++) {
+		for(int i=0;i< jugadores.length;i++) {
 			IMessageEvent mensaje_enviar = createMessageEvent("offer_tirar_dados");
-			mensaje_enviar.getParameterSet(SFipa.RECEIVERS).addValue(result[i].getName());
+			mensaje_enviar.getParameterSet(SFipa.RECEIVERS).addValue(jugadores[i].getAid());
 			mensaje_enviar.setContent(tirardados);
 			IMessageEvent	respuesta	= sendMessageAndWait(mensaje_enviar);		
-			Jugador player = (Jugador)respuesta.getContent();
-			System.out.println("El jugador: "+ player.getNombre()+" saca un : "+player.getTirada() + " Aid : "+ player.getAid());
+			Dados dados = (Dados)respuesta.getContent();
+			System.out.println(dados.getId()+"este es el ide de los dados al comenzar la partida");
+			jugadores[i].setTirada(dados.getDados());
+			System.out.println("El jugador: "+jugadores[i].getNombre() +" saca un : "+dados.getDados() + " Aid : "+ jugadores[i].getAid());
 			System.out.println(respuesta);
-			player.setAgentID((AgentIdentifier)respuesta.getParameter("sender").getValue());
-			jugadores[i] = player;
-			valores.add(player.getTirada());
+			jugadores[i].setAgentID((AgentIdentifier)respuesta.getParameter("sender").getValue());
+			valores.add(dados.getDados());
 		}
 		
 
 		//////////////////////////////////////////////////////////
 				
 		Jugador[]  jugadores2	= jugadores;		
-		lista2 = new int[result.length];
+		lista2 = new int[jugadores.length];
 		
 		for( int j =0; j<jugadores.length;j++) {
 			for (int i=0;i<jugadores.length;i++) {
@@ -89,9 +101,12 @@ public class ComenzarPartidaPlan extends Plan{
 			minimo=13;
 		}
 		
-		for(int i = jugadores2.length-1; i>=0;i--) {Lista.addJugador(jugadores[lista2[i]]);	}
+		for(int i = jugadores2.length-1; i>=0;i--) {Lista.getJugadores().add(jugadores2[lista2[i]]);	}
 
-		Lista.setTurno(0);
+		
+		
+		
+		
 		Lista.setSiguiente_jugador(Lista.getJugadores().get(0));
 		getBeliefbase().getBelief("orden").setFact(Lista);
 		EstadoJuego estadojuego = (EstadoJuego)getBeliefbase().getBelief("EstadoJuego").getFact();

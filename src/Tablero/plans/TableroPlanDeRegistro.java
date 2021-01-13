@@ -2,10 +2,11 @@ package src.Tablero.plans;
 
 import jadex.runtime.*;
 import src.ontologia.*;
+import src.ontologia.actions.Request_unirse_partida;
+import sun.security.krb5.internal.ReplayCache;
 import jadex.util.SUtil;
 import jadex.adapter.fipa.*;
 import src.Jugador.Jugador;
-import src.Jugador.Request_unirse_partida;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,13 +45,17 @@ public class TableroPlanDeRegistro extends Plan{
 			IMessageEvent	reply	= sendMessageAndWait(msg);
 			//Jugador jugador = new Jugador();
 			//Request_unirse_partida rj = (Request_unirse_partida)reply.getContent();
-			Jugador rj = (Jugador)reply.getContent();
-			jugadores[i] = rj;
-			System.out.println(rj.getNombre());		
+			Request_unirse_partida rj = (Request_unirse_partida)reply.getContent();
+			jugadores[i] = rj.getJugador();
+			System.out.println("Mi grupo es ----------------------------"+rj.getJugador().getComoquieras().getGrupo());
+			jugadores[i].setAgentID((AgentIdentifier)reply.getParameter("sender").getValue());
+			//jugadores[i].setName(reply.getParameter("sender").getValue().toString());
+			//System.out.println("el request contiene: "+ reply.getParameter("sender").getValue()+" "+rj.getJugador().getAid().getName());
+			System.out.println(rj.getJugador().getNombre());		
 
 		
 		}
-
+		System.out.println("el nombre del plan de registro: "+jugadores[0].getName());
 		getBeliefbase().getBeliefSet("jugador").addFacts(jugadores);
 		getBeliefbase().getBelief("jugadores").setFact(numero_jugadores);
 	}

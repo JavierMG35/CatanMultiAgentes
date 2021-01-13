@@ -1,8 +1,7 @@
-package src.Jugador;
+package src.ontologia.concepts;
 
 import java.util.*;
 import src.Mapa.Edge;
-import src.ontologia.concepts.Recurso;
 
 
 public class Cartas {
@@ -13,11 +12,19 @@ public class Cartas {
 	protected List<Recurso> piedra;
 	protected List<Recurso> paja;
 	protected List<Recurso> cartas_desarrollo;
+	
+	
 	public Cartas() {
-		
+		lana = new ArrayList<>();
+		madera = new ArrayList<>();
+		arcilla = new ArrayList<>();
+		piedra = new ArrayList<>();
+		paja = new ArrayList<>();
 	}
 	
-	public void añadirRecurso(Recurso recurso) {
+	
+	
+	public void setRecurso(Recurso recurso) {
 		
 		switch(recurso.getTipo()) {
 		  case "Lana":
@@ -43,43 +50,85 @@ public class Cartas {
 		} 
 	}
 	
+	public List<Recurso> getRecurso(Recurso recurso) {
+
+        switch(recurso.getTipo()) {
+          case "Lana":
+            return this.lana;
+
+          case "Madera":
+              return this.madera;
+          case "Piedra":
+              return this.piedra;
+          case "Arcilla":
+              return this.arcilla;
+          case  "Paja":
+              return this.paja;
+        } 
+        return null;
+    }
+	
+	public void setLana(List<Recurso> lana) {
+		this.lana = lana;
+	}
+
+
+
+	public void setMadera(List<Recurso> madera) {
+		this.madera = madera;
+	}
+
+
+
+	public void setArcilla(List<Recurso> arcilla) {
+		this.arcilla = arcilla;
+	}
+
+
+
+	public void setPiedra(List<Recurso> piedra) {
+		this.piedra = piedra;
+	}
+
+
+
+	public void setPaja(List<Recurso> paja) {
+		this.paja = paja;
+	}
+
+
+
+	public void setCartas_desarrollo(List<Recurso> cartas_desarrollo) {
+		this.cartas_desarrollo = cartas_desarrollo;
+	}
+
+
+
 	//public List getTipoRecurso()
 	public List getLana() {
 		return lana;
 	}
-	public void setLana(List lana) {
-		this.lana = lana;
-	}
+	
 	public List getMadera() {
 		return madera;
 	}
-	public void setMadera(List madera) {
-		this.madera = madera;
-	}
+	
 	public List getArcilla() {
 		return arcilla;
 	}
-	public void setArcilla(List arcilla) {
-		this.arcilla = arcilla;
-	}
+	
 	public List getPiedra() {
 		return piedra;
 	}
-	public void setPiedra(List piedra) {
-		this.piedra = piedra;
-	}
+	
 	public List getPaja() {
 		return paja;
 	}
-	public void setPaja(List paja) {
-		this.paja = paja;
-	}
+	
 	public List getCartas_desarrollo() {
 		return cartas_desarrollo;
 	}
-	public void setCartas_desarrollo(List cartas_desarrollo) {
-		this.cartas_desarrollo = cartas_desarrollo;
-	}
+	
 
 	public void addLana(Recurso lanas) {
 		if(lana ==null) {

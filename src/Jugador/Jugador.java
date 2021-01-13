@@ -7,11 +7,15 @@ import jadex.model.jibximpl.Agent;
 import jadex.runtime.BasicAgentIdentifier;
 //import jadex.util.SUtil;
 import jadex.util.SimplePropertyChangeSupport;
+import src.Jugador.estrategias.IEstrategia;
+import src.ontologia.concepts.Cartas;
+import src.ontologia.concepts.EstadoJuego;
 
 //import java.beans.PropertyChangeListener;
 //import java.awt.Color;
 //import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 //import jadex.runtime.*;
 
 
@@ -21,20 +25,27 @@ public class Jugador extends Agent{
 			public Jugador()
 			{
 				this(null, null, null);
+				comoquieras=new Zoo("holas");
 			}
 			/**
 			 *  Create a new Player.
 			 */
-			public Jugador(String name,String strategyname)
+			public Jugador(String name,String strategyname,String grupo)
 			{
-				this(null, name, strategyname);
+				this(null,name, strategyname,grupo);
+				comoquieras=new Zoo(grupo);
+				Random rand1=new Random();
+				this.id=rand1.nextInt(312312312);
 			}
 
 			/**
 			 *  Create a new Player.
 			 */
-			public Jugador(AgentIdentifier aid,String nombre, String strategyname)
+			public Jugador(AgentIdentifier aid,String nombre, String strategyname,String grupo)
 			{
+				comoquieras=new Zoo(grupo);
+				Random rand1=new Random();
+				this.id=rand1.nextInt(312312312);
 				this.aid	= aid;
 				this.nombre	= nombre;
 				this.strategyname = strategyname;
@@ -60,6 +71,12 @@ public class Jugador extends Agent{
 		//-------- attributes --------
 		protected String nombre;
 		
+		protected int id;
+		
+		protected Zoo comoquieras;
+		
+		
+		
 		protected Cartas cartas = new Cartas();
 		
 		protected List construcciones;
@@ -74,7 +91,7 @@ public class Jugador extends Agent{
 		protected String strategyname;
 
 		/** The player's strategy. */
-		//protected IStrategy	strategy;
+		protected IEstrategia strategy;
 
 		/** The player's agent id. */
 		protected BasicAgentIdentifier	aid;
@@ -104,6 +121,9 @@ public class Jugador extends Agent{
 		}
 		public int getTirada() {
 			return tirada;
+		}
+		public void  printID() {
+			System.out.println("soy "+ this.nombre +"my id es: "+this.id);
 		}
 		public void setTirada(int tirada) {
 			this.tirada = tirada;
@@ -140,5 +160,29 @@ public class Jugador extends Agent{
 		}
 		
 		
+		public Zoo getComoquieras() {
+			return comoquieras;
+		}
+		public void setComoquieras(Zoo comoquieras) {
+			this.comoquieras = comoquieras;
+		}
+		public EstadoJuego setMyself(EstadoJuego estado) {
+			
+			//Jugador myself = new Jugador();
+			int posicion = 0;
+			for(int i=0; i<estado.getJugadores().size();i++) {
+				if(estado.getJugadores().get(i).getNombre().equals(this.getNombre())) {
+					estado.getJugadores().set(i, this);
+				 posicion = i;
+				}
+			}			
+			return estado;
+		}
+		public IEstrategia getStrategy() {
+			return strategy;
+		}
+		public void setStrategy(IEstrategia strategy) {
+			this.strategy = strategy;
+		}
 		
 }

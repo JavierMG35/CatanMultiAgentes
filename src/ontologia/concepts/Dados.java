@@ -6,29 +6,33 @@ public class Dados {
 	public int dados;
 	public int dado1;
 	public int dado2;
+	public int id;
 	public Random rand1;
 	public Random rand2;
+	
 
 	
 	public Dados() {
-	
-		int dados ;
-		int dado1 ;
-		int dado2 ;
-		tirarDados();
-	}
-	
-	
-
-	public  void tirarDados() {
+		Random rand3=new Random();
+		this.id=rand3.nextInt(312312312);
 		Random rand1 =  new Random();
 		Random rand2 =  new Random();
 		this.dado1 = rand1.nextInt(6)+1;
 		this.dado2 = rand2.nextInt(6) +1;
 		this.dados = dado1 + dado2;
-		
 	}
 	
+
+	
+	public int getId() {
+		return id;
+	}
+
+
+
+
+
+
 	public int getDado1() {
 		return dado1;
 	}

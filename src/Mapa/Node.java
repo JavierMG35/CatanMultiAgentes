@@ -21,6 +21,8 @@ public class Node {
 	public Node(int pos_x,int pos_y){
 		this.pos_x=pos_x;
 		this.pos_y=pos_y;
+		this.ocupado=false;
+		this.dueño=null;
 	}
 	
 	//Edges en node o graph?? Mejor aqui, no??
@@ -94,6 +96,9 @@ public class Node {
 	}
 	public void setOcupado(boolean ocupado) {
 		this.ocupado = ocupado;
+	}
+	public void setEdges(List<Edge> edges) {
+		this.edges = edges;
 	}
 	
 	

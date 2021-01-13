@@ -1,6 +1,7 @@
 package src.Tablero;
 
 import jadex.adapter.fipa.AgentIdentifier;
+import jadex.model.jibximpl.Agent;
 //import jadex.examples.blackjack.player.strategies.IStrategy;
 //import jadex.examples.blackjack.player.strategies.*;
 import jadex.runtime.BasicAgentIdentifier;
@@ -14,7 +15,7 @@ import java.util.List;
 //import jadex.runtime.*;
 
 
-public class Tablero {
+public class Tablero extends Agent{
 	
 	//-------- constructors --------
 			public Tablero()

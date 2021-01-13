@@ -7,7 +7,9 @@
 	<imports>
 		<import>src.Jugador.*</import>
 		<import>src.Tablero.*</import>
-		<import>src.ontologia.*</import>
+		<import>src.ontologia.actions.*</import>
+		<import>src.ontologia.concepts.*</import>
+		<import>src.ontologia.predicates.*</import>
 		<import>Jugador.beliefs.*</import>
 		<import>Jugador.plans.*</import>
 		<import>jadex.runtime.*</import>
@@ -24,7 +26,7 @@
 	<beliefs>
 		<!-- The player's knowledge about itself, encapsulated as player object. -->
 		<belief name="myself" class="Jugador" exported="true">
-			<fact>new Jugador("Joselu", "Caballería")</fact>
+			<fact>new Jugador("Joselu", "Caballería","zoo")</fact>
 		</belief>
 
 		<belief name="tablero" class="AgentIdentifier" exported="true">
@@ -49,13 +51,13 @@
 
 	<plans>
 		<plan name="Tirar_dados">
-			<body class="TirarDadosPlan" />
+			<body class="src.Jugador.Plan.TirarDadosPlan" />
 			<trigger>
 				<messageevent ref="offer_tirar_dados" />
 			</trigger>
 		</plan>
 		<plan name="Unirse_partida">
-			<body class="Unirse_partida_Plan" />
+			<body class="src.Jugador.Plan.Unirse_partida_Plan" />
 			<trigger>
 				<messageevent ref="request_unirse_partida" />
 			</trigger>
@@ -97,7 +99,7 @@
 			</parameter>
 			<parameter name="content-class" class="Class"
 				direction="fixed">
-				<value>Request_unirse_partida.class</value>
+				<value>src.ontologia.actions.Request_unirse_partida.class</value>
 			</parameter>
 		</messageevent>
 
@@ -122,6 +124,7 @@
 			<parameter name="language" class="String" direction="fixed">
 				<value>SFipa.NUGGETS_XML</value>
 			</parameter>
+			<match>$content instanceof src.ontologia.actions.TirarDados</match>	
 		</messageevent>
 
 
@@ -146,10 +149,6 @@
 			<parameter name="language" class="String" direction="fixed">
 				<value>SFipa.NUGGETS_XML</value>
 			</parameter>
-			<parameter name="content-class" class="Class"
-				direction="fixed">
-				<value>src.EstadoJuego.EstadoJuego.class</value>
-			</parameter>
 		</messageevent>
 
 		<messageevent name="ficha_colocada" type="fipa"
@@ -157,12 +156,12 @@
 			<parameter name="performative" class="String">
 				<value>SFipa.INFORM</value>
 			</parameter>
+			
 			<parameter name="language" class="String" direction="fixed">
 				<value>SFipa.NUGGETS_XML</value>
 			</parameter>
-			<parameter name="content-class" class="Class"
-				direction="fixed">
-				<value>src.EstadoJuego.EstadoJuego.class</value>
+			<parameter name="conversation-id" class="String">
+				<value>SFipa.createUniqueId($scope.getAgentName())</value>
 			</parameter>
 		</messageevent>	
 		
@@ -179,7 +178,7 @@
 			</parameter>
 			<parameter name="content-class" class="Class"
 				direction="fixed">
-				<value>src.EstadoJuego.EstadoJuego.class</value>
+				<value>src.ontologia.concepts.EstadoJuego.class</value>
 			</parameter>
 			<parameter name="content" class="String"
 				direction="fixed">

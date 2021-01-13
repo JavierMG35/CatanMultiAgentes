@@ -12,6 +12,12 @@ public class Edge {
 	private Jugador dueño;
 	private List<Casilla> casillas;
 	
+	
+	public Edge() {
+		casillas= new ArrayList<>();
+		this.carretera = false;
+	}
+	
 	public List<Casilla> getCasillas() {
 		return casillas;
 	}

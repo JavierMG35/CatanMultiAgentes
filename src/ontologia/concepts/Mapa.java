@@ -1,4 +1,4 @@
-package src.Mapa;
+package src.ontologia.concepts;
 
 import src.Jugador.*;
 
@@ -7,10 +7,11 @@ import java.util.List;
 import java.util.Random;
 
 import src.Mapa.Casilla;
+import src.Mapa.Edge;
 import src.Mapa.Node;
-import src.ontologia.concepts.Recurso;
 
 public class Mapa {
+	private int id;
 	private List<Node> nodos;
 	private List<Edge> edges;
 	private List<Casilla> casillas;
@@ -32,6 +33,8 @@ public class Mapa {
 		this.paja = 4;
 		this.madera = 4;
 		this.desierto = 1;
+		Random rand1 =  new Random();
+		this.id=rand1.nextInt(123123123);
 		crearValores();
 		crearTablero();
 		iniciarTablero();
@@ -59,17 +62,15 @@ public class Mapa {
 		}		
 	}
 
-	public Node fichaInicial(Mapa mapa, int posicion, Jugador dueño) {
+	public Node fichaInicial(int posicion, Jugador dueño) {
 		
 		List<Node> listanodos;
-		List<Casilla> listacasillas = mapa.casillas;
-		int pos=-1;
+		List<Casilla> listacasillas = this.casillas;
 		Casilla casilla = listacasillas.get(posicion);
 		listanodos = casilla.getAdyacentes();
 		Recurso recurso = casilla.getRecurso();
 		String recursos = recurso.getTipo();
-		System.out.println(recursos);
-		
+
 		if (recursos.equals("Agua")) {
 			return null;}
 		else if (recursos.equals("Desierto")) {return null;}
@@ -82,11 +83,10 @@ public class Mapa {
 						listanodos.get(arista).setConstruccion(true);
 						listanodos.get(arista).setTipo("Poblado");
 						listanodos.get(arista).setDueño(dueño);
-						System.out.println(dueño.getNombre());
-						dueño.getCartas().añadirRecurso(casilla.getRecurso());
+						System.out.println("El nombre del jugador que coloca la pieza es:" + dueño.getNombre());
+						dueño.getCartas().setRecurso(casilla.getRecurso());
 						//System.out.println(dueño.getCartas().getTipoRecurso(recursos));
 						
-						pos = arista;
 						return listanodos.get(arista);
 				
 					}
@@ -99,12 +99,17 @@ public class Mapa {
 		
 	}
 	
-	public boolean caminoInicial(Mapa mapa, Node nodo, Jugador dueño) {
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public boolean caminoInicial(Node nodo, Jugador dueño) {
 		boolean posible= false;
 		List<Edge> listaAristas=nodo.getEdges();
-		int pos=0;
-		
-		
 		for(int i = 0; i < listaAristas.size();i++) {
 			System.out.println("correcto: "+listaAristas.size());
 			if (listaAristas.get(i).posible()) {
@@ -112,7 +117,6 @@ public class Mapa {
 				/*listaAristas.get(i).setCarretera(true);
 				listaAristas.get(i).setDueño(dueño);*/
 				posible = true;
-				pos=i;
 				System.out.println("origen: "+listaAristas.get(i).getOrigen().getPos_x()+", "+listaAristas.get(i).getOrigen().getPos_y());
 				System.out.println("destino: "+listaAristas.get(i).getDestino().getPos_x()+", "+listaAristas.get(i).getDestino().getPos_y());
 				break;
@@ -247,11 +251,11 @@ public class Mapa {
 
 	public void printMapa() {
 		System.out.println("///////////////////////////////////////////////////////////////Este es EL MAPA DE DORA");
-		System.out.println();
+		System.out.println("ID: "+this.id);
 		for (int i = 0 ; i < this.getCasillas().size() ;i++) {
 		System.out.println("Casilla: "+ (i+1));
 		System.out.println(this.getCasillas().get(i).getRecurso().getTipo());
-		System.out.println(this.getCasillas().get(i).getValor());
+		if (this.getCasillas().get(i).getValor()!= 0)System.out.println(this.getCasillas().get(i).getValor());
 		this.getCasillas().get(i).getAdyacentesString();
 		}
 	}
@@ -374,7 +378,7 @@ public class Mapa {
 	}
 	
 	//Getters and Setters
-	public void setArcilla() {
+	public void DisminuirCasillasArcilla() {
 		this.arcilla = arcilla -1;
 	}
 	
@@ -386,7 +390,7 @@ public class Mapa {
 		return lana;
 	}
 
-	public void setLana() {
+	public void DisminuirCasillasLana() {
 		this.lana = lana -1;
 	}
 
@@ -394,7 +398,7 @@ public class Mapa {
 		return piedra;
 	}
 
-	public void setPiedra() {
+	public void DisminuirCasillasPiedra() {
 		this.piedra = piedra -1;
 	}
 
@@ -402,7 +406,7 @@ public class Mapa {
 		return paja;
 	}
 
-	public void setPaja() {
+	public void DisminuirCasillasPaja() {
 		this.paja = paja -1;
 	}
 
@@ -410,7 +414,7 @@ public class Mapa {
 		return madera;
 	}
 
-	public void setMadera() {
+	public void DisminuirCasillasMadera() {
 		this.madera = madera -1;
 	}
 
@@ -420,6 +424,74 @@ public class Mapa {
 
 	public void setDesierto() {
 		this.desierto = desierto -1;
+	}
+
+	public List<Node> getNodos() {
+		return nodos;
+	}
+
+	public void setNodos(List<Node> nodos) {
+		this.nodos = nodos;
+	}
+
+	public List<Edge> getEdges() {
+		return edges;
+	}
+
+	public void setEdges(List<Edge> edges) {
+		this.edges = edges;
+	}
+
+	public List<Integer> getValores() {
+		return valores;
+	}
+
+	public void setValores(List<Integer> valores) {
+		this.valores = valores;
+	}
+
+	public List<Jugador> getTurnos() {
+		return turnos;
+	}
+
+	public void setTurnos(List<Jugador> turnos) {
+		this.turnos = turnos;
+	}
+
+	public int getDados() {
+		return dados;
+	}
+
+	public void setDados(int dados) {
+		this.dados = dados;
+	}
+
+	public void setCasillas(List<Casilla> casillas) {
+		this.casillas = casillas;
+	}
+
+	public void setArcilla(int arcilla) {
+		this.arcilla = arcilla;
+	}
+
+	public void setLana(int lana) {
+		this.lana = lana;
+	}
+
+	public void setPiedra(int piedra) {
+		this.piedra = piedra;
+	}
+
+	public void setPaja(int paja) {
+		this.paja = paja;
+	}
+
+	public void setMadera(int madera) {
+		this.madera = madera;
+	}
+
+	public void setDesierto(int desierto) {
+		this.desierto = desierto;
 	}
 
 	

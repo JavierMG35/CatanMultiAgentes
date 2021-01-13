@@ -3,8 +3,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import src.Mapa.Mapa;
 import src.Mapa.Node;
+import src.ontologia.concepts.Mapa;
 import src.ontologia.concepts.Recurso;
 public class Casilla {
 	private List<Node> nodos_adyacentes;
@@ -32,12 +32,22 @@ public class Casilla {
 	}
 	
 	public void getAdyacentesString() {
-
+		if (this.ladron) System.out.println("Aqui esta el ladrón");
 		for (int i =0; i<this.nodos_adyacentes.size();i++) {
 			System.out.println("Nodo adyacente : "+nodos_adyacentes.get(i).getPos_x()+nodos_adyacentes.get(i).getPos_y());
+			if (this.nodos_adyacentes.get(i).getDueño() != null) {System.out.println("ocupado por : "+this.nodos_adyacentes.get(i).getDueño().getNombre() );}
+			if (this.nodos_adyacentes.get(i).isOcupado()) {System.out.println("Esta ocupado en general");}
 		}
 	}
 	
+	public List<Node> getNodos_adyacentes() {
+		return nodos_adyacentes;
+	}
+
+	public void setNodos_adyacentes(List<Node> nodos_adyacentes) {
+		this.nodos_adyacentes = nodos_adyacentes;
+	}
+
 	public List<Node> getAdyacentes(){
 		return nodos_adyacentes;
 	}
@@ -100,31 +110,31 @@ public class Casilla {
 			  case 0:
 				if(mapa.getLana()>0) {
 					this.recurso.setTipo("Lana");
-					mapa.setLana();
+					mapa.DisminuirCasillasLana();
 					hecho = true;}
 			    break;
 			  case 1:
 				if(mapa.getMadera()>0) {
 					this.recurso.setTipo("Madera");
-					mapa.setMadera();;
+					mapa.DisminuirCasillasMadera();;
 					hecho = true;}
 			    break;
 			  case 2:
 				if(mapa.getPiedra()>0) {
 					this.recurso.setTipo("Piedra");
-					mapa.setPiedra();
+					mapa.DisminuirCasillasPiedra();
 					hecho = true;}
 				break;
 			  case 3:
 				if(mapa.getArcilla()>0) {
 					this.recurso.setTipo("Arcilla");
-					mapa.setArcilla();	
+					mapa.DisminuirCasillasArcilla();	
 					hecho = true;}
 				break;
 			  case 4:
 				if(mapa.getPaja()>0) {
 					this.recurso.setTipo("Paja");
-					mapa.setPaja();
+					mapa.DisminuirCasillasPaja();
 					hecho = true;}
 				break;
 			} 

@@ -1,12 +1,12 @@
 package src.ontologia.concepts;
 
-public class Construcción {
+public class Construccion {
 	String tipo;
-	public Construcción() {
+	public Construccion() {
 		
 	}
 	
-public Construcción(String tipo) {
+public Construccion(String tipo) {
 		this.tipo = tipo;
 	}
 

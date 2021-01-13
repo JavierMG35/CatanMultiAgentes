@@ -6,15 +6,10 @@ import jadex.adapter.fipa.SFipa;
 import jadex.runtime.BasicAgentIdentifier;
 import jadex.runtime.IMessageEvent;
 import jadex.runtime.Plan;
-import src.EstadoJuego.EstadoJuego;
-import src.Jugador.Cartas;
 import src.Jugador.Jugador;
 import src.Tablero.Tablero;
 import src.ontologia.actions.TirarDados;
-import src.ontologia.concepts.Orden;
-import src.ontologia.concepts.Recurso;
-import src.Mapa.Dados;
-import src.Mapa.Mapa;
+import src.ontologia.concepts.*;
 import src.Mapa.Casilla;
 import src.Mapa.Node;
 import java.util.List;
@@ -31,10 +26,12 @@ public class TurnoPlan extends Plan{
 	
 		Jugador[] jugadores = (Jugador[])getBeliefbase().getBeliefSet("jugador").getFacts();
 		Orden Orden = ((Orden)getBeliefbase().getBelief("orden").getFact());
-		for(int i=0;i< Orden.getNumeroJugadores();i++) {
+		for(int i=0;i< Orden.getJugadores().size();i++) {
 				
 			EstadoJuego EstadoJuego = (EstadoJuego)getBeliefbase().getBelief("EstadoJuego").getFact();
-			BasicAgentIdentifier AidSiguiente = Orden.getSiguiente_jugador().getAid();			
+			BasicAgentIdentifier AidSiguiente = Orden.getSiguiente_jugador().getAid();		
+			Orden.setSiguiente_jugador(Orden.getJugadores().get(i));
+			
 			System.out.println("Turno de siguiente : "+ AidSiguiente);
 			
 			TirarDados tirardados = new TirarDados();
@@ -48,13 +45,13 @@ public class TurnoPlan extends Plan{
 			
 			System.out.println("Dados recibidos");
 			
-			Jugador jugador = (Jugador)respuesta.getContent();
+			Dados dados = (Dados)respuesta.getContent();
 			
-			System.out.println("Ha salido un " + jugador.getTirada());
+			System.out.println("Ha salido un " + dados.getDados());
 			//EstadoJuego estado = (EstadoJuego)respuesta.getContent();
 			//getBeliefbase().getBelief("EstadoJuego").setFact(estado);
 			
-			if(jugador.getTirada() == 13) {
+			if(dados.getDados() == 13) {
 				IMessageEvent ladron_mensaje = createMessageEvent("ladron_enviar");
 				ladron_mensaje.getParameterSet(SFipa.RECEIVERS).addValue(AidSiguiente);
 				ladron_mensaje.setContent(EstadoJuego);
@@ -81,7 +78,7 @@ public class TurnoPlan extends Plan{
 				for (int j = 0; j < casillas.size(); j++) {
 					Casilla casilla = casillas.get(j);
 
-					if(casilla.getValor() == jugador.getTirada()) {
+					if(casilla.getValor() == dados.getDados()) {
 						Recurso recurso_casilla = casilla.getRecurso();
 						List<Node> nodos = casilla.getAdyacentes();
 
@@ -92,7 +89,7 @@ public class TurnoPlan extends Plan{
 								Jugador player = nodo.getDueño();
 								//Añadimos un recurso
 								Cartas cartas = player.getCartas();
-								cartas.añadirRecurso(recurso_casilla);
+								cartas.setRecurso(recurso_casilla);
 								System.out.println("Se reparte el recurso " +recurso_casilla.getTipo()+" al jugador "+player.getNombre());
 							}
 						}
@@ -121,7 +118,7 @@ public class TurnoPlan extends Plan{
 		
 		
 		
-		
 	}
+	
 
 }

@@ -7,9 +7,9 @@ import jadex.adapter.fipa.SFipa;
 import jadex.runtime.IMessageEvent;
 import jadex.runtime.Plan;
 import src.Jugador.Jugador;
-//import sun.jvm.hotspot.debugger.cdbg.ClosestSymbol;
 import src.Mapa.*;
-import src.EstadoJuego.*;
+import src.ontologia.concepts.EstadoJuego;
+import src.ontologia.concepts.Mapa;
 
 
 public class ColocaFichasInicialesPlan extends Plan{
@@ -17,16 +17,16 @@ public class ColocaFichasInicialesPlan extends Plan{
 	public void body()
 	{
 		
+		
+		
 		IMessageEvent	request	= (IMessageEvent)getInitialEvent();
 		AgentIdentifier tablero = (AgentIdentifier) request.getParameter("sender").getValue();
 		System.out.println("Recibido mensaje de Tablero a Jugador");
-		EstadoJuego  estadojuego = (EstadoJuego)request.getContent();
+		EstadoJuego  estadojuego = (EstadoJuego)request.getParameter(SFipa.CONTENT).getValue();
 		Mapa mapa = estadojuego.getMapa();
 		Jugador	yo	= (Jugador)getBeliefbase().getBelief("myself").getFact();
 		//Jugador yoenestado = estadojuego.getMyself(yo);
-		System.out.println(yo.getNombre());
-		
-		
+		System.out.println("Voy a colocar un poblado y calle soy:  "+ yo.getNombre());
 		
 		boolean posible = false;
 		Node nodoPoblado= null;
@@ -34,30 +34,23 @@ public class ColocaFichasInicialesPlan extends Plan{
 		while(nodoPoblado == null) {
 			Random rand1 =  new Random();
 			int casilla = rand1.nextInt(37);
-			System.out.println("Casilla: " + (casilla+1));
-			nodoPoblado = mapa.fichaInicial(mapa, casilla, yo);
+			System.out.println("Casilla en la que colocamos el poblado: " + (casilla+1));
+			nodoPoblado = mapa.fichaInicial(casilla, yo);
 
 		}	
 		
-		System.out.println("Poblado colocado en : "+nodoPoblado.getPos_x()+","+nodoPoblado.getPos_y());
+		System.out.println("Poblado colocado en el nodo : "+nodoPoblado.getPos_x()+","+nodoPoblado.getPos_y());
 		posible = false;
 		/////Generamos una posicion para un camino aleatorio al lado del poblado puesto=?=?=??
-		posible = mapa.caminoInicial(mapa, nodoPoblado, yo);
+		posible = mapa.caminoInicial(nodoPoblado, yo);
 	
-		estadojuego.setMyself(yo);
+		estadojuego=yo.setMyself(estadojuego);
 		estadojuego.setMapa(mapa);
+
+		System.out.println("-----------------el estado del jugador tiene este mapa----------------");
+		//estadojuego.getMapa().printMapa();
+		System.out.println("---------------------------------------------------------");
 		
-		
-		//BUCLE DE NODOS
-		List<Casilla> casilleo = mapa.getCasillas();
-		for (int i2 = 0; i2 < mapa.getCasillas().size(); i2++) {
-			
-			Casilla casi = casilleo.get(i2);
-			for (int j = 0; j < casi.getAdyacentes().size(); j++) {
-				Node nodo = casi.getAdyacentes().get(j);
-				if ( nodo.isOcupado()) System.out.println("Nodo ocupado!!");
-			}
-		}
 		getBeliefbase().getBelief("myself").setFact(yo);
 		//BUCLE DE NODOS
 		
@@ -65,11 +58,15 @@ public class ColocaFichasInicialesPlan extends Plan{
 		
 		//Mandamos el nuevo mapa.
 		//Jugador	yo	= (Jugador)getBeliefbase().getBelief("myself").getFact();
-		IMessageEvent mensaje_enviar = request.createReply("ficha_colocada");
-		//mensaje_enviar.getParameterSet(SFipa.RECEIVERS).addValue(tablero);
-		mensaje_enviar.setContent(estadojuego);
+		IMessageEvent mensaje_enviar = (IMessageEvent)request.createReply("ficha_colocada");
+		mensaje_enviar.getParameterSet(SFipa.RECEIVERS).addValue(tablero);
+		mensaje_enviar.getParameter(SFipa.CONTENT).setValue(estadojuego);
+		//mensaje_enviar.setContent(estadojuego);
+		EstadoJuego mensaje=(EstadoJuego) mensaje_enviar.getParameter(SFipa.CONTENT).getValue();
+		System.out.println("-----------------el mensaje que envia el jugador tiene este mapa----------------");
+		mensaje.getMapa().printMapa();
 	    sendMessage(mensaje_enviar);
-	    System.out.println("Mandado posicion inicial");
+	    System.out.println("Mandado posicion inicial al tablero");
 		
 	}
 	
