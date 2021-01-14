@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import java.util.List;
 import jadex.adapter.fipa.*;
 import src.Jugador.Jugador;
-import src.ontologia.*;
 import src.ontologia.actions.TirarDados;
 import src.ontologia.concepts.Dados;
 import src.ontologia.concepts.EstadoJuego;

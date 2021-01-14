@@ -249,6 +249,33 @@ public class Mapa {
 	
 	}
 
+	public void ColocarPoblado(int posx, int posy, Jugador dueño) {
+        Node poblado = this.getNode(posx, posy);
+        poblado.setConstruccion(true);
+        poblado.setTipo("Poblado");
+        poblado.setDueño(dueño);
+    }
+
+    public void ColocarCiudad(int posx, int posy, Jugador dueño) {
+        Node poblado = this.getNode(posx, posy);
+        poblado.setConstruccion(true);
+        poblado.setTipo("Ciudad");
+        poblado.setDueño(dueño);
+    }
+
+    public void ColocarCarretera(Edge edge, Jugador dueño) {
+        List<Edge> edges = this.getEdges();
+
+        for (int i = 0; i < edges.size(); i++) {
+
+            if(edges.get(i).getOrigen() == edge.getOrigen() && edges.get(i).getDestino() == edge.getDestino()) {
+                edges.get(i).setCarretera(true);
+                edges.get(i).setDueño(dueño);
+            }
+        }
+    }
+	
+	
 	public void printMapa() {
 		System.out.println("///////////////////////////////////////////////////////////////Este es EL MAPA DE DORA");
 		System.out.println("ID: "+this.id);
@@ -422,8 +449,12 @@ public class Mapa {
 		return desierto;
 	}
 
-	public void setDesierto() {
+	public void DisminuirCasillasDesierto() {
 		this.desierto = desierto -1;
+	}
+
+	public void setDesierto(int desierto) {
+		this.desierto = desierto;
 	}
 
 	public List<Node> getNodos() {
@@ -490,9 +521,6 @@ public class Mapa {
 		this.madera = madera;
 	}
 
-	public void setDesierto() {
-		this.desierto = desierto;
-	}
 
 	
 

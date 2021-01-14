@@ -49,7 +49,7 @@ public class NegociarJugadoresPlan extends Plan  {
 			encontrado = false;
 			while(!encontrado) {
 				indice = toca_jugador.nextInt(jugadores.size());
-			if(!jugadores_seleccionados.contains(jugadores.get(indice))) {encontrado = true; jugadores_seleccionados.add(jugadores.get(indice)); }
+			if(!jugadores_seleccionados.contains(jugadores.get(indice)) && !jugadores.get(i).getNombre().equals(yo.getNombre())) {encontrado = true; jugadores_seleccionados.add(jugadores.get(indice)); }
 			else {encontrado = false;}
 			}
 			BasicAgentIdentifier AidSiguiente = jugadores.get(indice).getAid();

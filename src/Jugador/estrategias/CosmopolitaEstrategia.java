@@ -3,12 +3,24 @@ package src.Jugador.estrategias;
 import java.util.ArrayList;
 import java.util.List;
 
+
 import src.ontologia.concepts.*;
 import src.Jugador.Jugador;
+import src.Mapa.Casilla;
+import src.Mapa.Node;
+import src.Mapa.Edge;
 import src.ontologia.actions.RealizarOferta;
+
 
 public class CosmopolitaEstrategia extends AbstractEstrategias{
 
+	
+	public CosmopolitaEstrategia() {
+		
+		// TODO Auto-generated constructor stub
+	}
+	
+	
 	public CosmopolitaEstrategia(String name) {
 		super(name);
 		// TODO Auto-generated constructor stub
@@ -72,7 +84,6 @@ public class CosmopolitaEstrategia extends AbstractEstrategias{
 		
 		Cartas cartas = yo.getCartas();
 		List<Construccion> construcciones = yo.getConstrucciones();
-		int num_construcciones = construcciones.size();
 		int poblados = 0;
 		int ciudades = 0;
 		for(int i=0;i<construcciones.size();i++) {
@@ -112,7 +123,7 @@ public class CosmopolitaEstrategia extends AbstractEstrategias{
 	@Override
 	public Recurso propuestaNegociarBanca(Cartas carta) {
 		// TODO Auto-generated method stub
-		return null;
+		return new Recurso("Madera");
 	}
 
 	@Override
@@ -122,16 +133,76 @@ public class CosmopolitaEstrategia extends AbstractEstrategias{
 	}
 
 	@Override
-	public Construccion decidirConstruccion() {
+	public Construccion decidirConstruccion(Mapa mapa, Cartas cartas, String nombre) {
 		// TODO Auto-generated method stub
-		return null;
-	}
+		List<Casilla> casillas = mapa.getCasillas();
+		Construccion retorno = null;
 
+		// Queremos hacer ciudades.
+		if (cartas.getPaja().size() >= 2 && cartas.getPiedra().size() >= 3) {
+
+				for (int i = 0; i < casillas.size(); i++) {
+					List<Node> nodos = casillas.get(i).getAdyacentes();
+
+					for (int j = 0; j < nodos.size(); j++) {
+
+						if (nodos.get(j).getDueño().getNombre().equals(nombre)) {
+							if (nodos.get(j).getTipo() == "Poblado" && cartas.getPaja().size() >= 2
+									&& cartas.getPiedra().size() >= 3) {
+								retorno = new Construccion("Ciudad", nodos.get(j), null);
+							}
+						}
+					}
+				}
+			}
+		// Poblado
+		else if (cartas.getArcilla().size() >= 1 && cartas.getMadera().size() >= 1 && cartas.getPaja().size() >= 1
+				&& cartas.getLana().size() >= 1) {
+
+			for (int i = 0; i < casillas.size(); i++) {
+				List<Node> nodos = casillas.get(i).getAdyacentes();
+
+				for (int j = 0; j < nodos.size(); j++) {
+
+					if (!nodos.get(j).isOcupado()) {
+						retorno= new Construccion("Poblado", nodos.get(j), null);
+					}
+				}
+			}
+		}
+	    // Carretera
+		else if (cartas.getArcilla().size() >= 1 && cartas.getMadera().size() >= 1) {
+			// Ya tenemos suficientes recursos para construir carretera
+
+				for (int i = 0; i < casillas.size(); i++) {
+					List<Node> nodos = casillas.get(i).getAdyacentes();
+
+					for (int j = 0; j < nodos.size(); j++) {
+
+						if (nodos.get(j).getDueño().getNombre().equals(nombre)) {
+							List<Edge> caminos = nodos.get(j).getEdges();
+
+							for (int k = 0; k < caminos.size(); k++) {
+
+								if (!caminos.get(k).isCarretera() && cartas.getArcilla().size() >= 1
+										&& cartas.getMadera().size() >= 1) {
+									retorno = new Construccion("Carretera", null, caminos.get(k));
+								}
+							}
+						}
+
+				}
+			}
+		}
+		
+		return retorno;
+	}
 	@Override
 	public Boolean decidirCompra() {
 		// TODO Auto-generated method stub
 		return true;
 	}
+
 	
 
 }

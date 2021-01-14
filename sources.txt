@@ -3,12 +3,15 @@ C:\Users\victo\Downloads\Git\CatanMultiAgentes\cons\Hexagono.java
 C:\Users\victo\Downloads\Git\CatanMultiAgentes\src\Jugador\Jugador.java
 C:\Users\victo\Downloads\Git\CatanMultiAgentes\src\Jugador\Zoo.java
 C:\Users\victo\Downloads\Git\CatanMultiAgentes\src\Jugador\estrategias\AbstractEstrategias.java
+C:\Users\victo\Downloads\Git\CatanMultiAgentes\src\Jugador\estrategias\CaballeriaEstrategia.java
 C:\Users\victo\Downloads\Git\CatanMultiAgentes\src\Jugador\estrategias\CosmopolitaEstrategia.java
 C:\Users\victo\Downloads\Git\CatanMultiAgentes\src\Jugador\estrategias\GranRutaComeracialEstrategia.java
 C:\Users\victo\Downloads\Git\CatanMultiAgentes\src\Jugador\estrategias\IEstrategia.java
+C:\Users\victo\Downloads\Git\CatanMultiAgentes\src\Jugador\estrategias\MonopolioEstrategia.java
 C:\Users\victo\Downloads\Git\CatanMultiAgentes\src\Jugador\Plan\CambiarRecursosConBancaPlan.java
 C:\Users\victo\Downloads\Git\CatanMultiAgentes\src\Jugador\Plan\ColocaFichasInicialesPlan.java
 C:\Users\victo\Downloads\Git\CatanMultiAgentes\src\Jugador\Plan\ComprarCartaDesarrolloPlan.java
+C:\Users\victo\Downloads\Git\CatanMultiAgentes\src\Jugador\Plan\ConstruirPlan.java
 C:\Users\victo\Downloads\Git\CatanMultiAgentes\src\Jugador\Plan\LadronPlan.java
 C:\Users\victo\Downloads\Git\CatanMultiAgentes\src\Jugador\Plan\NegociarJugadoresPlan.java
 C:\Users\victo\Downloads\Git\CatanMultiAgentes\src\Jugador\Plan\RecibirOfertaPlan.java

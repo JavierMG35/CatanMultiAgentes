@@ -4,7 +4,6 @@ set classpath=src\lib\Base64.jar;src\lib\GraphLayout.jar;src\lib\bcel.jar;\src\l
 dir /s /B *.java > sources.txt
 javac @sources.txt
 
-
 jar cvf Catan.jar *
 
 

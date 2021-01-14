@@ -1,9 +1,7 @@
 package src.Tablero.plans;
 
 import jadex.runtime.*;
-import src.ontologia.*;
 import src.ontologia.actions.Request_unirse_partida;
-import sun.security.krb5.internal.ReplayCache;
 import jadex.util.SUtil;
 import jadex.adapter.fipa.*;
 import src.Jugador.Jugador;

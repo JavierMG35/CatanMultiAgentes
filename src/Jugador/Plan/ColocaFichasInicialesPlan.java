@@ -42,6 +42,7 @@ public class ColocaFichasInicialesPlan extends Plan{
 		System.out.println("Poblado colocado en el nodo : "+nodoPoblado.getPos_x()+","+nodoPoblado.getPos_y());
 		posible = false;
 		/////Generamos una posicion para un camino aleatorio al lado del poblado puesto=?=?=??
+		yo.setPuntuacion(yo.getPuntuacion()+1);
 		posible = mapa.caminoInicial(nodoPoblado, yo);
 	
 		estadojuego=yo.setMyself(estadojuego);

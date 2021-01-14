@@ -1,16 +1,11 @@
 package src.Jugador.Plan;
 
 import java.util.List;
-
-import com.sun.org.apache.bcel.internal.generic.NEW;
-
 import jadex.adapter.fipa.AgentIdentifier;
 import jadex.adapter.fipa.SFipa;
 import jadex.runtime.IMessageEvent;
 import jadex.runtime.Plan;
 import src.Jugador.Jugador;
-import src.ontologia.concepts.Cartas;
-import src.ontologia.concepts.Dados;
 import src.ontologia.concepts.EstadoJuego;
 import src.ontologia.concepts.OfertaComercio;
 import src.ontologia.concepts.OfertaJugadorBanca;

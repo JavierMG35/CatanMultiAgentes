@@ -3,7 +3,6 @@ package src.Jugador.estrategias;
 import java.util.*;
 import jadex.util.SReflect;
 import src.Jugador.Jugador;
-import src.ontologia.*;
 import src.ontologia.actions.RealizarOferta;
 import src.ontologia.concepts.*;
 import src.ontologia.concepts.Recurso;
@@ -16,6 +15,7 @@ public abstract class AbstractEstrategias implements IEstrategia{
 		public static final String GRAN_RUTA_COMERCIAL = "GranRutaComercial";
 		public static final String COSMOPOLITA = "Cosmopolita";
 		public static final String EJERCITO_DE_CABALLERIA = "EjercitoDeCaballeria";
+		public static final String MONOPOLIO = "Monopolio";
 
 		//atributos
 
@@ -30,6 +30,10 @@ public abstract class AbstractEstrategias implements IEstrategia{
 		/**
 		 *  Create a new strategy.
 		 */
+		public AbstractEstrategias()
+		{
+		}
+		
 		public AbstractEstrategias(String name)
 		{
 			this.name = name;
@@ -46,7 +50,7 @@ public abstract class AbstractEstrategias implements IEstrategia{
 		
 		public abstract boolean aceptarOferta(RealizarOferta oferta, Cartas mis_cartas);
 
-		public abstract Construccion decidirConstruccion();
+		public abstract Construccion decidirConstruccion(Mapa mapa, Cartas cartas, String nombre);
 		
 		public abstract Boolean decidirCompra();
 
@@ -81,6 +85,8 @@ public abstract class AbstractEstrategias implements IEstrategia{
 		{
 			strategies = new ArrayList();
 			strategies.add(new GranRutaComeracialEstrategia(AbstractEstrategias.GRAN_RUTA_COMERCIAL));
+			strategies.add(new CosmopolitaEstrategia(AbstractEstrategias.COSMOPOLITA));
+			strategies.add(new CaballeriaEstrategia(AbstractEstrategias.EJERCITO_DE_CABALLERIA));
 			
 		}
 

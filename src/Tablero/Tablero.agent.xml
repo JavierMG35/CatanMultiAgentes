@@ -33,8 +33,8 @@
 			exported="true">
 			<fact>new Tablero()</fact>
 		</belief>
-		<belief name="EstadoJuego" class="src.ontologia.concepts.EstadoJuego"
-			exported="true" />
+		<belief name="EstadoJuego"
+			class="src.ontologia.concepts.EstadoJuego" exported="true" />
 
 		<beliefset name="jugador" class="src.Jugador.Jugador" />
 		<belief name="jugadores" class="int" />
@@ -79,13 +79,13 @@
 		</performgoal>
 
 
-		<performgoal name="turno_inicial" >
+		<performgoal name="turno_inicial">
 			<creationcondition>$beliefbase.orden!=null</creationcondition>
 		</performgoal>
 
-		<performgoal name="turno" >
+		<performgoal name="turno">
 			<creationcondition>$beliefbase.inicializado &gt; 0
-			 </creationcondition>
+			</creationcondition>
 		</performgoal>
 
 	</goals>
@@ -127,7 +127,7 @@
 
 	<events>
 
-	<!-- Unirse a la partida -->
+		<!-- Unirse a la partida -->
 
 		<messageevent name="request_unirse_partida" type="fipa"
 			direction="send">
@@ -157,7 +157,7 @@
 			</parameter>
 		</messageevent>
 
-	<!-- Tirar los dados -->
+		<!-- Tirar los dados -->
 
 		<messageevent name="offer_tirar_dados" type="fipa"
 			direction="send">
@@ -182,42 +182,13 @@
 			<parameter name="language" class="String" direction="fixed">
 				<value>SFipa.NUGGETS_XML</value>
 			</parameter>
-			<match>$content instanceof src.ontologia.concepts.Dados</match>	
+			<match>$content instanceof src.ontologia.concepts.Dados</match>
 		</messageevent>
 
 
 		<!-- Negociar Jugador -->
 
-			<messageevent name="comenzar_negociacion" type="fipa"
-				direction="send">
-				<parameter name="performative" class="String">
-					<value>SFipa.REQUEST</value>
-				</parameter>
-				<parameter name="conversation-id" class="String">
-					<value>SFipa.createUniqueId($scope.getAgentName())</value>
-				</parameter>
-				<parameter name="language" class="String" direction="fixed">
-					<value>SFipa.NUGGETS_XML</value>
-				</parameter>
-			</messageevent>
-
-			<messageevent name="negociacion_terminada" type="fipa"
-				direction="receive">
-				<parameter name="performative" class="String"
-					direction="fixed">
-					<value>SFipa.INFORM</value>
-				</parameter>
-				<parameter name="language" class="String" direction="fixed">
-					<value>SFipa.NUGGETS_XML</value>
-				</parameter>
-					<match>$content instanceof src.ontologia.predicates.NegociacionTerminada</match>
-			</messageevent>
-
-
-
-<!-- Comerciar Banco -->
-
-<messageevent name="offer_comercio_banco" type="fipa"
+		<messageevent name="comenzar_negociacion" type="fipa"
 			direction="send">
 			<parameter name="performative" class="String">
 				<value>SFipa.REQUEST</value>
@@ -228,11 +199,9 @@
 			<parameter name="language" class="String" direction="fixed">
 				<value>SFipa.NUGGETS_XML</value>
 			</parameter>
-			<match>$content instanceof src.ontologia.concepts.OfertaComercio</match>
-			
 		</messageevent>
 
- 		<messageevent name="oferta_comercio_banco" type="fipa"
+		<messageevent name="negociacion_terminada" type="fipa"
 			direction="receive">
 			<parameter name="performative" class="String"
 				direction="fixed">
@@ -241,11 +210,66 @@
 			<parameter name="language" class="String" direction="fixed">
 				<value>SFipa.NUGGETS_XML</value>
 			</parameter>
-			 <match>$content instanceof src.ontologia.concepts.OfertaJugadorBanca</match>	
+			<match>$content instanceof
+				src.ontologia.predicates.NegociacionTerminada
+			</match>
 		</messageevent>
-		
-		
-		
+
+
+
+		<!-- Comerciar Banco -->
+
+		<messageevent name="offer_comercio_banco" type="fipa"
+			direction="send">
+			<parameter name="performative" class="String">
+				<value>SFipa.REQUEST</value>
+			</parameter>
+			<parameter name="conversation-id" class="String">
+				<value>SFipa.createUniqueId($scope.getAgentName())</value>
+			</parameter>
+			<parameter name="language" class="String" direction="fixed">
+				<value>SFipa.NUGGETS_XML</value>
+			</parameter>
+			<match>$content instanceof src.ontologia.concepts.OfertaComercio
+			</match>
+
+		</messageevent>
+
+		<messageevent name="oferta_comercio_banco" type="fipa"
+			direction="receive">
+			<parameter name="performative" class="String"
+				direction="fixed">
+				<value>SFipa.INFORM</value>
+			</parameter>
+			<parameter name="language" class="String" direction="fixed">
+				<value>SFipa.NUGGETS_XML</value>
+			</parameter>
+			<match>$content instanceof src.ontologia.concepts.OfertaJugadorBanca
+			</match>
+		</messageevent>
+
+		<!-- Construir -->
+
+		<messageevent name="construir_enviar" type="fipa"
+			direction="send">
+			<parameter name="performative" class="String">
+				<value>SFipa.REQUEST</value>
+			</parameter>
+			<parameter name="conversation-id" class="String">
+				<value>SFipa.createUniqueId($scope.getAgentName())</value>
+			</parameter>
+			<parameter name="language" class="String" direction="fixed">
+				<value>SFipa.NUGGETS_XML</value>
+			</parameter>
+
+		</messageevent>
+
+		<!-- <messageevent name="construir_recibir" type="fipa" direction="receive"> 
+			<parameter name="performative" class="String" direction="fixed"> <value>SFipa.INFORM</value> 
+			</parameter> <parameter name="language" class="String" direction="fixed"> 
+			<value>SFipa.NUGGETS_XML</value> </parameter> <match>$content instanceof 
+			src.ontologia.concepts.EstadoJuego</match> </messageevent> -->
+
 		<!-- Comerciar carta desarrollo -->
 
 		<messageevent name="offer_carta_desarrollo" type="fipa"
@@ -259,10 +283,12 @@
 			<parameter name="language" class="String" direction="fixed">
 				<value>SFipa.NUGGETS_XML</value>
 			</parameter>
-			<match>$content instanceof src.ontologia.concepts.OfertaCartaDesarrollo</match>
+			<match>$content instanceof
+				src.ontologia.concepts.OfertaCartaDesarrollo
+			</match>
 		</messageevent>
 
- 		<messageevent name="carta_desarrollo" type="fipa"
+		<messageevent name="carta_desarrollo" type="fipa"
 			direction="receive">
 			<parameter name="performative" class="String"
 				direction="fixed">
@@ -271,12 +297,13 @@
 			<parameter name="language" class="String" direction="fixed">
 				<value>SFipa.NUGGETS_XML</value>
 			</parameter>
-			 <match>$content instanceof src.ontologia.concepts.CartaDesarrollo</match>	
+			<match>$content instanceof src.ontologia.concepts.CartaDesarrollo
+			</match>
 		</messageevent>
 
 
 
-	<!-- Colocar fichas -->
+		<!-- Colocar fichas -->
 
 		<messageevent name="coloca_fichas_iniciales" type="fipa"
 			direction="send">
@@ -289,10 +316,10 @@
 			<parameter name="language" class="String" direction="fixed">
 				<value>SFipa.NUGGETS_XML</value>
 			</parameter>
-			
+
 		</messageevent>
 
- 		<messageevent name="ficha_colocada" type="fipa"
+		<messageevent name="ficha_colocada" type="fipa"
 			direction="receive">
 			<parameter name="performative" class="String"
 				direction="fixed">
@@ -301,36 +328,36 @@
 			<parameter name="language" class="String" direction="fixed">
 				<value>SFipa.NUGGETS_XML</value>
 			</parameter>
-			 <match>$content instanceof src.ontologia.concepts.EstadoJuego</match>	
+			<match>$content instanceof src.ontologia.concepts.EstadoJuego</match>
 		</messageevent>
-		
+
 		<!-- Escenario Ladron -->
 
-        <messageevent name="ladron_enviar" type="fipa"
-            direction="send">
-            <parameter name="performative" class="String">
-                <value>SFipa.REQUEST</value>
-            </parameter>
-            <parameter name="conversation-id" class="String">
-                <value>SFipa.createUniqueId($scope.getAgentName())</value>
-            </parameter>
-            <parameter name="language" class="String" direction="fixed">
-                <value>SFipa.NUGGETS_XML</value>
-            </parameter>
-        </messageevent>
+		<messageevent name="ladron_enviar" type="fipa"
+			direction="send">
+			<parameter name="performative" class="String">
+				<value>SFipa.REQUEST</value>
+			</parameter>
+			<parameter name="conversation-id" class="String">
+				<value>SFipa.createUniqueId($scope.getAgentName())</value>
+			</parameter>
+			<parameter name="language" class="String" direction="fixed">
+				<value>SFipa.NUGGETS_XML</value>
+			</parameter>
+		</messageevent>
 
-         <messageevent name="ladron_recibir" type="fipa"
-            direction="receive">
-            <parameter name="performative" class="String"
-                direction="fixed">
-                <value>SFipa.INFORM</value>
-            </parameter>
-            <parameter name="language" class="String" direction="fixed">
-                <value>SFipa.NUGGETS_XML</value>
-            </parameter>
-            <match>$content instanceof src.ontologia.concepts.MoverLadron</match>
-        </messageevent>
-		
+		<messageevent name="ladron_recibir" type="fipa"
+			direction="receive">
+			<parameter name="performative" class="String"
+				direction="fixed">
+				<value>SFipa.INFORM</value>
+			</parameter>
+			<parameter name="language" class="String" direction="fixed">
+				<value>SFipa.NUGGETS_XML</value>
+			</parameter>
+			<match>$content instanceof src.ontologia.concepts.MoverLadron</match>
+		</messageevent>
+
 	</events>
 
 
@@ -356,8 +383,8 @@
 					<!-- The services to register. -->
 					<parameter ref="description">
 						<value>
-							<!-- This is the agent-description for the dealer. With this description
-								the dealers is registered at the directory facilitator. Note, that the dealer
+							<!-- This is the agent-description for the dealer. With this description 
+								the dealers is registered at the directory facilitator. Note, that the dealer 
 								only offers one service, that is 'dealing' (see service description below). -->
 							SFipa.createAgentDescription(null,
 							SFipa.createServiceDescription("Tablero", "Partida", "Grupo04"))

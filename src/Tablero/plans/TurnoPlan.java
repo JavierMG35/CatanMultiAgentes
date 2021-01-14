@@ -28,7 +28,7 @@ public class TurnoPlan extends Plan{
 		Jugador[] jugadores = (Jugador[])getBeliefbase().getBeliefSet("jugador").getFacts();
 		Orden Orden = ((Orden)getBeliefbase().getBelief("orden").getFact());
 		for(int i=0;i< Orden.getJugadores().size();i++) {
-				
+			System.out.println("La estrategia del juegdor : "+Orden.getJugadores().get(i).getStrategyname()+" "+Orden.getJugadores().get(i).getStrategy().getName()+" "+Orden.getJugadores().get(i).getStrategy());
 			EstadoJuego EstadoJuego = (EstadoJuego)getBeliefbase().getBelief("EstadoJuego").getFact();
 			BasicAgentIdentifier AidSiguiente = Orden.getJugadores().get(i).getAid();		
 			
@@ -43,7 +43,7 @@ public class TurnoPlan extends Plan{
 			System.out.println("Petición dados enviado esperando respuesta");
 			
 			IMessageEvent	respuesta	= sendMessageAndWait(mensaje_enviar);
-			
+				
 			System.out.println("Dados recibidos");
 			
 			Dados dados = (Dados)respuesta.getContent();
@@ -51,8 +51,11 @@ public class TurnoPlan extends Plan{
 			System.out.println("Ha salido un " + dados.getDados());
 			//EstadoJuego estado = (EstadoJuego)respuesta.getContent();
 			//getBeliefbase().getBelief("EstadoJuego").setFact(estado);
-			
+			System.out.println("Antes del if");
 			if(dados.getDados() == 7) {
+				System.out.println("dados dentro del if: "+dados.getDados());
+				System.out.println("dados dentro del if: "+dados.getDados());
+				System.out.println("si que entro poero no imprimo los dados");
 				////////////////////////////////////////////////////////////////////////////////
 				////////////////////////////////////////////////////////////////////////////////
 				IMessageEvent ladron_mensaje = createMessageEvent("ladron_enviar");
@@ -96,25 +99,25 @@ public class TurnoPlan extends Plan{
 							Node nodo = nodos.get(k);
 							System.out.println("llego");
 							if(nodo.isOcupado()) {
-								Jugador player = nodo.getDueño();
-								//Añadimos un recurso
-								Cartas cartas = player.getCartas();
-								cartas.setRecurso(recurso_casilla);
-								System.out.println("Se reparte el recurso " +recurso_casilla.getTipo()+" al jugador "+player.getNombre());
-							}
+                                Jugador player = nodo.getDueño();
+                                String tipo = nodo.getTipo();
+                                //Añadimos un recurso si es poblado o dos si es ciudad
+                                Cartas cartas = player.getCartas();
+                                if(tipo == "Poblado") {
+                                    cartas.setRecurso(recurso_casilla);
+                                } else {
+                                    cartas.setRecurso(recurso_casilla);
+                                    cartas.setRecurso(recurso_casilla);
+                                }
+                                System.out.println("Se reparte el recurso " +recurso_casilla.getTipo()+" al jugador "+player.getNombre());
+                            }
 						}
 					}
 				}
 				
+			
 				
 				
-				
-				
-				
-				
-				
-				
-				/*
 				//////////////////////////////////////////////////////////////////////////////////////////////////
 				////////////////////////////Negociacion con jugadores////////////////////////////////////////////////
 				//////////////////////////////////////////////////////////////////////////////////////////////////
@@ -134,8 +137,8 @@ public class TurnoPlan extends Plan{
 				System.out.println("***********************Fin Negociacion con jugadores***********************");
 				System.out.println("////////////////////////////////////////////////////////////////////////////");
 	            //////////////////////////////////////////////////////////////////////////////////////////////////
-				*/
-				/*
+				
+				
 				//////////////////////////////////////////////////////////////////////////////////////////////////
 				////////////////////////////Comerciar con el banco////////////////////////////////////////////////
 				//////////////////////////////////////////////////////////////////////////////////////////////////
@@ -163,6 +166,25 @@ public class TurnoPlan extends Plan{
 				System.out.println("////////////////////////////////////////////////////////////////////////////");
 				////////////////////////////////////////////////////////////////////////////////////////////////////
 
+
+
+
+/*
+
+				//////////////////////////////////////////////////////////////////////////////////////////////////
+				////////////////////////////Colocar una construccion/////////////////////////////////////////
+				//////////////////////////////////////////////////////////////////////////////////////////////////
+				System.out.println("////////////////////////////////////////////////////////////////////////////");
+            	IMessageEvent construir_mensaje = createMessageEvent("construir_enviar");
+            	construir_mensaje.getParameterSet(SFipa.RECEIVERS).addValue(AidSiguiente);
+            	construir_mensaje.setContent(EstadoJuego);
+            	IMessageEvent    respuesta_construir    = sendMessageAndWait(construir_mensaje);
+				System.out.println("////////////////////////////////////////////////////////////////////////////");
+				System.out.println("*************************No colocar construccion*****************************");
+				System.out.println("////////////////////////////////////////////////////////////////////////////");
+				////////////////////////////////////////////////////////////////////////////////////////////////////
+			
+*/
 				
 				//////////////////////////////////////////////////////////////////////////////////////////////////
 				////////////////////////////Comerciar carta de desarrollo/////////////////////////////////////////
@@ -190,7 +212,10 @@ public class TurnoPlan extends Plan{
 				System.out.println("**********************Fin Comerciar carta de desarrollo**********************");
 				System.out.println("////////////////////////////////////////////////////////////////////////////");
 				////////////////////////////////////////////////////////////////////////////////////////////////////
-				*/
+				
+				
+				
+				
 				
 				
 				

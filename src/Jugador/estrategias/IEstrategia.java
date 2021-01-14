@@ -18,7 +18,7 @@ public interface IEstrategia {
 	
 	public abstract boolean aceptarOferta(RealizarOferta oferta, Cartas mis_cartas);
 
-	public abstract Construccion decidirConstruccion();
+	public abstract Construccion decidirConstruccion(Mapa mapa, Cartas cartas, String nombre);
 	
 	public abstract Boolean decidirCompra();
 	

@@ -8,8 +8,12 @@ import jadex.model.jibximpl.Agent;
 import jadex.runtime.BasicAgentIdentifier;
 //import jadex.util.SUtil;
 import jadex.util.SimplePropertyChangeSupport;
+import src.Jugador.estrategias.AbstractEstrategias;
 import src.Jugador.estrategias.IEstrategia;
+import src.Mapa.Node;
+import src.Mapa.Edge;
 import src.ontologia.concepts.Cartas;
+import src.ontologia.concepts.Construccion;
 import src.ontologia.concepts.EstadoJuego;
 import src.ontologia.concepts.Recurso;
 
@@ -21,13 +25,13 @@ import java.util.Random;
 //import jadex.runtime.*;
 
 
+
 public class Jugador extends Agent{
 	
 	//-------- constructors --------
 			public Jugador()
 			{
 				this(null, null, null);
-				comoquieras=new Zoo("holas");
 			}
 			/**
 			 *  Create a new Player.
@@ -35,9 +39,7 @@ public class Jugador extends Agent{
 			public Jugador(String name,String strategyname,String grupo)
 			{
 				this(null,name, strategyname,grupo);
-				comoquieras=new Zoo(grupo);
-				Random rand1=new Random();
-				this.id=rand1.nextInt(312312312);
+				
 			}
 
 			/**
@@ -45,6 +47,7 @@ public class Jugador extends Agent{
 			 */
 			public Jugador(AgentIdentifier aid,String nombre, String strategyname,String grupo)
 			{
+						
 				comoquieras=new Zoo(grupo);
 				Random rand1=new Random();
 				this.id=rand1.nextInt(312312312);
@@ -52,11 +55,10 @@ public class Jugador extends Agent{
 				this.nombre	= nombre;
 				this.strategyname = strategyname;
 				//if(strategyname!=null)
-				//this.strategy	= AbstractStrategy.getStrategy(strategyname);
+				this.strategy	= AbstractEstrategias.getStrategy(strategyname);
 				this.state	= STATE_UNREGISTERED;
 				this.pcs = new SimplePropertyChangeSupport(this);
 			}
-
 	//-------- constants --------
 
 		/** . */
@@ -81,8 +83,10 @@ public class Jugador extends Agent{
 		
 		protected Cartas cartas = new Cartas();
 		
-		protected List construcciones;
+		protected List<Construccion> construcciones;
 		
+		
+
 		protected int tirada;
 		
 		protected int posicion_mesa;
@@ -115,12 +119,14 @@ public class Jugador extends Agent{
 		public void setCartas(Cartas cartas) {
 			this.cartas = cartas;
 		}
-		public List getConstrucciones() {
+		public List<Construccion> getConstrucciones() {
 			return construcciones;
 		}
-		public void setConstrucciones(List construcciones) {
+		
+		public void setConstrucciones(List<Construccion> construcciones) {
 			this.construcciones = construcciones;
 		}
+		
 		public int getTirada() {
 			return tirada;
 		}
@@ -203,4 +209,58 @@ public class Jugador extends Agent{
 			
 		}
 		
+		public int [] getNumeroConstrucciones() {
+            int [] numero = new int [3];
+            List<Construccion> construcciones = this.getConstrucciones();
+
+            for (int i = 0; i < construcciones.size(); i++) {
+                if(construcciones.get(i).getTipo() == "Poblado") numero[0] = numero[0]+1;
+                if(construcciones.get(i).getTipo() == "Ciudad") numero[1] = numero[1]+1;
+                if(construcciones.get(i).getTipo() == "Carretera") numero[2] = numero[2]+1;
+            }
+            return numero;
+    }
+	public void ConstruirPoblado(Node nodo) {
+	        Recurso paja = new Recurso();
+	        paja.setTipo("Paja");
+	        Recurso madera = new Recurso();
+	        madera.setTipo("Madera");
+	        Recurso arcilla = new Recurso();
+	        arcilla.setTipo("Arcilla");
+	        Recurso lana = new Recurso();
+	        lana.setTipo("Lana");
+	        cartas.removeRecurso(paja);
+	        cartas.removeRecurso(madera);
+	        cartas.removeRecurso(arcilla);
+	        cartas.removeRecurso(lana);
+	        this.setPuntuacion(this.getPuntuacion() + 1);
+	        Construccion poblado = new Construccion("Poblado", nodo, this, null);
+	        this.getConstrucciones().add(poblado);
+	    }
+	
+	    public void ConstruirCiudad(Node nodo) {
+	        Recurso paja = new Recurso();
+	        paja.setTipo("Paja");
+	        Recurso piedra = new Recurso();
+	        piedra.setTipo("Piedra");
+	        cartas.removeRecurso(paja);
+	        cartas.removeRecurso(paja);
+	        cartas.removeRecurso(piedra);
+	        cartas.removeRecurso(paja);
+	        this.setPuntuacion(this.getPuntuacion() + 1);
+	        Construccion ciudad = new Construccion("Ciudad", nodo, this, null);
+	        this.getConstrucciones().add(ciudad);
+	    }
+	
+	    public void ConstruirCarretera(Edge edge) {
+	        Recurso arcilla = new Recurso();
+	        arcilla.setTipo("Arcilla");
+	        Recurso madera = new Recurso();
+	        madera.setTipo("Madera");
+	        cartas.removeRecurso(arcilla);
+	        cartas.removeRecurso(madera);
+	        Construccion carretera = new Construccion("Carretera", null, this, edge);
+	        this.getConstrucciones().add(carretera);
+	    }
+			
 }

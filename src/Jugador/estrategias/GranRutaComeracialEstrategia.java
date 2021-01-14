@@ -3,6 +3,9 @@ package src.Jugador.estrategias;
 import java.util.List;
 
 import src.Jugador.Jugador;
+import src.Mapa.Node;
+import src.Mapa.Casilla;
+import src.Mapa.Edge;
 import src.ontologia.actions.RealizarOferta;
 import src.ontologia.concepts.*;
 //import java.util.List;
@@ -10,7 +13,9 @@ import java.util.ArrayList;
 
 public class GranRutaComeracialEstrategia extends AbstractEstrategias {
 
-	
+	public GranRutaComeracialEstrategia() {
+		// TODO Auto-generated constructor stub
+	}
 	public GranRutaComeracialEstrategia(String name) {
 		super(name);
 		// TODO Auto-generated constructor stub
@@ -19,7 +24,6 @@ public class GranRutaComeracialEstrategia extends AbstractEstrategias {
 	@Override
 	public Recurso propuestaNegociarJugadorRecibir(Jugador yo) {
 		Cartas cartas = yo.getCartas();
-		String dflaksjdfñlsdj;
 		boolean necesito_arcilla = false;
 		boolean necesito_madera = false;
 		List<Cartas> lana = cartas.getLana();
@@ -151,17 +155,71 @@ public class GranRutaComeracialEstrategia extends AbstractEstrategias {
 
 
 	@Override
-	public Construccion decidirConstruccion() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	public Boolean decidirCompra() {
 		// TODO Auto-generated method stub
 		return true;
 	}
 
+	@Override
+	public Construccion decidirConstruccion(Mapa mapa, Cartas cartas, String nombre) {
+		List<Casilla> casillas = mapa.getCasillas();
+		Construccion retorno = null;
+
+		// Queremos hacer carreteras primero
+		if (cartas.getArcilla().size() >= 1 && cartas.getMadera().size() >= 1) {
+			// Ya tenemos suficientes recursos para construir carretera
+
+			for (int i = 0; i < casillas.size(); i++) {
+				List<Node> nodos = casillas.get(i).getAdyacentes();
+
+				for (int j = 0; j < nodos.size(); j++) {
+
+					if (nodos.get(j).getDueño().getNombre().equals(nombre)) {
+						List<Edge> caminos = nodos.get(j).getEdges();
+
+						for (int k = 0; k < caminos.size(); k++) {
+
+							if (!caminos.get(k).isCarretera() && cartas.getArcilla().size() >= 1
+									&& cartas.getMadera().size() >= 1) {
+								retorno = new Construccion("Carretera", null, caminos.get(k));
+							}
+						}
+					}
+				}
+			}
+		} // Poblado
+		else if (cartas.getArcilla().size() >= 1 && cartas.getMadera().size() >= 1 && cartas.getPaja().size() >= 1
+				&& cartas.getLana().size() >= 1) {
+
+			for (int i = 0; i < casillas.size(); i++) {
+				List<Node> nodos = casillas.get(i).getAdyacentes();
+
+				for (int j = 0; j < nodos.size(); j++) {
+
+					if (!nodos.get(j).isOcupado()) {
+						retorno = new Construccion("Poblado", nodos.get(j), null);
+					}
+				}
+			}
+		} // Ciudades.
+		else if (cartas.getPaja().size() >= 2 && cartas.getPiedra().size() >= 3) {
+
+			for (int i = 0; i < casillas.size(); i++) {
+				List<Node> nodos = casillas.get(i).getAdyacentes();
+
+				for (int j = 0; j < nodos.size(); j++) {
+
+					if (nodos.get(j).getDueño().getNombre().equals(nombre)) {
+						if (nodos.get(j).getTipo() == "Poblado" && cartas.getPaja().size() >= 2
+								&& cartas.getPiedra().size() >= 3) {
+							retorno = new Construccion("Ciudad", nodos.get(j), null);
+						}
+					}
+				}
+			}
+		}
+		return retorno;
+	}
 	
 	
 
