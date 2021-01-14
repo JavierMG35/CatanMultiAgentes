@@ -20,7 +20,7 @@ public interface IEstrategia {
 
 	public abstract Construccion decidirConstruccion();
 	
-	public abstract Cartas decidirCompra();
+	public abstract Boolean decidirCompra();
 	
 	public String getName();
 

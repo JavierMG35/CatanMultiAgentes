@@ -490,7 +490,7 @@ public class Mapa {
 		this.madera = madera;
 	}
 
-	public void setDesierto(int desierto) {
+	public void setDesierto() {
 		this.desierto = desierto;
 	}
 

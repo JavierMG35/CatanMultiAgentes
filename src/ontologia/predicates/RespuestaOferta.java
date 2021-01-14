@@ -1,4 +1,4 @@
-package src.ontologia.actions;
+package src.ontologia.predicates;
 
 public class RespuestaOferta {
 	

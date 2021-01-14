@@ -128,9 +128,9 @@ public class CosmopolitaEstrategia extends AbstractEstrategias{
 	}
 
 	@Override
-	public Cartas decidirCompra() {
+	public Boolean decidirCompra() {
 		// TODO Auto-generated method stub
-		return null;
+		return true;
 	}
 	
 

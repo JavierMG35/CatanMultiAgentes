@@ -10,6 +10,7 @@ import src.Jugador.*;
 import src.Jugador.estrategias.AbstractEstrategias;
 import src.Jugador.estrategias.IEstrategia;
 import src.ontologia.actions.*;
+import src.ontologia.predicates.RespuestaOferta;
 
 
 public class RecibirOfertaPlan extends Plan{

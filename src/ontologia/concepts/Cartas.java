@@ -11,7 +11,7 @@ public class Cartas {
 	protected List<Recurso> arcilla;
 	protected List<Recurso> piedra;
 	protected List<Recurso> paja;
-	protected List<Recurso> cartas_desarrollo;
+	protected List<CartaDesarrollo> cartas_desarrollo;
 	
 	
 	public Cartas() {
@@ -113,7 +113,7 @@ public class Cartas {
 
 
 
-	public void setCartas_desarrollo(List<Recurso> cartas_desarrollo) {
+	public void setCartas_desarrollo(List<CartaDesarrollo> cartas_desarrollo) {
 		this.cartas_desarrollo = cartas_desarrollo;
 	}
 
@@ -178,7 +178,12 @@ public class Cartas {
 		}
 		this.paja.add(pajas);
 	}
-	
+	public void addDesarrollo(CartaDesarrollo desarrollo) {
+		if(this.cartas_desarrollo ==null) {
+			cartas_desarrollo = new ArrayList<>();
+		}
+		this.cartas_desarrollo.add(desarrollo);
+	}
 	
 
 	

@@ -11,6 +11,7 @@ import jadex.util.SimplePropertyChangeSupport;
 import src.Jugador.estrategias.IEstrategia;
 import src.ontologia.concepts.Cartas;
 import src.ontologia.concepts.EstadoJuego;
+import src.ontologia.concepts.Recurso;
 
 //import java.beans.PropertyChangeListener;
 //import java.awt.Color;
@@ -179,11 +180,27 @@ public class Jugador extends Agent{
 			}			
 			return estado;
 		}
+		
+		public boolean PermitirCartaDesarrollo() 
+		{
+			if (this.cartas.getPaja().size()>1 && this.cartas.getLana().size()>1 && this.cartas.getPiedra().size()>1)return true;
+			return false;
+		}
+		
 		public IEstrategia getStrategy() {
 			return strategy;
 		}
 		public void setStrategy(IEstrategia strategy) {
 			this.strategy = strategy;
+		}
+		public Recurso cuatroCartasIguales(Recurso recurso,String tipo_evitar) {
+			if (getCartas().getArcilla().size()>3 && !tipo_evitar.equals("Arcilla")) 	recurso.setTipo("Arcilla");
+			if (getCartas().getLana().size()>3 && 	!tipo_evitar.equals("Lana"))		recurso.setTipo("Lana");
+			if (getCartas().getPiedra().size()>3 && 	!tipo_evitar.equals("Piedra"))	recurso.setTipo("Piedra");
+			if (getCartas().getMadera().size()>3 && 	!tipo_evitar.equals("Madera"))	recurso.setTipo("Madera");
+			if (getCartas().getPaja().size()>3 && 	!tipo_evitar.equals("Paja"))		recurso.setTipo("Paja");
+			return recurso;
+			
 		}
 		
 }

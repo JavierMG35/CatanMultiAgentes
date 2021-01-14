@@ -8,6 +8,7 @@ import jadex.runtime.IMessageEvent;
 import jadex.runtime.Plan;
 import src.Jugador.Jugador;
 import src.Tablero.Tablero;
+import src.ontologia.actions.OfrecerNegociacion;
 import src.ontologia.actions.TirarDados;
 import src.ontologia.concepts.*;
 import src.Mapa.Casilla;
@@ -51,11 +52,20 @@ public class TurnoPlan extends Plan{
 			//EstadoJuego estado = (EstadoJuego)respuesta.getContent();
 			//getBeliefbase().getBelief("EstadoJuego").setFact(estado);
 			
-			if(dados.getDados() == 13) {
+			if(dados.getDados() == 7) {
+				////////////////////////////////////////////////////////////////////////////////
+				////////////////////////////////////////////////////////////////////////////////
 				IMessageEvent ladron_mensaje = createMessageEvent("ladron_enviar");
-				ladron_mensaje.getParameterSet(SFipa.RECEIVERS).addValue(AidSiguiente);
-				ladron_mensaje.setContent(EstadoJuego);
-				IMessageEvent	respuesta_ladron	= sendMessageAndWait(ladron_mensaje);
+                ladron_mensaje.getParameterSet(SFipa.RECEIVERS).addValue(AidSiguiente);
+                MoverLadron MoverLadron = new MoverLadron();
+                MoverLadron.setEstadoJuego(EstadoJuego);
+                ladron_mensaje.setContent(MoverLadron);
+                System.out.println("Se juega al ladron");
+                IMessageEvent    respuesta_ladron    = sendMessageAndWait(ladron_mensaje);
+                System.out.println("Se ha recibido la nueva posicion del ladron");
+                //System.out.println("-----------------TIENE ESTE MAPA DESPUES DEL LADRON----------------");
+                //MoverLadron mensaje=(MoverLadron) respuesta_ladron.getParameter(SFipa.CONTENT).getValue();
+                //mensaje.getEstadoJuego().getMapa().printMapa();
 			
 			
 			} else {
@@ -97,6 +107,35 @@ public class TurnoPlan extends Plan{
 				}
 				
 				
+				
+				
+				
+				
+				
+				
+				
+				/*
+				//////////////////////////////////////////////////////////////////////////////////////////////////
+				////////////////////////////Negociacion con jugadores////////////////////////////////////////////////
+				//////////////////////////////////////////////////////////////////////////////////////////////////
+				System.out.println("////////////////////////////////////////////////////////////////////////////");
+				System.out.println("**************************Negociacion con jugadores*************************");
+				System.out.println("////////////////////////////////////////////////////////////////////////////");
+	            IMessageEvent mensaje_comenzar_negociacion = createMessageEvent("comenzar_negociacion");
+	            OfrecerNegociacion contenido = new OfrecerNegociacion(EstadoJuego);
+	            mensaje_comenzar_negociacion.getParameterSet(SFipa.RECEIVERS).addValue(AidSiguiente);
+	            mensaje_comenzar_negociacion.setContent(contenido);
+	            System.out.println("Mensaje para comenzar a negociar enviado");
+	            IMessageEvent    respuesta_negociacion    = sendMessageAndWait(mensaje_comenzar_negociacion);
+	            System.out.println("Negociación terminada");
+	            EstadoJuego = (EstadoJuego)respuesta_negociacion.getContent();
+	            getBeliefbase().getBelief("EstadoJuego").setFact(EstadoJuego);
+	            System.out.println("////////////////////////////////////////////////////////////////////////////");
+				System.out.println("***********************Fin Negociacion con jugadores***********************");
+				System.out.println("////////////////////////////////////////////////////////////////////////////");
+	            //////////////////////////////////////////////////////////////////////////////////////////////////
+				*/
+				/*
 				//////////////////////////////////////////////////////////////////////////////////////////////////
 				////////////////////////////Comerciar con el banco////////////////////////////////////////////////
 				//////////////////////////////////////////////////////////////////////////////////////////////////
@@ -123,6 +162,36 @@ public class TurnoPlan extends Plan{
 				System.out.println("***************************Fin comrecio con el banco************************");
 				System.out.println("////////////////////////////////////////////////////////////////////////////");
 				////////////////////////////////////////////////////////////////////////////////////////////////////
+
+				
+				//////////////////////////////////////////////////////////////////////////////////////////////////
+				////////////////////////////Comerciar carta de desarrollo/////////////////////////////////////////
+				//////////////////////////////////////////////////////////////////////////////////////////////////
+				System.out.println("////////////////////////////////////////////////////////////////////////////");
+				System.out.println("************************Comerciar carta de desarrollo***********************");
+				System.out.println("////////////////////////////////////////////////////////////////////////////");
+				AidSiguiente = Orden.getJugadores().get(i).getAid();		
+				IMessageEvent mensaje_carta_desarrollo = createMessageEvent("offer_carta_desarrollo");
+				mensaje_carta_desarrollo.getParameterSet(SFipa.RECEIVERS).addValue(AidSiguiente);
+				
+				mensaje_carta_desarrollo.setContent(new OfertaCartaDesarrollo(EstadoJuego));
+				System.out.println("Notifico de la fase de compra de cartas de desarrollo: "+Orden.getJugadores().get(i).getAid());
+				IMessageEvent	respuestacartadesarrollo	= sendMessageAndWait(mensaje_carta_desarrollo);
+				///////oferta ="desado"+"ofrecido"				
+				
+				CartaDesarrollo carta_desarrollo = (CartaDesarrollo) respuestacartadesarrollo.getContent();
+				if (carta_desarrollo!=null) {
+					EstadoJuego.getJugadores().get(i).getCartas().addDesarrollo(carta_desarrollo);
+					System.out.println("El jugaodr compro una carta de desarrollo");
+				}
+				else {System.out.println("El juegador no compro la carta de desarrollo");}
+			
+				System.out.println("////////////////////////////////////////////////////////////////////////////");
+				System.out.println("**********************Fin Comerciar carta de desarrollo**********************");
+				System.out.println("////////////////////////////////////////////////////////////////////////////");
+				////////////////////////////////////////////////////////////////////////////////////////////////////
+				*/
+				
 				
 				
 				

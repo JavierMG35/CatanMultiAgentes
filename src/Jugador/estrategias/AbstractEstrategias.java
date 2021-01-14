@@ -48,7 +48,7 @@ public abstract class AbstractEstrategias implements IEstrategia{
 
 		public abstract Construccion decidirConstruccion();
 		
-		public abstract Cartas decidirCompra();
+		public abstract Boolean decidirCompra();
 
 		public String getName()
 		{

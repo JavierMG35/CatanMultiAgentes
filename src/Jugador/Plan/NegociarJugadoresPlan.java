@@ -12,19 +12,23 @@ import src.Jugador.estrategias.IEstrategia;
 import java.util.ArrayList;
 import java.util.List;
 import src.ontologia.actions.*;
-import src.ontologia.actions.*;
 import src.ontologia.concepts.EstadoJuego;
 import src.ontologia.concepts.Recurso;
+import src.ontologia.predicates.NegociacionTerminada;
+import src.ontologia.predicates.RespuestaOferta;
 
 public class NegociarJugadoresPlan extends Plan  {
 	public void body() {
 		
 		IMessageEvent	mensaje_recibido	= (IMessageEvent)getInitialEvent();
-		AgentIdentifier tablero = (AgentIdentifier) mensaje_recibido.getParameter("sender").getValue();
-		EstadoJuego  estadojuego = (EstadoJuego)mensaje_recibido.getContent();
-		List<Jugador> jugadores = estadojuego.getJugadores();
 		Jugador	yo	= (Jugador)getBeliefbase().getBelief("myself").getFact();
 		System.out.println("Recibido mensaje para negociar de Tablero a " + yo.getNombre());
+		AgentIdentifier tablero = (AgentIdentifier) mensaje_recibido.getParameter("sender").getValue();
+		OfrecerNegociacion  contenido = (OfrecerNegociacion)mensaje_recibido.getContent();
+		EstadoJuego estadojuego = contenido.getEstadodejuego();
+		List<Jugador> jugadores = estadojuego.getJugadores();
+		
+		
 		
 		/////////negociar/////
 		///Seleccionar qué quiero negociar
@@ -32,6 +36,9 @@ public class NegociarJugadoresPlan extends Plan  {
 		Recurso recurso_necesario = estrategia.propuestaNegociarJugadorRecibir(yo);
 		List<Recurso> recursos_ofrecer = estrategia.propuestaNegociarJugadorOfrecer(yo);
 		RealizarOferta oferta = new RealizarOferta(recursos_ofrecer,recurso_necesario, yo);
+		
+		
+		
 		///negociar
 		System.out.println("Comienza negociación");
 		Random toca_jugador =  new Random();
@@ -65,8 +72,11 @@ public class NegociarJugadoresPlan extends Plan  {
 			
 			
 		}
-		
-		
+		estadojuego = yo.setMyself(estadojuego);
+		NegociacionTerminada contenido_respuesta = new NegociacionTerminada(estadojuego);
+		IMessageEvent negociacion_terminada = mensaje_recibido.createReply("negociacion_terminada");
+		negociacion_terminada.setContent(contenido_respuesta);
+	    sendMessage(negociacion_terminada);
 		System.out.println("Negociacion de " + yo.getNombre() + " terminada.");
 		getBeliefbase().getBelief("myself").setFact(yo);
 	}
