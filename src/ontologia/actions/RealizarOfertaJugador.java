@@ -3,22 +3,27 @@ package src.ontologia.actions;
 import java.util.List;
 import src.Jugador.*;
 import src.ontologia.concepts.*;
-public class RealizarOferta {
-	List<Recurso> te_doy;
+public class RealizarOfertaJugador {
+	Recurso te_doy;
 	Recurso me_das;
 	Jugador jugador;
+	EstadoJuego estadojuego;
 
-	 public RealizarOferta(List<Recurso> doy, Recurso a_cambio_de, Jugador ofertante) {
+	 public RealizarOfertaJugador() {
+		 
+	 }
+	 public RealizarOfertaJugador(Recurso doy, Recurso a_cambio_de, Jugador ofertante, EstadoJuego estadodeljuego) {
 		 this.te_doy = doy;
 		 this.me_das = a_cambio_de;
 		 this.jugador = ofertante;
+		 this.estadojuego = estadodeljuego;
 	 }
 
-	public List<Recurso> getTe_doy() {
+	public Recurso getTe_doy() {
 		return te_doy;
 	}
 
-	public void setTe_doy(List<Recurso> te_doy) {
+	public void setTe_doy(Recurso te_doy) {
 		this.te_doy = te_doy;
 	}
 
@@ -37,5 +42,13 @@ public class RealizarOferta {
 	public void setJugador(Jugador jugador) {
 		this.jugador = jugador;
 	}
+	public EstadoJuego getEstadojuego() {
+		return estadojuego;
+	}
+	public void setEstadojuego(EstadoJuego estadojuego) {
+		this.estadojuego = estadojuego;
+	}
+	
+	
 	 
 }

@@ -9,9 +9,9 @@ import src.Jugador.estrategias.IEstrategia;
 import src.ontologia.concepts.EstadoJuego;
 import src.ontologia.concepts.Mapa;
 import src.ontologia.concepts.Recurso;
+import src.ontologia.actions.OfrecerConstruir;
 import src.ontologia.concepts.Cartas;
 import src.ontologia.concepts.Construccion;
-import src.ontologia.concepts.ConstruirEstado;
 
 public class ConstruirPlan extends Plan {
 
@@ -23,7 +23,7 @@ public class ConstruirPlan extends Plan {
 
 		IMessageEvent request = (IMessageEvent) getInitialEvent();
 		AgentIdentifier tablero = (AgentIdentifier) request.getParameter("sender").getValue();
-		ConstruirEstado construircontenido = (ConstruirEstado) request.getParameter(SFipa.CONTENT).getValue();
+		OfrecerConstruir construircontenido = (OfrecerConstruir) request.getParameter(SFipa.CONTENT).getValue();
 		EstadoJuego estadojuego = construircontenido.getEstadoJuego();
 		Mapa mapa = estadojuego.getMapa();
 		Jugador yo = (Jugador) getBeliefbase().getBelief("myself").getFact();

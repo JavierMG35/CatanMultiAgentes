@@ -3,7 +3,8 @@ package src.Jugador.estrategias;
 import java.util.*;
 import jadex.util.SReflect;
 import src.Jugador.Jugador;
-import src.ontologia.actions.RealizarOferta;
+import src.ontologia.actions.RealizarOfertaJugador;
+import src.ontologia.actions.RealizarOfertaJugador;
 import src.ontologia.concepts.*;
 
 public abstract class AbstractEstrategias implements IEstrategia{
@@ -41,13 +42,13 @@ public abstract class AbstractEstrategias implements IEstrategia{
 		//-------- methods --------
 
 		
-		public abstract List<Recurso> propuestaNegociarJugadorOfrecer(Jugador jugador);
+		public abstract Recurso propuestaNegociarJugadorOfrecer(Jugador jugador);
 		
 		public abstract Recurso propuestaNegociarJugadorRecibir(Jugador jugador);
 		
 		public abstract Recurso[] propuestaNegociarBanca(Cartas carta, Mapa mapa, Jugador yo);
 		
-		public abstract boolean aceptarOferta(RealizarOferta oferta, Cartas mis_cartas);
+		public abstract boolean aceptarOferta(RealizarOfertaJugador  oferta, Jugador yo);
 
 		public abstract Construccion decidirConstruccion(Mapa mapa, Cartas cartas, String nombre);
 		
@@ -116,6 +117,8 @@ public abstract class AbstractEstrategias implements IEstrategia{
 		{
 			return (IEstrategia[])strategies.toArray(new IEstrategia[strategies.size()]);
 		}
+
+	
 	}
 
 

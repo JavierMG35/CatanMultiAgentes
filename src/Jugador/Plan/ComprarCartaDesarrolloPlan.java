@@ -5,9 +5,9 @@ import jadex.adapter.fipa.SFipa;
 import jadex.runtime.IMessageEvent;
 import jadex.runtime.Plan;
 import src.Jugador.Jugador;
+import src.ontologia.actions.OfrecerCartaDesarrollo;
 import src.ontologia.concepts.CartaDesarrollo;
 import src.ontologia.concepts.EstadoJuego;
-import src.ontologia.concepts.OfertaCartaDesarrollo;
 
 public class ComprarCartaDesarrolloPlan extends Plan{
 	
@@ -16,7 +16,7 @@ public class ComprarCartaDesarrolloPlan extends Plan{
 		////////////////////////////////Recibo el mensaje con el estado del juego actual
 		IMessageEvent	request	= (IMessageEvent)getInitialEvent();
 		AgentIdentifier tablero = (AgentIdentifier) request.getParameter("sender").getValue();
-		OfertaCartaDesarrollo oferta_carta_desarrollo = (OfertaCartaDesarrollo)request.getContent();
+		OfrecerCartaDesarrollo oferta_carta_desarrollo = (OfrecerCartaDesarrollo)request.getContent();
 		EstadoJuego EstadoJuego = oferta_carta_desarrollo.getEstadoJuego();
 		
 		////////////////////////////////Busco a mi personaje para actualizar mi base de creencias

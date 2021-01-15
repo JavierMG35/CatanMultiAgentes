@@ -1,14 +1,16 @@
-package src.ontologia.concepts;
+package src.ontologia.actions;
 
-public class ConstruirEstado {
+import src.ontologia.concepts.EstadoJuego;
+
+public class OfrecerConstruir {
 	
 	EstadoJuego EstadoJuego;
 	
-	public ConstruirEstado() {
+	public OfrecerConstruir() {
 		this.EstadoJuego = new EstadoJuego();
 	}
 	
-	public ConstruirEstado(EstadoJuego estado) {
+	public OfrecerConstruir(EstadoJuego estado) {
 		this.EstadoJuego = estado;
 	}
 	

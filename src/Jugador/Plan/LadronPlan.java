@@ -7,7 +7,7 @@ import jadex.runtime.Plan;
 import src.Jugador.Jugador;
 import src.Mapa.Casilla;
 import src.ontologia.concepts.EstadoJuego;
-import src.ontologia.concepts.MoverLadron;
+import src.ontologia.predicates.LadronDesplazado;
 
 public class LadronPlan extends Plan {
 
@@ -17,7 +17,7 @@ public class LadronPlan extends Plan {
 			AgentIdentifier tablero = (AgentIdentifier) request.getParameter("sender").getValue();
 			Jugador	yo	= (Jugador)getBeliefbase().getBelief("myself").getFact();
 			
-			MoverLadron estado_ladron = (MoverLadron)request.getParameter(SFipa.CONTENT).getValue();
+			LadronDesplazado estado_ladron = (LadronDesplazado)request.getParameter(SFipa.CONTENT).getValue();
 			EstadoJuego estado = (EstadoJuego)estado_ladron.getEstadoJuego();
 			List<Casilla> casillas = estado.getMapa().getCasillas();
 			

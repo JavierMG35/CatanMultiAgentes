@@ -10,40 +10,43 @@ import src.Jugador.*;
 import src.Jugador.estrategias.AbstractEstrategias;
 import src.Jugador.estrategias.IEstrategia;
 import src.ontologia.actions.*;
+import src.ontologia.concepts.EstadoJuego;
 import src.ontologia.predicates.RespuestaOferta;
 
 
 public class RecibirOfertaPlan extends Plan{
 	public void body() {
 		IMessageEvent	request	= (IMessageEvent)getInitialEvent();
-		AgentIdentifier ofertante_aid = (AgentIdentifier) request.getParameter("sender").getValue();
-		RealizarOferta  oferta = (RealizarOferta)request.getContent();
+		RealizarOfertaJugador  oferta = (RealizarOfertaJugador)request.getContent();
 		Jugador	yo	= (Jugador)getBeliefbase().getBelief("myself").getFact();
-		System.out.println("Recibido mensaje de " + oferta.getJugador().getNombre() + " a mi, " + yo.getNombre());
+		EstadoJuego estadojuego = oferta.getEstadojuego();
+		System.out.println("Recibida oferta de negociacion de " + oferta.getJugador().getNombre() + " a mi, " + yo.getNombre());
 		
-		//valorar oferta
+		/*
+		 * Según la estrategia, decidimos si queremos aceptar la oferta o no
+		 */
 		IEstrategia estrategia = yo.getStrategy();
-		boolean acepto = estrategia.aceptarOferta(oferta,yo.getCartas());
-		System.out.println("Oferta: " + oferta.getJugador().getNombre() + " da " + oferta.getTe_doy().get(0).getTipo() + " a cambio de que " + yo.getNombre() + " de " + oferta.getMe_das().getTipo());
+		boolean acepto = estrategia.aceptarOferta(oferta,yo);
 		
+		/*
+		 * Si acepta la oferta, actualizamos los recursos
+		 */
 		if(acepto) {
 			System.out.println("Acepto la oferta");
-			System.out.println("Mis cartas antes de dar mi recurso: " + yo.getCartas().getRecurso(oferta.getMe_das()).get(0).getTipo()  + yo.getCartas().getRecurso(oferta.getMe_das()).size()  );
+			System.out.println(yo.getNombre() + " gana 1 unidad de " + oferta.getTe_doy().getTipo() + " a cambio de 1 unidad de " + oferta.getMe_das().getTipo());
 			yo.getCartas().getRecurso(oferta.getMe_das()).remove(0);
-			System.out.println("Mis cartas despues de darlo : " + yo.getCartas().getRecurso(oferta.getMe_das()).get(0).getTipo()  + yo.getCartas().getRecurso(oferta.getMe_das()).size()  );
-				
-			System.out.println("Mis cartas antes de recibir mi recurso: " + yo.getCartas().getRecurso(oferta.getMe_das()).get(0).getTipo()  + yo.getCartas().getRecurso(oferta.getMe_das()).size()  );
-			yo.getCartas().getRecurso(oferta.getTe_doy().get(0)).addAll(oferta.getTe_doy());
-			System.out.println("Mis cartas antes de recibir mi recurso: " + yo.getCartas().getRecurso(oferta.getMe_das()).get(0).getTipo()  + yo.getCartas().getRecurso(oferta.getMe_das()).size()  );
+			yo.getCartas().getRecurso(oferta.getTe_doy()).add(oferta.getTe_doy());
 		}
-		RespuestaOferta decision = new RespuestaOferta(acepto);
 		
+		/*
+		 * Mandamos la decision de la oferta al ofertante y actualizamos creencias
+		 */
+		estadojuego = yo.setMyself(estadojuego);
 		getBeliefbase().getBelief("myself").setFact(yo);
-		
-		IMessageEvent respuesta_oferta = request.createReply("respuesta_oferta");
-		respuesta_oferta.setContent(decision);
+		RespuestaOferta decision = new RespuestaOferta(acepto,estadojuego);	
+		IMessageEvent respuesta_oferta = request.createReply("respuesta_oferta_n",decision);
 	    sendMessage(respuesta_oferta);
-	    System.out.println("Decisión enviada. ¿Acepto? = " + decision.isAcepto());
+
 	}
 
 }

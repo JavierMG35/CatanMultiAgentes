@@ -6,7 +6,7 @@ import jadex.runtime.IMessageEvent;
 import jadex.runtime.Plan;
 import jadex.adapter.fipa.SFipa;
 import src.Jugador.Jugador;
-import src.ontologia.actions.Request_unirse_partida;
+import src.ontologia.actions.SolicitarUnirsePartida;
 
 public class Unirse_partida_Plan extends Plan {
 	public void body()
@@ -14,11 +14,10 @@ public class Unirse_partida_Plan extends Plan {
 	IMessageEvent	request	= (IMessageEvent)getInitialEvent();
 	AgentIdentifier tablero = (AgentIdentifier) request.getParameter("sender").getValue();
 	System.out.println("Recibido mensaje de Tablero a Jugador");
-	Request_unirse_partida rj = (Request_unirse_partida)request.getContent();
+	SolicitarUnirsePartida rj = (SolicitarUnirsePartida)request.getContent();
 	Jugador	yo	= (Jugador)getBeliefbase().getBelief("myself").getFact();
 	yo.setAgentID(getAgentIdentifier());
 	rj.setJugador(yo);
-	System.out.println("Mi grupo es ----------------------------"+yo.getComoquieras().getGrupo());
 	IMessageEvent mensaje_enviar = request.createReply("unirse_partida",rj);
 	//mensaje_enviar.getParameterSet(SFipa.RECEIVERS).addValue(tablero);
 	//mensaje_enviar.setContent(yo);

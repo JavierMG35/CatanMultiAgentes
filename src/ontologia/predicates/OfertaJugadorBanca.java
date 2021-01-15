@@ -1,4 +1,4 @@
-package src.ontologia.concepts;
+package src.ontologia.predicates;
 
 public class OfertaJugadorBanca {
 	String[] Oferta={"",""};

@@ -7,10 +7,10 @@ import jadex.adapter.fipa.SFipa;
 import jadex.runtime.IMessageEvent;
 import jadex.runtime.Plan;
 import src.Jugador.Jugador;
+import src.ontologia.actions.OfrecerComerciarBanca;
 import src.ontologia.concepts.EstadoJuego;
-import src.ontologia.concepts.OfertaComercio;
-import src.ontologia.concepts.OfertaJugadorBanca;
 import src.ontologia.concepts.Recurso;
+import src.ontologia.predicates.OfertaJugadorBanca;
 
 public class CambiarRecursosConBancaPlan extends Plan{
 	
@@ -21,7 +21,7 @@ public class CambiarRecursosConBancaPlan extends Plan{
 		////////////////////////////////Recibo el mensaje con el estado del juego actual
 		IMessageEvent	request	= (IMessageEvent)getInitialEvent();
 		AgentIdentifier tablero = (AgentIdentifier) request.getParameter("sender").getValue();
-		OfertaComercio oferta_comercio = (OfertaComercio)request.getContent();
+		OfrecerComerciarBanca oferta_comercio = (OfrecerComerciarBanca)request.getContent();
 		EstadoJuego EstadoJuego = oferta_comercio.getEstadoJuego();
 		////////////////////////////////Busco a mi personaje para actualizar mi base de creencias
 		Jugador	yo	= (Jugador)getBeliefbase().getBelief("myself").getFact();

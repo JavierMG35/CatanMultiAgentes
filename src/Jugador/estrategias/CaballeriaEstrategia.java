@@ -7,7 +7,7 @@ import src.Jugador.Jugador;
 import src.Mapa.Casilla;
 import src.Mapa.Edge;
 import src.Mapa.Node;
-import src.ontologia.actions.RealizarOferta;
+import src.ontologia.actions.RealizarOfertaJugador;
 import src.ontologia.concepts.Cartas;
 import src.ontologia.concepts.Construccion;
 import src.ontologia.concepts.Mapa;
@@ -24,18 +24,49 @@ public class CaballeriaEstrategia extends AbstractEstrategias {
 		// TODO Auto-generated constructor stub
 	}
 
-	@Override
-	public List<Recurso> propuestaNegociarJugadorOfrecer(Jugador jugador) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
-	@Override
-	public Recurso propuestaNegociarJugadorRecibir(Jugador jugador) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	public  Recurso propuestaNegociarJugadorOfrecer(Jugador yo) {
 
+        Cartas cartas = yo.getCartas();
+        int num_madera = cartas.getMadera().size();
+        int num_arcilla = cartas.getArcilla().size();
+        int[] numero_cada_recurso = new int[]{num_madera,num_arcilla}; 
+        Recurso recurso_recibir = new Recurso();
+        int maximo = 0;
+        for(int i=0;i<numero_cada_recurso.length;i++) {
+            if(numero_cada_recurso[i]>maximo) {maximo = numero_cada_recurso[i];}
+        }
+
+            if(cartas.getPaja().size()==maximo) {recurso_recibir.setTipo("Madera");return recurso_recibir;}
+            if(cartas.getPiedra().size()==maximo) {recurso_recibir.setTipo("Arcilla");return recurso_recibir;}
+
+        return null;
+    }
+
+    @Override
+    public Recurso propuestaNegociarJugadorRecibir(Jugador yo) {
+        Cartas cartas = yo.getCartas();
+
+        int num_madera =  cartas.getMadera().size();
+        int num_piedra = cartas.getPiedra().size();
+        int num_paja = cartas.getPaja().size();
+
+        if(num_paja <3) {
+            Recurso paja_recurso = new Recurso();
+            paja_recurso.setTipo("Paja");
+            return paja_recurso; }
+        if(num_piedra <3) {
+        Recurso piedra_recurso = new Recurso();
+        piedra_recurso.setTipo("Piedra");
+        return piedra_recurso; }
+        if(num_madera <3) {
+        Recurso lana_recurso = new Recurso();
+        lana_recurso.setTipo("Lana");
+        return lana_recurso; }
+
+        return null;
+    }
+	
 	@Override
 	public Recurso[] propuestaNegociarBanca(Cartas cartas, Mapa mapa,Jugador yo) {
 		Recurso[] Recursos = {new Recurso(),new Recurso()};
@@ -68,11 +99,65 @@ public class CaballeriaEstrategia extends AbstractEstrategias {
 		
 	}
 
-	@Override
-	public boolean aceptarOferta(RealizarOferta oferta, Cartas mis_cartas) {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean aceptarOferta(RealizarOfertaJugador oferta,Jugador yo) {
+		Cartas mis_cartas = yo.getCartas();
+		boolean acepto = false;
+		Recurso oferta_recibir_recursos = oferta.getTe_doy();
+		Recurso oferta_dar_recursos = oferta.getMe_das();
+		String tipo_recurso_recibir = oferta_recibir_recursos.getTipo();
+		String tipo_recurso_dar = oferta_dar_recursos.getTipo();
+		if(tipo_recurso_recibir.equals("Piedra")||tipo_recurso_recibir.equals("Lana")||tipo_recurso_recibir.equals("Paja")) {
+			if(tipo_recurso_recibir.equals("Piedra") && mis_cartas.getMadera().size()<4) {
+				if(mis_cartas.getRecurso(oferta_dar_recursos).size()==0) {acepto = false; return acepto;}
+				if(mis_cartas.getRecurso(oferta_dar_recursos).size()>2 && mis_cartas.getRecurso(oferta_dar_recursos).get(0).getTipo().equals("Lana") ) {acepto = true; return acepto;}
+				if(mis_cartas.getRecurso(oferta_dar_recursos).size()<=2 && mis_cartas.getRecurso(oferta_dar_recursos).get(0).getTipo().equals("Lana")) {acepto = false; return acepto;}
+				if(mis_cartas.getRecurso(oferta_dar_recursos).size()>2 && mis_cartas.getRecurso(oferta_dar_recursos).get(0).getTipo().equals("Paja") ) {acepto = true; return acepto;}
+				if(mis_cartas.getRecurso(oferta_dar_recursos).size()<=2 && mis_cartas.getRecurso(oferta_dar_recursos).get(0).getTipo().equals("Paja")) {acepto = false; return acepto;}
+				if(!mis_cartas.getRecurso(oferta_dar_recursos).get(0).getTipo().equals("Paja") && !mis_cartas.getRecurso(oferta_dar_recursos).get(0).getTipo().equals("Lana") && !mis_cartas.getRecurso(oferta_dar_recursos).get(0).getTipo().equals("Piedra") && mis_cartas.getRecurso(oferta_dar_recursos).size()!=0) {acepto = true; return acepto;}
+				else {acepto = true; return acepto;}
+
+			}
+			if(tipo_recurso_recibir.equals("Lana") && mis_cartas.getArcilla().size()<4) {
+				if(mis_cartas.getRecurso(oferta_dar_recursos).size()==0) {acepto = false; return acepto;}
+				if(mis_cartas.getRecurso(oferta_dar_recursos).size()>1 && mis_cartas.getRecurso(oferta_dar_recursos).get(0).getTipo().equals("Paja") && mis_cartas.getRecurso(oferta_dar_recursos).size()<4 ) {acepto = true; return acepto;}
+				if(mis_cartas.getRecurso(oferta_dar_recursos).size()==1 && mis_cartas.getRecurso(oferta_dar_recursos).get(0).getTipo().equals("Paja")) {acepto = false; return acepto;}
+				if(mis_cartas.getRecurso(oferta_dar_recursos).size()>1 && mis_cartas.getRecurso(oferta_dar_recursos).get(0).getTipo().equals("Piedra") && mis_cartas.getRecurso(oferta_dar_recursos).size()<4 ) {acepto = true; return acepto;}
+				if(mis_cartas.getRecurso(oferta_dar_recursos).size()==1 && mis_cartas.getRecurso(oferta_dar_recursos).get(0).getTipo().equals("Piedra")) {acepto = false; return acepto;}
+				if(!mis_cartas.getRecurso(oferta_dar_recursos).get(0).getTipo().equals("Paja") && !mis_cartas.getRecurso(oferta_dar_recursos).get(0).getTipo().equals("Lana") && !mis_cartas.getRecurso(oferta_dar_recursos).get(0).getTipo().equals("Piedra") && mis_cartas.getRecurso(oferta_dar_recursos).size()!=0) {acepto = true; return acepto;}
+				else {acepto = true; return acepto;}
+			}
+			if(tipo_recurso_recibir.equals("Paja") && mis_cartas.getArcilla().size()<4) {
+				if(mis_cartas.getRecurso(oferta_dar_recursos).size()==0) {acepto = false; return acepto;}
+				if(mis_cartas.getRecurso(oferta_dar_recursos).size()>1 && mis_cartas.getRecurso(oferta_dar_recursos).get(0).getTipo().equals("Piedra") && mis_cartas.getRecurso(oferta_dar_recursos).size()<4 ) {acepto = true; return acepto;}
+				if(mis_cartas.getRecurso(oferta_dar_recursos).size()==1 && mis_cartas.getRecurso(oferta_dar_recursos).get(0).getTipo().equals("Piedra")) {acepto = false; return acepto;}
+				if(mis_cartas.getRecurso(oferta_dar_recursos).size()>1 && mis_cartas.getRecurso(oferta_dar_recursos).get(0).getTipo().equals("Lana") && mis_cartas.getRecurso(oferta_dar_recursos).size()<4 ) {acepto = true; return acepto;}
+				if(mis_cartas.getRecurso(oferta_dar_recursos).size()==1 && mis_cartas.getRecurso(oferta_dar_recursos).get(0).getTipo().equals("Lana")) {acepto = false; return acepto;}
+				if(!mis_cartas.getRecurso(oferta_dar_recursos).get(0).getTipo().equals("Paja") && !mis_cartas.getRecurso(oferta_dar_recursos).get(0).getTipo().equals("Lana") && !mis_cartas.getRecurso(oferta_dar_recursos).get(0).getTipo().equals("Piedra") && mis_cartas.getRecurso(oferta_dar_recursos).size()!=0) {acepto = true; return acepto;}
+				else {acepto = true; return acepto;}
+			}
+			else{acepto = true; return acepto;}
+			
+		}
+		else {
+			if(mis_cartas.getRecurso(oferta_dar_recursos).size()==0) {acepto = false; return acepto;}
+			if(mis_cartas.getRecurso(oferta_recibir_recursos).size()==0 && ( tipo_recurso_dar.equals("Piedra")||tipo_recurso_dar.equals("Lana")||tipo_recurso_dar.equals("Paja"))) {
+				if(tipo_recurso_dar.equals("Piedra") && mis_cartas.getRecurso(oferta_dar_recursos).size()>2) {acepto = true; return acepto;}
+				if(tipo_recurso_dar.equals("Lana") && mis_cartas.getRecurso(oferta_dar_recursos).size()>2) {acepto = true; return acepto;}
+				if(tipo_recurso_dar.equals("Paja") && mis_cartas.getRecurso(oferta_dar_recursos).size()>2) {acepto = true; return acepto;}
+				else {acepto = false; return acepto;}
+			}
+			if(mis_cartas.getRecurso(oferta_recibir_recursos).size()==0 && ( !tipo_recurso_dar.equals("Paja")|| !tipo_recurso_dar.equals("Lana")|| !tipo_recurso_dar.equals("Piedra"))) {
+				if(mis_cartas.getRecurso(oferta_dar_recursos).size()!=0) {	acepto = true; return acepto;		}
+				else {acepto = false; return acepto;}
+			}
+			
+			else {acepto = true; return acepto;}
+		}
+		
+		
 	}
+
+	
 	
 	@Override
 	public Construccion decidirConstruccion(Mapa mapa, Cartas cartas, String nombre) {

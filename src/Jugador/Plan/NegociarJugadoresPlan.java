@@ -1,6 +1,6 @@
 package src.Jugador.Plan;
 
-import jadex.adapter.fipa.AgentIdentifier;
+//import jadex.adapter.fipa.AgentIdentifier;
 import java.util.Random;
 import jadex.adapter.fipa.SFipa;
 import jadex.runtime.BasicAgentIdentifier;
@@ -23,55 +23,89 @@ public class NegociarJugadoresPlan extends Plan  {
 		IMessageEvent	mensaje_recibido	= (IMessageEvent)getInitialEvent();
 		Jugador	yo	= (Jugador)getBeliefbase().getBelief("myself").getFact();
 		System.out.println("Recibido mensaje para negociar de Tablero a " + yo.getNombre());
-		AgentIdentifier tablero = (AgentIdentifier) mensaje_recibido.getParameter("sender").getValue();
 		OfrecerNegociacion  contenido = (OfrecerNegociacion)mensaje_recibido.getContent();
 		EstadoJuego estadojuego = contenido.getEstadodejuego();
 		List<Jugador> jugadores = estadojuego.getJugadores();
 		
-		
-		
-		/////////negociar/////
-		///Seleccionar qué quiero negociar
+		/*
+		 *    Según la estrategia, decidir oferta
+		 */
 		IEstrategia estrategia = yo.getStrategy();
 		Recurso recurso_necesario = estrategia.propuestaNegociarJugadorRecibir(yo);
-		List<Recurso> recursos_ofrecer = estrategia.propuestaNegociarJugadorOfrecer(yo);
-		RealizarOferta oferta = new RealizarOferta(recursos_ofrecer,recurso_necesario, yo);
+		Recurso recursos_ofrecer = estrategia.propuestaNegociarJugadorOfrecer(yo);
 		
-		
-		
-		///negociar
-		System.out.println("Comienza negociación");
-		Random toca_jugador =  new Random();
-		List<Jugador> jugadores_seleccionados =  new ArrayList<>();
-		boolean encontrado = false;
-		int indice = 0;
-		for(int i=0;i<jugadores.size();i++) {
-			encontrado = false;
-			while(!encontrado) {
-				indice = toca_jugador.nextInt(jugadores.size());
-			if(!jugadores_seleccionados.contains(jugadores.get(indice)) && !jugadores.get(i).getNombre().equals(yo.getNombre())) {encontrado = true; jugadores_seleccionados.add(jugadores.get(indice)); }
-			else {encontrado = false;}
-			}
-			BasicAgentIdentifier AidSiguiente = jugadores.get(indice).getAid();
-			IMessageEvent mensaje_enviar = createMessageEvent("oferta_negociacion");
-			mensaje_enviar.getParameterSet(SFipa.RECEIVERS).addValue(AidSiguiente);
-			mensaje_enviar.setContent(oferta);
-			System.out.println("Oferta enviada a: " + jugadores.get(i).getName() + ". Esperando respuesta");	
-			IMessageEvent	respuesta	= sendMessageAndWait(mensaje_enviar);
-			RespuestaOferta decision = (RespuestaOferta)respuesta.getContent();
-			System.out.println("Respuesta de negociación recibida. La respuesta a aceptar la oferta es: " + decision.isAcepto());
-			
-			if(decision.isAcepto()) {
-				System.out.println("Mis cartas antes de obtener mi recurso: " + yo.getCartas().getRecurso(recurso_necesario).get(0).getTipo()  + yo.getCartas().getRecurso(recurso_necesario).size()  );
-				yo.getCartas().getRecurso(recurso_necesario).add(recurso_necesario);
-				System.out.println("Mis cartas antes de obtener mi recurso: " + yo.getCartas().getRecurso(recurso_necesario).get(0).getTipo()  + yo.getCartas().getRecurso(recurso_necesario).size()  );
-
-				System.out.println("Mis cartas antes de dar mi recurso: " + yo.getCartas().getRecurso(recurso_necesario).get(0).getTipo()  + yo.getCartas().getRecurso(recurso_necesario).size()  );
-				yo.getCartas().getRecurso(recursos_ofrecer.get(0)).removeAll(recursos_ofrecer);
-				break;}
+		if(recurso_necesario==null||recursos_ofrecer==null||recurso_necesario.getTipo().equals(recursos_ofrecer.getTipo())) {
+			System.out.println("No quiero negociar");
+			NegociacionTerminada contenido_respuesta = new NegociacionTerminada(estadojuego);
+			IMessageEvent negociacion_terminada = mensaje_recibido.createReply("negociacion_terminada");
+			negociacion_terminada.setContent(contenido_respuesta);
+		    sendMessage(negociacion_terminada);
+			System.out.println("Negociacion de " + yo.getNombre() + " terminada.");
+			getBeliefbase().getBelief("myself").setFact(yo);
 			
 			
 		}
+		/*
+		 * Si quiero negociar, negocio con todos los jugadores, hasta que uno de ellos acepte mi oferta
+		 */
+		else {
+		RealizarOfertaJugador oferta = new RealizarOfertaJugador(recursos_ofrecer,recurso_necesario, yo,estadojuego);
+		System.out.println("Oferta: " + recursos_ofrecer.getTipo() + " a cambio de " + recurso_necesario.getTipo());
+		
+		
+		/*
+		 * Selecciono el jugador con el que quiero negociar de manera aleatoria, y pruebo con todos
+		 */
+		System.out.println("/////////////Comienza negociacion/////////////");
+		Random toca_jugador =  new Random();
+		List<Jugador> jugadores_seleccionados = new ArrayList<>();
+		for(int j=0;j<jugadores.size();j++) {
+			jugadores_seleccionados.add(jugadores.get(j));
+		}
+		
+		int indice = 0;
+		int i=0;
+		int ronda = jugadores_seleccionados.size();
+		int tamaño_jugadores = jugadores_seleccionados.size();
+		
+		while(i<tamaño_jugadores-1) {
+			indice = toca_jugador.nextInt(ronda);
+
+			if(jugadores_seleccionados.get(indice).getNombre().equals(yo.getNombre())) {
+			}
+			else {
+				/*
+				 * Envio negociación a jugador seleccionado
+				 */
+			BasicAgentIdentifier AidSiguiente = jugadores_seleccionados.get(indice).getAid();
+			IMessageEvent mensaje_enviar = createMessageEvent("oferta_negociacion_n");
+			mensaje_enviar.getParameterSet(SFipa.RECEIVERS).addValue(AidSiguiente);
+			mensaje_enviar.setContent(oferta);
+			
+			System.out.println("Oferta enviada a: " + jugadores_seleccionados.get(indice).getNombre()+ ". ");	
+			
+			IMessageEvent	respuesta	= sendMessageAndWait(mensaje_enviar);
+			RespuestaOferta decision = (RespuestaOferta)respuesta.getContent();
+			i++;
+			ronda--;
+			jugadores_seleccionados.remove(jugadores_seleccionados.get(indice));
+			
+			if(decision.isAcepto()) {
+				System.out.println(yo.getNombre() + " gana 1 unidad de " + recurso_necesario.getTipo() + " a cambio de 1 unidad de " + recursos_ofrecer.getTipo());
+				yo.getCartas().getRecurso(recurso_necesario).add(recurso_necesario);
+				
+				yo.getCartas().getRecurso(recursos_ofrecer).remove(recursos_ofrecer);
+				estadojuego = decision.getEstadojuego();
+				
+				break;}
+			
+			
+			}
+		}
+		
+		/*
+		 * Terminamos negociacion
+		 */
 		estadojuego = yo.setMyself(estadojuego);
 		NegociacionTerminada contenido_respuesta = new NegociacionTerminada(estadojuego);
 		IMessageEvent negociacion_terminada = mensaje_recibido.createReply("negociacion_terminada");
@@ -79,6 +113,7 @@ public class NegociarJugadoresPlan extends Plan  {
 	    sendMessage(negociacion_terminada);
 		System.out.println("Negociacion de " + yo.getNombre() + " terminada.");
 		getBeliefbase().getBelief("myself").setFact(yo);
+	}
 	}
 
 }

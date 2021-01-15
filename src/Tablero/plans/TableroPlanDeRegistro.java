@@ -1,7 +1,7 @@
 package src.Tablero.plans;
 
 import jadex.runtime.*;
-import src.ontologia.actions.Request_unirse_partida;
+import src.ontologia.actions.SolicitarUnirsePartida;
 import jadex.util.SUtil;
 import jadex.adapter.fipa.*;
 import src.Jugador.Jugador;
@@ -62,7 +62,7 @@ public class TableroPlanDeRegistro extends Plan{
 		for(int i=0;i< result.length;i++) {
 			IMessageEvent	msg	= createMessageEvent("request_unirse_partida");
 			msg.getParameterSet(SFipa.RECEIVERS).addValue(result[i].getName());
-			Request_unirse_partida request = new Request_unirse_partida();
+			SolicitarUnirsePartida request = new SolicitarUnirsePartida();
 			msg.setContent(request);
 			getLogger().info("sending join-message");
 			// send the join-message and wait for a response
@@ -70,9 +70,8 @@ public class TableroPlanDeRegistro extends Plan{
 			IMessageEvent	reply	= sendMessageAndWait(msg);
 			//Jugador jugador = new Jugador();
 			//Request_unirse_partida rj = (Request_unirse_partida)reply.getContent();
-			Request_unirse_partida rj = (Request_unirse_partida)reply.getContent();
+			SolicitarUnirsePartida rj = (SolicitarUnirsePartida)reply.getContent();
 			jugadores[i] = rj.getJugador();
-			System.out.println("Mi grupo es ----------------------------"+rj.getJugador().getComoquieras().getGrupo());
 			jugadores[i].setAgentID((AgentIdentifier)reply.getParameter("sender").getValue());
 			//jugadores[i].setName(reply.getParameter("sender").getValue().toString());
 			//System.out.println("el request contiene: "+ reply.getParameter("sender").getValue()+" "+rj.getJugador().getAid().getName());

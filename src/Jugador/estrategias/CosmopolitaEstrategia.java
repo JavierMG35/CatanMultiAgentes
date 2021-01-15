@@ -9,7 +9,7 @@ import src.Jugador.Jugador;
 import src.Mapa.Casilla;
 import src.Mapa.Node;
 import src.Mapa.Edge;
-import src.ontologia.actions.RealizarOferta;
+import src.ontologia.actions.RealizarOfertaJugador;
 
 
 public class CosmopolitaEstrategia extends AbstractEstrategias{
@@ -26,55 +26,47 @@ public class CosmopolitaEstrategia extends AbstractEstrategias{
 		// TODO Auto-generated constructor stub
 	}
 
-	@Override
-	public List<Recurso> propuestaNegociarJugadorOfrecer(Jugador yo) {
+	
+	
+	public Recurso propuestaNegociarJugadorOfrecer(Jugador yo) {
 		Cartas cartas = yo.getCartas();
 		List<Construccion> construcciones = yo.getConstrucciones();
 		int poblados = 0;
-		int ciudades = 0;
+		
 		for(int i=0;i<construcciones.size();i++) {
 			if(construcciones.get(i).getTipo().equals("Poblado")) {poblados++;}
-			if(construcciones.get(i).getTipo().equals("Ciudad")) {ciudades++;}
 		}
 		int num_lana = cartas.getLana().size();
 		int num_madera = cartas.getMadera().size();
 		int num_piedra = cartas.getPiedra().size();
 		int num_paja = cartas.getPaja().size();
 		int num_arcilla = cartas.getArcilla().size(); 
-		List<Recurso> lista_ofrecer = new ArrayList<>();
-		Recurso recurso = new Recurso();
+		Recurso recurso_ofrecer = new Recurso();
 		
-		/*int[] numero_cada_recurso = new int[]{num_lana,num_piedra,num_paja }; 
-		List<Recurso> lista_recibir = new ArrayList<>();
-		Recurso max_recurso = new Recurso();
-		int maximo = 0;
-		for(int i=0;i<numero_cada_recurso.length;i++) {
-			if(numero_cada_recurso[i]>maximo) {maximo = numero_cada_recurso[i];}
-		}*/
 		
 		if(poblados==0) {/*busco poblado*/	
 			
-			if(cartas.getPiedra().size()>0) {recurso.setTipo("Piedra");lista_ofrecer.add(recurso);return lista_ofrecer;}
-			if(num_lana>2) {recurso.setTipo("Lana"); lista_ofrecer.add(recurso); return lista_ofrecer;}
-			if(num_madera>2) {recurso.setTipo("Madera");lista_ofrecer.add(recurso); return lista_ofrecer;}
-			if(num_arcilla>2) {recurso.setTipo("Arcilla");lista_ofrecer.add(recurso); return lista_ofrecer;}
-			if(num_paja>2) {recurso.setTipo("Paja");lista_ofrecer.add(recurso); return lista_ofrecer;}
-			else {recurso.setTipo("Lana");lista_ofrecer.add(recurso); return lista_ofrecer;}
+			if(num_piedra>1) {recurso_ofrecer.setTipo("Piedra");return recurso_ofrecer;}
+			if(num_lana>2) {recurso_ofrecer.setTipo("Lana"); return recurso_ofrecer;}
+			if(num_madera>2) {recurso_ofrecer.setTipo("Madera");return recurso_ofrecer;}
+			if(num_arcilla>2) {recurso_ofrecer.setTipo("Arcilla"); return recurso_ofrecer;}
+			if(num_paja>2) {recurso_ofrecer.setTipo("Paja"); return recurso_ofrecer;}
+			else {recurso_ofrecer=null; return recurso_ofrecer;}
 			}			
 		
 		if(poblados>1) {/* busco ciudad*/
-			if(num_lana>2) {recurso.setTipo("Lana"); lista_ofrecer.add(recurso); return lista_ofrecer;}
-			if(num_madera>2) {recurso.setTipo("Madera");lista_ofrecer.add(recurso); return lista_ofrecer;}
-			if(num_arcilla>2) {recurso.setTipo("Arcilla");lista_ofrecer.add(recurso); return lista_ofrecer;}
-			else {recurso.setTipo("Arcilla");lista_ofrecer.add(recurso); return lista_ofrecer;}
+			if(num_lana>2) {recurso_ofrecer.setTipo("Lana");  return recurso_ofrecer;}
+			if(num_madera>2) {recurso_ofrecer.setTipo("Madera"); return recurso_ofrecer;}
+			if(num_arcilla>2) {recurso_ofrecer.setTipo("Arcilla"); return recurso_ofrecer;}
+			else {recurso_ofrecer=null; return recurso_ofrecer;}
 		}
 		else {/*busco poblado*/
-			if(cartas.getPiedra().size()>0) {recurso.setTipo("Piedra");lista_ofrecer.add(recurso);return lista_ofrecer;}
-			if(num_lana>2) {recurso.setTipo("Lana"); lista_ofrecer.add(recurso); return lista_ofrecer;}
-			if(num_madera>2) {recurso.setTipo("Madera");lista_ofrecer.add(recurso); return lista_ofrecer;}
-			if(num_arcilla>2) {recurso.setTipo("Arcilla");lista_ofrecer.add(recurso); return lista_ofrecer;}
-			if(num_paja>2) {recurso.setTipo("Paja");lista_ofrecer.add(recurso); return lista_ofrecer;}
-			else {recurso.setTipo("Lana");lista_ofrecer.add(recurso); return lista_ofrecer;}
+			if(num_piedra>1) {recurso_ofrecer.setTipo("Piedra");return recurso_ofrecer;}
+			if(num_lana>2) {recurso_ofrecer.setTipo("Lana");  return recurso_ofrecer;}
+			if(num_madera>2) {recurso_ofrecer.setTipo("Madera"); return recurso_ofrecer;}
+			if(num_arcilla>2) {recurso_ofrecer.setTipo("Arcilla");return recurso_ofrecer;}
+			if(num_paja>2) {recurso_ofrecer.setTipo("Paja"); return recurso_ofrecer;}
+			else {recurso_ofrecer=null; return recurso_ofrecer;}
 		}
 		
 	}
@@ -85,10 +77,8 @@ public class CosmopolitaEstrategia extends AbstractEstrategias{
 		Cartas cartas = yo.getCartas();
 		List<Construccion> construcciones = yo.getConstrucciones();
 		int poblados = 0;
-		int ciudades = 0;
 		for(int i=0;i<construcciones.size();i++) {
 			if(construcciones.get(i).getTipo().equals("Poblado")) {poblados++;}
-			if(construcciones.get(i).getTipo().equals("Ciudad")) {ciudades++;}
 		}
 		int num_lana = cartas.getLana().size();
 		int num_madera = cartas.getMadera().size();
@@ -120,6 +110,9 @@ public class CosmopolitaEstrategia extends AbstractEstrategias{
 		
 	}
 
+	
+	
+	
 	@Override
 	public Recurso[] propuestaNegociarBanca(Cartas cartas, Mapa mapa ,Jugador yo) {
 		
@@ -202,13 +195,50 @@ public class CosmopolitaEstrategia extends AbstractEstrategias{
 		}
 	}
 
-	@Override
-	public boolean aceptarOferta(RealizarOferta oferta, Cartas mis_cartas) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
 	
+	public boolean aceptarOferta(RealizarOfertaJugador oferta, Jugador yo) {
+		boolean acepto = false;
+		Cartas cartas = yo.getCartas();
+		Recurso recurso_recibir = oferta.getTe_doy();
+		Recurso recurso_dar = oferta.getMe_das();
+		List<Construccion> construcciones = yo.getConstrucciones();
+		
+		int poblados = 0;
+		for(int i=0;i<construcciones.size();i++) {
+			if(construcciones.get(i).getTipo().equals("Poblado")) {poblados++;}
+		}
+		int num_lana = cartas.getLana().size();
+		int num_madera = cartas.getMadera().size();
+		int num_piedra = cartas.getPiedra().size();
+		int num_paja = cartas.getPaja().size();
+		int num_arcilla = cartas.getArcilla().size(); 
+		
+		if(cartas.getRecurso(recurso_dar)==null||cartas.getRecurso(recurso_dar).size()==0) {	acepto = false; return acepto;	}
+		else {
+			int num_recurso_dar = cartas.getRecurso(recurso_dar).size();
+		if(poblados==0&&num_recurso_dar>1) {/*busco poblado*/	
+			if(recurso_recibir.getTipo().equals("Madera") && num_madera<3 ) {acepto = true;return acepto;}
+			if(recurso_recibir.getTipo().equals("Arcilla") && num_arcilla<3) {acepto = true;return acepto;}
+			if(recurso_recibir.getTipo().equals("Paja") && num_paja<3) {acepto = true;return acepto;}
+			if(recurso_recibir.getTipo().equals("Lana") && num_lana<3) {acepto = true;return acepto;}
+			else{acepto = false;return acepto;}
+			}			
+		
+		if(poblados>1&&!recurso_dar.getTipo().equals("Piedra")&&!!recurso_dar.getTipo().equals("Paja")) {/* busco ciudad*/
+			if(num_piedra<5 && recurso_recibir.getTipo().equals("Piedra") ) {acepto = true;return acepto;}
+			if(num_paja<4&& recurso_recibir.getTipo().equals("Paja")) {acepto = true;return acepto;}
+			else {acepto = false;return acepto;}
+		}
+		else {/*busco poblado*/
+			if(num_lana<3 && recurso_recibir.getTipo().equals("Lana")) {acepto = true;return acepto;}
+			if(num_madera<3 && recurso_recibir.getTipo().equals("Madera")) {acepto = true;return acepto;}
+			if(num_arcilla<3 && recurso_recibir.getTipo().equals("Arcilla")) {acepto = true;return acepto;}
+			if(num_paja<3 && recurso_recibir.getTipo().equals("Paja")) {acepto = true;return acepto;}
+			else {acepto = false;return acepto;}
+		}
+		
+		}
+	}
 	@Override
 	public Construccion decidirConstruccion(Mapa mapa, Cartas cartas, String nombre) {
 		// TODO Auto-generated method stub

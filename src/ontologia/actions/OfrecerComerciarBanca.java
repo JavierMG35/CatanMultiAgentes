@@ -1,15 +1,17 @@
-package src.ontologia.concepts;
+package src.ontologia.actions;
 
-public class OfertaComercio {
+import src.ontologia.concepts.EstadoJuego;
+
+public class OfrecerComerciarBanca {
 	
 	EstadoJuego EstadoJuego;
 	
 	
-	public OfertaComercio() {
+	public OfrecerComerciarBanca() {
 		this.EstadoJuego= new EstadoJuego();
 				}
 	
-	public OfertaComercio(EstadoJuego EstadoJuego) {
+	public OfrecerComerciarBanca(EstadoJuego EstadoJuego) {
 		this.EstadoJuego= EstadoJuego;
 				}
 

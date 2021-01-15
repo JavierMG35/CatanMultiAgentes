@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 import jadex.adapter.fipa.*;
 import src.Jugador.Jugador;
-import src.ontologia.actions.TirarDados;
+import src.ontologia.actions.EntregarDados;
 import src.ontologia.concepts.Dados;
 import src.ontologia.concepts.EstadoJuego;
 import src.ontologia.concepts.Mapa;
@@ -67,7 +67,7 @@ public class ComenzarPartidaPlan extends Plan{
 		Jugador[]  jugadores	= (Jugador[])getBeliefbase().getBeliefSet("jugador").getFacts();
 		System.out.println("mi name est "+ jugadores[0].getName());
 		List<Integer> valores = new ArrayList<>();
-		TirarDados tirardados = new TirarDados();
+		EntregarDados tirardados = new EntregarDados();
 		for(int i=0;i< jugadores.length;i++) {
 			IMessageEvent mensaje_enviar = createMessageEvent("offer_tirar_dados");
 			mensaje_enviar.getParameterSet(SFipa.RECEIVERS).addValue(jugadores[i].getAid());

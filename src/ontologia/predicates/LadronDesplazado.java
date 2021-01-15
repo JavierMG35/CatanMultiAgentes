@@ -1,14 +1,16 @@
-package src.ontologia.concepts;
+package src.ontologia.predicates;
 
-public class MoverLadron {
+import src.ontologia.concepts.EstadoJuego;
+
+public class LadronDesplazado {
 
 	EstadoJuego EstadoJuego;
 	
-	public MoverLadron() {
+	public LadronDesplazado() {
 		this.EstadoJuego = new EstadoJuego();
 	}
 	
-	public MoverLadron(EstadoJuego estado) {
+	public LadronDesplazado(EstadoJuego estado) {
 		this.EstadoJuego = estado;
 	}
 	

@@ -34,25 +34,24 @@ public class Jugador extends Agent{
 			/**
 			 *  Create a new Player.
 			 */
-			public Jugador(String name,String strategyname,String grupo)
+			public Jugador(String name,String strategyname)
 			{
-				this(null,name, strategyname,grupo);
+				this(null,name, strategyname);
 				
 			}
 
 			/**
 			 *  Create a new Player.
 			 */
-			public Jugador(AgentIdentifier aid,String nombre, String strategyname,String grupo)
+			public Jugador(AgentIdentifier aid,String nombre, String strategyname)
 			{
 						
-				comoquieras=new Zoo(grupo);
+				
 				Random rand1=new Random();
 				this.id=rand1.nextInt(312312312);
 				this.aid	= aid;
 				this.nombre	= nombre;
 				this.strategyname = strategyname;
-				//if(strategyname!=null)
 				this.strategy	= AbstractEstrategias.getStrategy(strategyname);
 				this.state	= STATE_UNREGISTERED;
 				this.pcs = new SimplePropertyChangeSupport(this);
@@ -85,8 +84,7 @@ public class Jugador extends Agent{
 		
 		protected int id;
 		
-		protected Zoo comoquieras;
-		
+
 		
 		
 		protected Cartas cartas = new Cartas();
@@ -176,12 +174,7 @@ public class Jugador extends Agent{
 		}
 		
 		
-		public Zoo getComoquieras() {
-			return comoquieras;
-		}
-		public void setComoquieras(Zoo comoquieras) {
-			this.comoquieras = comoquieras;
-		}
+
 		public EstadoJuego setMyself(EstadoJuego estado) {
 			
 			//Jugador myself = new Jugador();
