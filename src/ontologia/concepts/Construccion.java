@@ -14,6 +14,7 @@ public class Construccion {
 	
 	public Construccion() {
 	}
+	
 	public Construccion(String tipo, Node nodo, Jugador dueño, Edge camino) {
 		this.tipo = tipo;
 		this.nodo = nodo;
@@ -27,7 +28,7 @@ public class Construccion {
 		this.camino = edge;
 	}
 	
-public Node getNodo() {
+	public Node getNodo() {
 		return nodo;
 	}
 	public void setNodo(Node nodo) {
@@ -45,18 +46,17 @@ public Node getNodo() {
 	public void setDueño(Jugador dueño) {
 		this.dueño = dueño;
 	}
-public Construccion(String tipo) {
+	public Construccion(String tipo) {
 		this.tipo = tipo;
 	}
 
-public String getTipo() {
-	return tipo;
-}
+	public String getTipo() {
+		return tipo;
+	}
 
-public void setTipo(String tipo) {
-	this.tipo = tipo;
-}
-
+	public void setTipo(String tipo) {
+		this.tipo = tipo;
+	}
 
 
 }

@@ -51,7 +51,7 @@ public abstract class AbstractEstrategias implements IEstrategia{
 
 		public abstract Construccion decidirConstruccion(Mapa mapa, Cartas cartas, String nombre);
 		
-		public abstract Boolean decidirCompra();
+		public abstract Boolean decidirCompra(Cartas cartas);
 
 		public String getName()
 		{

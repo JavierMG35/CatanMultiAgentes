@@ -20,6 +20,7 @@ public class Cartas {
 		arcilla = new ArrayList<>();
 		piedra = new ArrayList<>();
 		paja = new ArrayList<>();
+		this.cartas_desarrollo = new ArrayList<>();
 	}
 	
 	

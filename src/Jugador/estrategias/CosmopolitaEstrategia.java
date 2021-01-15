@@ -275,11 +275,13 @@ public class CosmopolitaEstrategia extends AbstractEstrategias{
 	
 	
 	@Override
-	
-	
-	public Boolean decidirCompra() {
-		// TODO Auto-generated method stub
-		return true;
+	public Boolean decidirCompra(Cartas cartas) {
+		// Queremos hacer ciudades.
+		if (cartas.getPaja().size() >= 1 && cartas.getPiedra().size() >= 1 && cartas.getLana().size() >= 1) {
+			return true;
+			}
+
+		return false;
 	}
 
 	

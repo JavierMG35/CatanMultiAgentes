@@ -28,7 +28,8 @@ public class ComprarCartaDesarrolloPlan extends Plan{
 		/////////////////////////////////////////////////////////////////////////////////////////
 		CartaDesarrollo CartaDesarrollo=null;
 		yo	= EstadoJuego.getJugadores().get(index);
-		if (yo.getStrategy().decidirCompra() && yo.PermitirCartaDesarrollo()) {
+		System.out.println("La estrategia del jugador a comprar la carta es : " + yo.getStrategyname());
+		if (yo.getStrategy().decidirCompra(yo.getCartas()) && yo.PermitirCartaDesarrollo()) { 
 			CartaDesarrollo = new CartaDesarrollo();
 			yo.getCartas().addDesarrollo(CartaDesarrollo);
 			System.out.println("Soy "+yo.getNombre()+"he obtenido esta carta de desarrollo: " +CartaDesarrollo.getTipo());
