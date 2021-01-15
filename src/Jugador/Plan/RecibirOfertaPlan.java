@@ -16,12 +16,11 @@ import src.ontologia.predicates.RespuestaOferta;
 
 public class RecibirOfertaPlan extends Plan{
 	public void body() {
+		//Recibo de un jugador una oferta de intercambio
 		IMessageEvent	request	= (IMessageEvent)getInitialEvent();
 		RealizarOfertaJugador  oferta = (RealizarOfertaJugador)request.getContent();
 		Jugador	yo	= (Jugador)getBeliefbase().getBelief("myself").getFact();
 		EstadoJuego estadojuego = oferta.getEstadojuego();
-		System.out.println("Recibida oferta de negociacion de " + oferta.getJugador().getNombre() + " a mi, " + yo.getNombre());
-		
 		/*
 		 * Según la estrategia, decidimos si queremos aceptar la oferta o no
 		 */
@@ -32,8 +31,7 @@ public class RecibirOfertaPlan extends Plan{
 		 * Si acepta la oferta, actualizamos los recursos
 		 */
 		if(acepto) {
-			System.out.println("Acepto la oferta");
-			System.out.println(yo.getNombre() + " gana 1 unidad de " + oferta.getTe_doy().getTipo() + " a cambio de 1 unidad de " + oferta.getMe_das().getTipo());
+			System.out.println("Acepto la oferta, gano 1 unidad de " + oferta.getTe_doy().getTipo() + " a cambio de 1 unidad de " + oferta.getMe_das().getTipo());
 			yo.getCartas().getRecurso(oferta.getMe_das()).remove(0);
 			yo.getCartas().getRecurso(oferta.getTe_doy()).add(oferta.getTe_doy());
 		}

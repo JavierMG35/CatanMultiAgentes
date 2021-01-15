@@ -138,7 +138,7 @@
 			</parameter>
 			<parameter name="content-class" class="Class"
 				direction="fixed">
-				<value>src.ontologia.actions.SolicitarUnirsePartida.class</value>
+				<value>src.ontologia.actions.OfrecerUnirsePartida.class</value>
 			</parameter>
 		</messageevent>
 

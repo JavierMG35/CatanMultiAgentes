@@ -22,6 +22,7 @@ public class GranRutaComeracialEstrategia extends AbstractEstrategias {
 	}
 
 	public Recurso propuestaNegociarJugadorRecibir(Jugador yo) {
+		//comprueba el recurso que le interes recibir de otro jugador 
         Cartas cartas = yo.getCartas();
 
         int num_madera = cartas.getMadera().size();

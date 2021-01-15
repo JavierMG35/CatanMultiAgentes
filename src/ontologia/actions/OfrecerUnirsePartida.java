@@ -2,7 +2,7 @@ package src.ontologia.actions;
 import jadex.adapter.fipa.AgentAction;
 import src.Jugador.Jugador;
 
-public class SolicitarUnirsePartida extends Action{
+public class OfrecerUnirsePartida extends Action{
 	/*
 	 * RequestJoin.java
 	 *
@@ -29,7 +29,7 @@ public class SolicitarUnirsePartida extends Action{
 		 *  Default Constructor. <br>
 		 *  Create a new <code>RequestJoin</code>.
 		 */
-		public SolicitarUnirsePartida()  {
+		public OfrecerUnirsePartida()  {
 		}
 
 		//-------- accessor methods --------

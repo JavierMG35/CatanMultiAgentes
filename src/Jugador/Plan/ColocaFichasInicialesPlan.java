@@ -17,20 +17,16 @@ public class ColocaFichasInicialesPlan extends Plan{
 	public void body()
 	{
 		
-		
-		
+		//Comienza el juego y debemos colocar un poblado y carretera
+		//Ontenmos el estado del juego actual y el mapa que nos envia el tablero
 		IMessageEvent	request	= (IMessageEvent)getInitialEvent();
 		AgentIdentifier tablero = (AgentIdentifier) request.getParameter("sender").getValue();
-		System.out.println("Recibido mensaje de Tablero a Jugador");
 		EstadoJuego  estadojuego = (EstadoJuego)request.getParameter(SFipa.CONTENT).getValue();
 		Mapa mapa = estadojuego.getMapa();
+		//Obtenemos nuestra informacion de la base de creencias
 		Jugador	yo	= (Jugador)getBeliefbase().getBelief("myself").getFact();
-		//Jugador yoenestado = estadojuego.getMyself(yo);
-		System.out.println("Voy a colocar un poblado y calle soy:  "+ yo.getNombre());
-		
-		boolean posible = false;
 		Node nodoPoblado= null;
-		//Generamos una posición aleatoria de inicio de las fichas
+		//Hasta que no construyamos un poblado el juego no puede continuar
 		while(nodoPoblado == null) {
 			Random rand1 =  new Random();
 			int casilla = rand1.nextInt(37);
@@ -38,36 +34,19 @@ public class ColocaFichasInicialesPlan extends Plan{
 			nodoPoblado = mapa.fichaInicial(casilla, yo);
 
 		}	
+		System.out.println("Poblado inicial colocado en el nodo : "+nodoPoblado.getPos_x()+","+nodoPoblado.getPos_y());
 		
-		System.out.println("Poblado colocado en el nodo : "+nodoPoblado.getPos_x()+","+nodoPoblado.getPos_y());
-		posible = false;
-		/////Generamos una posicion para un camino aleatorio al lado del poblado puesto=?=?=??
+		//Añadimos un punto por construir un poblado
 		yo.setPuntuacion(yo.getPuntuacion()+1);
-		posible = mapa.caminoInicial(nodoPoblado, yo);
-	
+		mapa.caminoInicial(nodoPoblado, yo);
 		estadojuego=yo.setMyself(estadojuego);
 		estadojuego.setMapa(mapa);
-
-		//System.out.println("-----------------el estado del jugador tiene este mapa----------------");
-		//estadojuego.getMapa().printMapa();
-		//System.out.println("---------------------------------------------------------");
-		
-		getBeliefbase().getBelief("myself").setFact(yo);
-		//BUCLE DE NODOS
-		
-		
-		
-		//Mandamos el nuevo mapa.
-		//Jugador	yo	= (Jugador)getBeliefbase().getBelief("myself").getFact();
+		getBeliefbase().getBelief("myself").setFact(yo);	
+		//Mandamos el nuevo mapa al tablero
 		IMessageEvent mensaje_enviar = (IMessageEvent)request.createReply("ficha_colocada");
 		mensaje_enviar.getParameterSet(SFipa.RECEIVERS).addValue(tablero);
 		mensaje_enviar.getParameter(SFipa.CONTENT).setValue(estadojuego);
-		//mensaje_enviar.setContent(estadojuego);
-		EstadoJuego mensaje=(EstadoJuego) mensaje_enviar.getParameter(SFipa.CONTENT).getValue();
-		//System.out.println("-----------------el mensaje que envia el jugador tiene este mapa----------------");
-		//mensaje.getMapa().printMapa();
 	    sendMessage(mensaje_enviar);
-	    System.out.println("Mandado posicion inicial al tablero");
 		
 	}
 	

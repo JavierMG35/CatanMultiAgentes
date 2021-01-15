@@ -30,23 +30,18 @@ public class Cartas {
 		switch(recurso.getTipo()) {
 		  case "Lana":
 			addLana(recurso);
-			System.out.println(recurso.getTipo());
 		    break;
 		  case "Madera":
 			  addMadera(recurso);
-			  System.out.println(recurso.getTipo());
 		    break;
 		  case "Piedra":
 			  addPiedra(recurso);
-			  System.out.println(recurso.getTipo());
 			break;
 		  case "Arcilla":
 			  addArcilla(recurso);
-			  System.out.println(recurso.getTipo());
 			break;
 		  case  "Paja":
 			  addPaja(recurso);
-			  System.out.println(recurso.getTipo());
 			break;
 		} 
 	}

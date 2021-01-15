@@ -26,16 +26,18 @@ public class ComprarCartaDesarrolloPlan extends Plan{
 			if (EstadoJuego.getJugadores().get(i).getNombre().equals(yo.getNombre())) index=i;
 		}
 		/////////////////////////////////////////////////////////////////////////////////////////
+		
 		CartaDesarrollo CartaDesarrollo=null;
 		yo	= EstadoJuego.getJugadores().get(index);
-		System.out.println("La estrategia del jugador a comprar la carta es : " + yo.getStrategyname());
+		//Si la estrategia decide comprar una carta de desarrollo entonces entra en esta condicion
 		if (yo.getStrategy().decidirCompra(yo.getCartas()) && yo.PermitirCartaDesarrollo()) { 
 			CartaDesarrollo = new CartaDesarrollo();
 			yo.getCartas().addDesarrollo(CartaDesarrollo);
-			System.out.println("Soy "+yo.getNombre()+"he obtenido esta carta de desarrollo: " +CartaDesarrollo.getTipo());
+			System.out.println("He obtenido esta carta de desarrollo: " +CartaDesarrollo.getTipo());
 		}
-		else {System.out.println("Soy "+yo.getNombre()+" no compro la carta de desarrollo");}
-		/////////////////////////////Envio la oferta al tablero
+		//Si la estrategia no considera oportuna esta compra entra en esta condicon
+		else {System.out.println("No compro la carta de desarrollo");}
+		/////////////////////////////Envio la carta de desarrollo obtenida
 		IMessageEvent mensaje_enviar = request.createReply("carta_desarrollo",CartaDesarrollo);
 		mensaje_enviar.getParameterSet(SFipa.RECEIVERS).addValue(tablero);
 	    sendMessage(mensaje_enviar);

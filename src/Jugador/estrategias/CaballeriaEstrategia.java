@@ -26,7 +26,9 @@ public class CaballeriaEstrategia extends AbstractEstrategias {
 
 
 	public  Recurso propuestaNegociarJugadorOfrecer(Jugador yo) {
-
+		
+		//Busca el recurso que mas me interesa comerciar con otro jugador
+		
         Cartas cartas = yo.getCartas();
         int num_madera = cartas.getMadera().size();
         int num_arcilla = cartas.getArcilla().size();
@@ -45,6 +47,7 @@ public class CaballeriaEstrategia extends AbstractEstrategias {
 
     @Override
     public Recurso propuestaNegociarJugadorRecibir(Jugador yo) {
+    	//Busca el recurso que mas me interesa recibir de otro jugador
         Cartas cartas = yo.getCartas();
 
         int num_madera =  cartas.getMadera().size();
@@ -69,6 +72,7 @@ public class CaballeriaEstrategia extends AbstractEstrategias {
 	
 	@Override
 	public Recurso[] propuestaNegociarBanca(Cartas cartas, Mapa mapa,Jugador yo) {
+		//Comprueba que recurso puedo cambiar con la banca y cual es el que mas me interesa
 		Recurso[] Recursos = {new Recurso(),new Recurso()};
 		Recurso recursoposible=null;
 		recursoposible=yo.cuatroCartasIguales("Madera");
@@ -100,6 +104,7 @@ public class CaballeriaEstrategia extends AbstractEstrategias {
 	}
 
 	public boolean aceptarOferta(RealizarOfertaJugador oferta,Jugador yo) {
+		//Compruebo si me interesa aceptar una oferta recibida de otro jugador
 		Cartas mis_cartas = yo.getCartas();
 		boolean acepto = false;
 		Recurso oferta_recibir_recursos = oferta.getTe_doy();
@@ -158,9 +163,9 @@ public class CaballeriaEstrategia extends AbstractEstrategias {
 	}
 
 	
-	
 	@Override
 	public Construccion decidirConstruccion(Mapa mapa, Cartas cartas, String nombre) {
+		//Decido que contruccion realizar
 		// TODO Auto-generated method stub
 		List<Casilla> casillas = mapa.getCasillas();
 		Construccion retorno = null;

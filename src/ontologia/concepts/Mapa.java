@@ -84,7 +84,7 @@ public class Mapa {
 						listanodos.get(arista).setConstruccion(true);
 						listanodos.get(arista).setTipo("Poblado");
 						listanodos.get(arista).setDueño(dueño);
-						System.out.println("El nombre del jugador que coloca la pieza es:" + dueño.getNombre());
+						System.out.println(dueño.getNombre()+" coloca la construccion");
 						dueño.getCartas().setRecurso(casilla.getRecurso());
 						//System.out.println(dueño.getCartas().getTipoRecurso(recursos));
 						
@@ -121,14 +121,13 @@ public class Mapa {
 		boolean posible= false;
 		List<Edge> listaAristas=nodo.getEdges();
 		for(int i = 0; i < listaAristas.size();i++) {
-			System.out.println("correcto: "+listaAristas.size());
 			if (listaAristas.get(i).posible()) {
-				System.out.println("ha sido true");
 				/*listaAristas.get(i).setCarretera(true);
 				listaAristas.get(i).setDueño(dueño);*/
 				posible = true;
-				System.out.println("origen: "+listaAristas.get(i).getOrigen().getPos_x()+", "+listaAristas.get(i).getOrigen().getPos_y());
-				System.out.println("destino: "+listaAristas.get(i).getDestino().getPos_x()+", "+listaAristas.get(i).getDestino().getPos_y());
+				System.out.println("He colocado un camino desde x: "+listaAristas.get(i).getOrigen().getPos_x()+ " y: "+
+						listaAristas.get(i).getOrigen().getPos_y()+" a "+ " x: "+listaAristas.get(i).getDestino().getPos_x()+" y: "+listaAristas.get(i).getDestino().getPos_y());
+				
 				break;
 				}
 			
@@ -259,6 +258,18 @@ public class Mapa {
 	
 	}
 
+	public int getPosicionLadron() {
+		int casillaLadron=-1;
+		for (int i =0; i<getCasillas().size();i++) {
+			
+				if (getCasillas().get(i).isLadron())casillaLadron=i+1;
+			}
+		
+		return casillaLadron;
+	
+		
+	}
+	
 	public void ColocarPoblado(int posx, int posy, Jugador dueño) {
         Node poblado = this.getNode(posx, posy);
         poblado.setConstruccion(true);

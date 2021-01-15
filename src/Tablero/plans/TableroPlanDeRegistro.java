@@ -1,7 +1,7 @@
 package src.Tablero.plans;
 
 import jadex.runtime.*;
-import src.ontologia.actions.SolicitarUnirsePartida;
+import src.ontologia.actions.OfrecerUnirsePartida;
 import jadex.util.SUtil;
 import jadex.adapter.fipa.*;
 import src.Jugador.Jugador;
@@ -48,38 +48,27 @@ public class TableroPlanDeRegistro extends Plan{
 		adesc.addService(sd);
 		SearchConstraints sc = new SearchConstraints();
 		sc.setMaxResults(-1);
+		//Buscamos en el df quien esta registrado
 		IGoal busqueda = createGoal("df_search");
 		busqueda.getParameter("description").setValue(adesc);
 		busqueda.getParameter("constraints").setValue(sc);
 		dispatchSubgoalAndWait(busqueda);
-		
 		AgentDescription[] result =(AgentDescription[])busqueda.getParameterSet("result").getValues();
-		
 		int numero_jugadores= result.length;
-		System.out.println(numero_jugadores + " jugadores  encontrados");
+		System.out.println("Jugadores  registrados para la partida: "+numero_jugadores );
 		Jugador[] jugadores = new Jugador[numero_jugadores];
-		
+	
+		//Enviamos una solicitud al jugador para que se una a la partida, estos los encontramos en el df
 		for(int i=0;i< result.length;i++) {
 			IMessageEvent	msg	= createMessageEvent("request_unirse_partida");
 			msg.getParameterSet(SFipa.RECEIVERS).addValue(result[i].getName());
-			SolicitarUnirsePartida request = new SolicitarUnirsePartida();
+			OfrecerUnirsePartida request = new OfrecerUnirsePartida();
 			msg.setContent(request);
-			getLogger().info("sending join-message");
-			// send the join-message and wait for a response
-			System.out.println("envio peticion a: " + result[i].getName());
 			IMessageEvent	reply	= sendMessageAndWait(msg);
-			//Jugador jugador = new Jugador();
-			//Request_unirse_partida rj = (Request_unirse_partida)reply.getContent();
-			SolicitarUnirsePartida rj = (SolicitarUnirsePartida)reply.getContent();
+			OfrecerUnirsePartida rj = (OfrecerUnirsePartida)reply.getContent();
 			jugadores[i] = rj.getJugador();
 			jugadores[i].setAgentID((AgentIdentifier)reply.getParameter("sender").getValue());
-			//jugadores[i].setName(reply.getParameter("sender").getValue().toString());
-			//System.out.println("el request contiene: "+ reply.getParameter("sender").getValue()+" "+rj.getJugador().getAid().getName());
-			System.out.println(rj.getJugador().getNombre());		
-
-		
 		}
-		System.out.println("el nombre del plan de registro: "+jugadores[0].getName());
 		getBeliefbase().getBeliefSet("jugador").addFacts(jugadores);
 		getBeliefbase().getBelief("jugadores").setFact(numero_jugadores);
 	}

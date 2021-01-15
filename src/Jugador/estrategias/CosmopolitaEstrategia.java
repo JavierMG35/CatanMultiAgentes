@@ -29,6 +29,7 @@ public class CosmopolitaEstrategia extends AbstractEstrategias{
 	
 	
 	public Recurso propuestaNegociarJugadorOfrecer(Jugador yo) {
+		//Busca el recurso que mas me interesa comerciar con otro jugador
 		Cartas cartas = yo.getCartas();
 		List<Construccion> construcciones = yo.getConstrucciones();
 		int poblados = 0;
@@ -73,7 +74,7 @@ public class CosmopolitaEstrategia extends AbstractEstrategias{
 
 	@Override
 	public Recurso propuestaNegociarJugadorRecibir(Jugador yo) {
-		
+		//comprueba el recurso que le interesa recibir de otro jugador 
 		Cartas cartas = yo.getCartas();
 		List<Construccion> construcciones = yo.getConstrucciones();
 		int poblados = 0;
@@ -115,7 +116,7 @@ public class CosmopolitaEstrategia extends AbstractEstrategias{
 	
 	@Override
 	public Recurso[] propuestaNegociarBanca(Cartas cartas, Mapa mapa ,Jugador yo) {
-		
+		//Comprueba que recurso puedo cambiar con la banca y cual es el que mas me interesa
 		boolean poblado =false;
 		for (int i = 0; i < mapa.getCasillas().size();i++)
 
@@ -197,6 +198,7 @@ public class CosmopolitaEstrategia extends AbstractEstrategias{
 
 	
 	public boolean aceptarOferta(RealizarOfertaJugador oferta, Jugador yo) {
+		//Compruebo si me interesa aceptar una oferta recibida de otro jugador
 		boolean acepto = false;
 		Cartas cartas = yo.getCartas();
 		Recurso recurso_recibir = oferta.getTe_doy();
@@ -241,6 +243,7 @@ public class CosmopolitaEstrategia extends AbstractEstrategias{
 	}
 	@Override
 	public Construccion decidirConstruccion(Mapa mapa, Cartas cartas, String nombre) {
+		//Decido que contruccion realizar
 		// TODO Auto-generated method stub
 		List<Casilla> casillas = mapa.getCasillas();
 		Construccion retorno = null;

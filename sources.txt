@@ -1,5 +1,3 @@
-C:\Users\victo\Downloads\Git\CatanMultiAgentes\cons\Constantes.java
-C:\Users\victo\Downloads\Git\CatanMultiAgentes\cons\Hexagono.java
 C:\Users\victo\Downloads\Git\CatanMultiAgentes\src\Jugador\Jugador.java
 C:\Users\victo\Downloads\Git\CatanMultiAgentes\src\Jugador\estrategias\AbstractEstrategias.java
 C:\Users\victo\Downloads\Git\CatanMultiAgentes\src\Jugador\estrategias\CaballeriaEstrategia.java
@@ -25,8 +23,8 @@ C:\Users\victo\Downloads\Git\CatanMultiAgentes\src\ontologia\actions\OfrecerCart
 C:\Users\victo\Downloads\Git\CatanMultiAgentes\src\ontologia\actions\OfrecerComerciarBanca.java
 C:\Users\victo\Downloads\Git\CatanMultiAgentes\src\ontologia\actions\OfrecerConstruir.java
 C:\Users\victo\Downloads\Git\CatanMultiAgentes\src\ontologia\actions\OfrecerNegociacion.java
+C:\Users\victo\Downloads\Git\CatanMultiAgentes\src\ontologia\actions\OfrecerUnirsePartida.java
 C:\Users\victo\Downloads\Git\CatanMultiAgentes\src\ontologia\actions\RealizarOfertaJugador.java
-C:\Users\victo\Downloads\Git\CatanMultiAgentes\src\ontologia\actions\SolicitarUnirsePartida.java
 C:\Users\victo\Downloads\Git\CatanMultiAgentes\src\ontologia\concepts\CartaDesarrollo.java
 C:\Users\victo\Downloads\Git\CatanMultiAgentes\src\ontologia\concepts\Cartas.java
 C:\Users\victo\Downloads\Git\CatanMultiAgentes\src\ontologia\concepts\Construccion.java

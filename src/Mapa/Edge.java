@@ -36,10 +36,8 @@ public class Edge {
 	public boolean posible() {	
 		int count=0;
 		for (int i=0; i < casillas.size(); i++) {
-			System.out.println("i: "+i);
 			if (casillas.get(i).getRecurso().getTipo().equals("Agua"))count++;
 		}
-		System.out.println("count : "+ count);
 		if (count<=1) {return true;}
 		return false;
 	}
