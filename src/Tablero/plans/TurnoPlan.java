@@ -7,7 +7,6 @@ import jadex.runtime.BasicAgentIdentifier;
 import jadex.runtime.IMessageEvent;
 import jadex.runtime.Plan;
 import src.Jugador.Jugador;
-import src.Tablero.Tablero;
 import src.ontologia.actions.OfrecerConstruir;
 import src.ontologia.actions.OfrecerComerciarBanca;
 import src.ontologia.actions.OfrecerNegociacion;
@@ -21,9 +20,6 @@ import src.Mapa.Casilla;
 import src.Mapa.Node;
 import java.util.List;
 
-import com.sun.org.apache.xerces.internal.util.SynchronizedSymbolTable;
-
-import java.util.ArrayList;
 
 public class TurnoPlan extends Plan {
 	public void body() {
