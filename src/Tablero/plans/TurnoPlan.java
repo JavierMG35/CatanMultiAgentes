@@ -58,7 +58,7 @@ public class TurnoPlan extends Plan{
 			System.out.println("Antes del if");
 			
 			//Si la suma de los dos dados da 7 se juega al ladron
-			if(dados.getDados() == 7) {
+			if(dados.getDados() <= 7) {
 				IMessageEvent ladron_mensaje = createMessageEvent("ladron_enviar");
                 ladron_mensaje.getParameterSet(SFipa.RECEIVERS).addValue(AidSiguiente);
                 MoverLadron MoverLadron = new MoverLadron();

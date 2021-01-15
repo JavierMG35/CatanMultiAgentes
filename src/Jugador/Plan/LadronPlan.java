@@ -34,13 +34,13 @@ public class LadronPlan extends Plan {
 				
 				//Contamos el numero de pueblos de jugadores contrarios en dicha casilla
 				for(int j=0; j<6; j++) {
-					if((casillas.get(i).getAdyacentes().get(j).getDueño()!=null) && (!casillas.get(i).getAdyacentes().get(j).getDueño().getNombre().equals(yo.getNombre()))) {
+					if(!casillas.get(i).getAdyacentes().get(j).getDueño().getNombre().equals("") && !casillas.get(i).getAdyacentes().get(j).getDueño().getNombre().equals(yo.getNombre())) {
 						poblados++;
 						//System.out.println("OOOOOOOOOOOOOLKEEEEEEEEEEEEEEEEEEEEE: "+ poblados);
 						//System.out.println("En la casilla numero : "+ (i+1));
 					}
 					//Comprobamos que cada nodo de la casilla no tiene un pueblo o ciudad del propio jugador
-					if((casillas.get(i).getAdyacentes().get(j).getDueño()!=null) && (casillas.get(i).getAdyacentes().get(j).getDueño().getNombre().equals(yo.getNombre()))) {
+					if(casillas.get(i).getAdyacentes().get(j).getDueño()!=null && casillas.get(i).getAdyacentes().get(j).getDueño().getNombre().equals(yo.getNombre())) {
 						poblados = poblados-6;
 						//System.out.println("PUUUUUUUUUUUUUUUUUTTTTTAAAAAAAAAAAAAAA");
 						//System.out.println("En la casilla numero : "+ (i+1));
