@@ -223,13 +223,14 @@ public class CosmopolitaEstrategia extends AbstractEstrategias{
 						if (nodos.get(j).getDueño() != null && nodos.get(j).getDueño().getNombre().equals(nombre)) {
 							if (nodos.get(j).getTipo().equals("Poblado")) {
 								retorno = new Construccion("Ciudad", nodos.get(j), null);
+								return retorno;
 							}
 						}
 					}
 				}
 			}
 		// Poblado
-		else if (cartas.getArcilla().size() >= 1 && cartas.getMadera().size() >= 1 && cartas.getPaja().size() >= 1
+		if (cartas.getArcilla().size() >= 1 && cartas.getMadera().size() >= 1 && cartas.getPaja().size() >= 1
 				&& cartas.getLana().size() >= 1) {
 
 			for (int i = 0; i < casillas.size(); i++) {
@@ -239,12 +240,13 @@ public class CosmopolitaEstrategia extends AbstractEstrategias{
 
 					if (!nodos.get(j).isOcupado()) {
 						retorno= new Construccion("Poblado", nodos.get(j), null);
+						return retorno;
 					}
 				}
 			}
 		}
 	    // Carretera
-		else if (cartas.getArcilla().size() >= 1 && cartas.getMadera().size() >= 1) {
+		if (cartas.getArcilla().size() >= 1 && cartas.getMadera().size() >= 1) {
 			// Ya tenemos suficientes recursos para construir carretera
 
 				for (int i = 0; i < casillas.size(); i++) {
@@ -260,6 +262,7 @@ public class CosmopolitaEstrategia extends AbstractEstrategias{
 								if (!caminos.get(k).isCarretera() && cartas.getArcilla().size() >= 1
 										&& cartas.getMadera().size() >= 1) {
 									retorno = new Construccion("Carretera", null, caminos.get(k));
+									return retorno;
 								}
 							}
 						}

@@ -40,9 +40,11 @@ public class CambiarRecursosConBancaPlan extends Plan{
 		String[] Oferta = {"null" , "null"};
 		//////////////////////////////En el caso de que envie algo reduzco en 4 los recursos de esa lista
 		if (oferta!=null) {
+			
 			for (int i = 0; i < 3; i++) {yo.getCartas().removeRecurso(oferta[1]);	System.out.println(yo.getCartas().getArcilla().size());}
 			Oferta[0]=oferta[0].getTipo();
 			Oferta[1]=oferta[1].getTipo();
+			System.out.println("Cambio: "+Oferta[0] +" por "+Oferta[1]);
 		}
 		/////////////////////////////Envio la oferta al tablero
 		IMessageEvent mensaje_enviar = request.createReply("oferta_comercio_banco",new OfertaJugadorBanca(Oferta));

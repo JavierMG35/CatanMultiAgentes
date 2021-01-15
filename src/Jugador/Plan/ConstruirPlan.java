@@ -40,9 +40,9 @@ public class ConstruirPlan extends Plan {
 		lana.setTipo("Lana");
 		Recurso madera = new Recurso();
 		madera.setTipo("Madera");
-		Recurso paja  = new Recurso();;
+		Recurso paja  = new Recurso();
 		paja.setTipo("Paja");
-		Recurso piedra  = new Recurso();;
+		Recurso piedra  = new Recurso();
 		piedra.setTipo("Piedra");
 		
 		

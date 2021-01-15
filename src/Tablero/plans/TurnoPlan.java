@@ -27,7 +27,10 @@ public class TurnoPlan extends Plan{
 	
 		Jugador[] jugadores = (Jugador[])getBeliefbase().getBeliefSet("jugador").getFacts();
 		Orden Orden = ((Orden)getBeliefbase().getBelief("orden").getFact());
+		for (int z=0; z<4;z++) {
+			System.out.println("nuvo turno: "+z);
 		for(int i=0;i< Orden.getJugadores().size();i++) {
+			System.out.println("fasdklfñkls");
 			System.out.println("La estrategia del juegdor : "+Orden.getJugadores().get(i).getStrategyname()+" "+Orden.getJugadores().get(i).getStrategy().getName()+" "+Orden.getJugadores().get(i).getStrategy());
 			EstadoJuego EstadoJuego = (EstadoJuego)getBeliefbase().getBelief("EstadoJuego").getFact();
 			BasicAgentIdentifier AidSiguiente = Orden.getJugadores().get(i).getAid();		
@@ -115,7 +118,7 @@ public class TurnoPlan extends Plan{
 					}
 				}
 				
-			
+			}
 				
 				/*
 				//////////////////////////////////////////////////////////////////////////////////////////////////
@@ -145,7 +148,6 @@ public class TurnoPlan extends Plan{
 				System.out.println("////////////////////////////////////////////////////////////////////////////");
 				System.out.println("****************************Comercio con el banco**************************");
 				System.out.println("////////////////////////////////////////////////////////////////////////////");
-				AidSiguiente = Orden.getJugadores().get(i).getAid();;		
 				IMessageEvent mensaje_comercio_banco = createMessageEvent("offer_comercio_banco");
 				mensaje_comercio_banco.getParameterSet(SFipa.RECEIVERS).addValue(AidSiguiente);
 				
@@ -158,7 +160,7 @@ public class TurnoPlan extends Plan{
 				String[] oferta=oferta_jugador_banca.getOferta();
 				
 				if (!oferta[0].equals("null")&&!oferta[1].equals("null")) {
-					System.out.println("El jugador cambia" +oferta[1]+ " por "+oferta[0]);
+					System.out.println("El jugador cambia" +oferta[0]+ " por "+oferta[1]);
 					for (int j = 0; j < 3; j++) {EstadoJuego.getJugadores().get(i).getCartas().removeRecurso(new Recurso(oferta[1]));}
 					EstadoJuego.getJugadores().get(i).getCartas().setRecurso(new Recurso(oferta[0]));
 				}
@@ -226,7 +228,7 @@ public class TurnoPlan extends Plan{
 				
 				
 				//No es 7 - Repartir recursos
-			}	
+				
 			
 			
 					//negociar
@@ -245,11 +247,12 @@ public class TurnoPlan extends Plan{
 				
 		//ACTUALIZAR EL ESTADO DE JUEGO
 			 getBeliefbase().getBelief("EstadoJuego").setFact(EstadoJuego);
+			 System.out.println("final turno");
 		}
 		
 		
 		
 	}
-	
+	}
 
 }

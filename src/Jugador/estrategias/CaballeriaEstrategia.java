@@ -101,6 +101,7 @@ public class CaballeriaEstrategia extends AbstractEstrategias {
 
 							if (!nodos.get(j).isOcupado()) {
 								retorno = new Construccion("Poblado", nodos.get(j), null);
+								return retorno;
 							}
 						}
 					}
@@ -124,6 +125,7 @@ public class CaballeriaEstrategia extends AbstractEstrategias {
 									if (!caminos.get(k).isCarretera() && cartas.getArcilla().size() >= 1
 											&& cartas.getMadera().size() >= 1) {
 										retorno = new Construccion("Carretera", null, caminos.get(k));
+										return retorno;
 									}
 								}
 							}
@@ -144,6 +146,7 @@ public class CaballeriaEstrategia extends AbstractEstrategias {
 								if (nodos.get(j).getTipo() == "Poblado" && cartas.getPaja().size() >= 2
 										&& cartas.getPiedra().size() >= 3) {
 									retorno = new Construccion("Ciudad", nodos.get(j), null);
+									return retorno;
 								}
 							}
 						}
