@@ -58,7 +58,7 @@ public class TurnoPlan extends Plan{
 			System.out.println("Antes del if");
 			
 			//Si la suma de los dos dados da 7 se juega al ladron
-			if(dados.getDados() <= 7) {
+			if(dados.getDados() == 7) {
 				IMessageEvent ladron_mensaje = createMessageEvent("ladron_enviar");
                 ladron_mensaje.getParameterSet(SFipa.RECEIVERS).addValue(AidSiguiente);
                 MoverLadron MoverLadron = new MoverLadron();
@@ -180,7 +180,7 @@ public class TurnoPlan extends Plan{
                 ConstruirEstado construircontenido = new ConstruirEstado();
                 construircontenido.setEstadoJuego(EstadoJuego);
                 construir_mensaje.setContent(construircontenido);
-                System.out.println("envio mensaeje");
+                System.out.println("envio mensaje");
                 IMessageEvent    respuesta_construir    = sendMessageAndWait(construir_mensaje);
                 System.out.println("recibo mensaeje");
                 ConstruirEstado nuevomapa = (ConstruirEstado) respuesta_construir.getContent();
@@ -220,24 +220,7 @@ public class TurnoPlan extends Plan{
 				////////////////////////////////////////////////////////////////////////////////////////////////////
 				*/
 
-                
-				//No es 7 - Repartir recursos
-				
-
-					//negociar
-						//negociar juigadores
-							//proponer
-							//recibir respuesta
-							//contraoferta
-						//negociar tablero - realizar
-					//o construir
-						//se selecciona tipo (carretera, poblado, ciudad)
-						//donde
-						//pagar recursos
-					//o comprar carta - realizar
-				//fin turno
-
-				
+              
              //ACTUALIZAR EL ESTADO DE JUEGO
 			 getBeliefbase().getBelief("EstadoJuego").setFact(EstadoJuego);
 			 System.out.println("final turno");
@@ -250,7 +233,7 @@ public class TurnoPlan extends Plan{
 
 
 			 ////////////////////////////////////////
-			 System.out.println("ACTUALIZAMOS PUNTUACION JUGAOR");
+			 System.out.println("ACTUALIZAMOS PUNTUACION JUGADOR");
 			 //Actualizamos la puntiación del jugador
 			 Jugador actual = Orden.getJugadores().get(i);
 			 int puntuacion_actual = actual.getPuntuacion();
@@ -348,7 +331,7 @@ public class TurnoPlan extends Plan{
 			 
 	}
 		
-		
+		System.out.println("Fin del Juego.");
 		
 	}
 
