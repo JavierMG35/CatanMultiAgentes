@@ -121,9 +121,85 @@ public class CosmopolitaEstrategia extends AbstractEstrategias{
 	}
 
 	@Override
-	public Recurso propuestaNegociarBanca(Cartas carta) {
-		// TODO Auto-generated method stub
-		return new Recurso("Madera");
+	public Recurso[] propuestaNegociarBanca(Cartas cartas, Mapa mapa ,Jugador yo) {
+		
+		boolean poblado =false;
+		for (int i = 0; i < mapa.getCasillas().size();i++)
+
+		{
+			for (int j=0;j<mapa.getCasillas().get(i).getAdyacentes().size();j++) {
+
+				if (mapa.getCasillas().get(i).getAdyacentes().get(j).getDueño()!=null) {
+				if (mapa.getCasillas().get(i).getAdyacentes().get(j).getDueño().getNombre().equals(yo.getNombre()) && mapa.getCasillas().get(i).getAdyacentes().get(j).getTipo().equals("Poblado")) 
+				{
+					poblado = true;
+				}
+				
+				}
+			}
+		}
+		
+		if (poblado) {
+			
+			Recurso[] Recursos = {new Recurso(),new Recurso()};
+			Recurso recursoposible=null;
+			recursoposible=yo.cuatroCartasIguales("Madera");
+			recursoposible=yo.cuatroCartasIguales("Arcilla");
+			recursoposible=yo.cuatroCartasIguales("Lana");
+			if (recursoposible.getTipo()!=null) {
+				Recursos[1]=recursoposible;
+				List<Integer> ints = List.of(cartas.getPiedra().size(),cartas.getPaja().size());
+				int min=10;
+				int index=2;
+				for (int i = 0; i<ints.size() ;i++) {
+					if (ints.get(i)<min) {
+						min = ints.get(i);
+						index=i;
+						}
+					}
+				switch (index) {
+				case 0:
+					Recursos[0]=new Recurso("Piedra");
+				case 1:
+					Recursos[0]= new Recurso ("Paja");
+				}
+				return Recursos;
+				
+			}
+			else {return null;}
+			
+		}
+		else {
+		
+		Recurso[] Recursos = {new Recurso(),new Recurso()};
+		Recurso recursoposible=null;
+		recursoposible=yo.cuatroCartasIguales("Piedra");
+		if (recursoposible.getTipo()!=null) {
+			Recursos[1]=recursoposible;
+			List<Integer> ints = List.of(cartas.getPaja().size(),cartas.getPiedra().size(),cartas.getLana().size(),cartas.getArcilla().size());
+			int min=10;
+			int index=2;
+			for (int i = 0; i<ints.size() ;i++) {
+				if (ints.get(i)<min) {
+					min = ints.get(i);
+					index=i;
+					}
+				}
+			switch (index) {
+			case 0:
+				Recursos[0]=new Recurso("Paja");
+			case 1:
+				Recursos[0]= new Recurso ("Piedra");
+			case 2:
+				Recursos[0]= new Recurso ("Lana");
+			case 3:
+				Recursos[0]= new Recurso ("Arcilla");
+			}
+			return Recursos;
+			
+		}
+		else {return null;}
+		}
 	}
 
 	@Override
@@ -132,6 +208,7 @@ public class CosmopolitaEstrategia extends AbstractEstrategias{
 		return false;
 	}
 
+	
 	@Override
 	public Construccion decidirConstruccion(Mapa mapa, Cartas cartas, String nombre) {
 		// TODO Auto-generated method stub
@@ -140,15 +217,11 @@ public class CosmopolitaEstrategia extends AbstractEstrategias{
 
 		// Queremos hacer ciudades.
 		if (cartas.getPaja().size() >= 2 && cartas.getPiedra().size() >= 3) {
-
 				for (int i = 0; i < casillas.size(); i++) {
 					List<Node> nodos = casillas.get(i).getAdyacentes();
-
 					for (int j = 0; j < nodos.size(); j++) {
-
-						if (nodos.get(j).getDueño().getNombre().equals(nombre)) {
-							if (nodos.get(j).getTipo() == "Poblado" && cartas.getPaja().size() >= 2
-									&& cartas.getPiedra().size() >= 3) {
+						if (nodos.get(j).getDueño() != null && nodos.get(j).getDueño().getNombre().equals(nombre)) {
+							if (nodos.get(j).getTipo().equals("Poblado")) {
 								retorno = new Construccion("Ciudad", nodos.get(j), null);
 							}
 						}
@@ -190,14 +263,17 @@ public class CosmopolitaEstrategia extends AbstractEstrategias{
 								}
 							}
 						}
-
 				}
 			}
 		}
 		
 		return retorno;
 	}
+	
+	
 	@Override
+	
+	
 	public Boolean decidirCompra() {
 		// TODO Auto-generated method stub
 		return true;

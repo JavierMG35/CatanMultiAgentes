@@ -12,7 +12,8 @@ public class Construccion {
 	Edge camino;
 	Jugador dueño;
 	
-	
+	public Construccion() {
+	}
 	public Construccion(String tipo, Node nodo, Jugador dueño, Edge camino) {
 		this.tipo = tipo;
 		this.nodo = nodo;

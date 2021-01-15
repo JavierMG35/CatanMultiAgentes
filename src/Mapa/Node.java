@@ -17,13 +17,16 @@ public class Node {
 	private boolean ocupado = false;
 	
 	public Node(){
-	}
+        this.dueño = new Jugador();
+        dueño.setNombre("");
+    }
 	public Node(int pos_x,int pos_y){
-		this.pos_x=pos_x;
-		this.pos_y=pos_y;
-		this.ocupado=false;
-		this.dueño=null;
-	}
+        this.pos_x=pos_x;
+        this.pos_y=pos_y;
+        this.ocupado=false;
+        this.dueño= new Jugador();
+        dueño.setNombre("");
+    }
 	
 	//Edges en node o graph?? Mejor aqui, no??
 	public void addEdge(Edge edge) {

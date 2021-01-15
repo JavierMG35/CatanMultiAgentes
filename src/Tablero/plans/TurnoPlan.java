@@ -52,7 +52,7 @@ public class TurnoPlan extends Plan{
 			//EstadoJuego estado = (EstadoJuego)respuesta.getContent();
 			//getBeliefbase().getBelief("EstadoJuego").setFact(estado);
 			System.out.println("Antes del if");
-			if(dados.getDados() == 7) {
+			if(dados.getDados() == 13) {
 				System.out.println("dados dentro del if: "+dados.getDados());
 				System.out.println("dados dentro del if: "+dados.getDados());
 				System.out.println("si que entro poero no imprimo los dados");
@@ -97,7 +97,7 @@ public class TurnoPlan extends Plan{
 
 						for (int k = 0; k < nodos.size(); k++) {
 							Node nodo = nodos.get(k);
-							System.out.println("llego");
+							//System.out.println("llego");
 							if(nodo.isOcupado()) {
                                 Jugador player = nodo.getDueño();
                                 String tipo = nodo.getTipo();
@@ -117,7 +117,7 @@ public class TurnoPlan extends Plan{
 				
 			
 				
-				
+				/*
 				//////////////////////////////////////////////////////////////////////////////////////////////////
 				////////////////////////////Negociacion con jugadores////////////////////////////////////////////////
 				//////////////////////////////////////////////////////////////////////////////////////////////////
@@ -137,7 +137,7 @@ public class TurnoPlan extends Plan{
 				System.out.println("***********************Fin Negociacion con jugadores***********************");
 				System.out.println("////////////////////////////////////////////////////////////////////////////");
 	            //////////////////////////////////////////////////////////////////////////////////////////////////
-				
+				*/
 				
 				//////////////////////////////////////////////////////////////////////////////////////////////////
 				////////////////////////////Comerciar con el banco////////////////////////////////////////////////
@@ -150,42 +150,47 @@ public class TurnoPlan extends Plan{
 				mensaje_comercio_banco.getParameterSet(SFipa.RECEIVERS).addValue(AidSiguiente);
 				
 				mensaje_comercio_banco.setContent(new OfertaComercio(EstadoJuego));
-				System.out.println("Notifico de la fase de comercio a: "+Orden.getSiguiente_jugador().getNombre());
+				System.out.println("Notifico de la fase de comercio a: "+Orden.getJugadores().get(i).getNombre());
 				IMessageEvent	respuestacomerciarbanco	= sendMessageAndWait(mensaje_comercio_banco);
 				///////oferta ="desado"+"ofrecido"				
 								
 				OfertaJugadorBanca oferta_jugador_banca = (OfertaJugadorBanca) respuestacomerciarbanco.getContent();
 				String[] oferta=oferta_jugador_banca.getOferta();
-				System.out.println("El jugador cambia" +oferta[1]+ " por "+oferta[0]);
-				if (oferta[0]!=null && oferta[1]!=null) {
+				
+				if (!oferta[0].equals("null")&&!oferta[1].equals("null")) {
+					System.out.println("El jugador cambia" +oferta[1]+ " por "+oferta[0]);
 					for (int j = 0; j < 3; j++) {EstadoJuego.getJugadores().get(i).getCartas().removeRecurso(new Recurso(oferta[1]));}
 					EstadoJuego.getJugadores().get(i).getCartas().setRecurso(new Recurso(oferta[0]));
 				}
+				else {System.out.println("El jugador no decide comerciar con el banco");}
 				System.out.println("////////////////////////////////////////////////////////////////////////////");
 				System.out.println("***************************Fin comrecio con el banco************************");
 				System.out.println("////////////////////////////////////////////////////////////////////////////");
 				////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-
-
-/*
-
-				//////////////////////////////////////////////////////////////////////////////////////////////////
-				////////////////////////////Colocar una construccion/////////////////////////////////////////
-				//////////////////////////////////////////////////////////////////////////////////////////////////
-				System.out.println("////////////////////////////////////////////////////////////////////////////");
-            	IMessageEvent construir_mensaje = createMessageEvent("construir_enviar");
-            	construir_mensaje.getParameterSet(SFipa.RECEIVERS).addValue(AidSiguiente);
-            	construir_mensaje.setContent(EstadoJuego);
-            	IMessageEvent    respuesta_construir    = sendMessageAndWait(construir_mensaje);
-				System.out.println("////////////////////////////////////////////////////////////////////////////");
-				System.out.println("*************************No colocar construccion*****************************");
-				System.out.println("////////////////////////////////////////////////////////////////////////////");
-				////////////////////////////////////////////////////////////////////////////////////////////////////
-			
-*/
 				
+
+				System.out.println("////////////////////////////////////////////////////////////////////////////");
+                System.out.println("////////////////////////////Colocar una construccion//////////////////////////");
+                System.out.println("////////////////////////////////////////////////////////////////////////////");
+                IMessageEvent construir_mensaje = createMessageEvent("construir_enviar");
+                construir_mensaje.getParameterSet(SFipa.RECEIVERS).addValue(AidSiguiente);
+                ConstruirEstado construircontenido = new ConstruirEstado();
+                construircontenido.setEstadoJuego(EstadoJuego);
+                construir_mensaje.setContent(construircontenido);
+                System.out.println("envio mensaeje");
+                IMessageEvent    respuesta_construir    = sendMessageAndWait(construir_mensaje);
+                System.out.println("recibo mensaeje");
+                ConstruirEstado nuevomapa = (ConstruirEstado) respuesta_construir.getContent();
+                EstadoJuego = nuevomapa.getEstadoJuego();
+
+                System.out.println("////////////////////////////////////////////////////////////////////////////");
+                System.out.println("*********************Acaba el momento de construccion***********************");
+                System.out.println("////////////////////////////////////////////////////////////////////////////");
+                
+                
+				/*
 				//////////////////////////////////////////////////////////////////////////////////////////////////
 				////////////////////////////Comerciar carta de desarrollo/////////////////////////////////////////
 				//////////////////////////////////////////////////////////////////////////////////////////////////
@@ -212,7 +217,7 @@ public class TurnoPlan extends Plan{
 				System.out.println("**********************Fin Comerciar carta de desarrollo**********************");
 				System.out.println("////////////////////////////////////////////////////////////////////////////");
 				////////////////////////////////////////////////////////////////////////////////////////////////////
-				
+				*/
 				
 				
 				
@@ -239,6 +244,7 @@ public class TurnoPlan extends Plan{
 
 				
 		//ACTUALIZAR EL ESTADO DE JUEGO
+			 getBeliefbase().getBelief("EstadoJuego").setFact(EstadoJuego);
 		}
 		
 		

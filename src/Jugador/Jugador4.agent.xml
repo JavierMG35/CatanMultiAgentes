@@ -41,7 +41,7 @@
 	</beliefs>
 
 	<!--para registrarse en el DF -->
-		<goals>
+	<goals>
 		<achievegoalref name="df_search">
 			<concrete ref="dfcap.df_search" />
 		</achievegoalref>
@@ -112,6 +112,8 @@
             </trigger>
         </plan>
 
+		
+	
 	</plans>
 
 
@@ -175,30 +177,28 @@
 
 		<!-- Colocar fichas -->
 
-		<messageevent name="coloca_fichas_iniciales" type="fipa"
-			direction="receive">
-			<parameter name="performative" class="String"
-				direction="fixed">
-				<value>SFipa.REQUEST</value>
-			</parameter>
-			<parameter name="language" class="String" direction="fixed">
-				<value>SFipa.NUGGETS_XML</value>
-			</parameter>
-		</messageevent>
+	
+        <messageevent name="coloca_fichas_iniciales" type="fipa"
+            direction="receive">
+            <parameter name="performative" class="String"
+                direction="fixed">
+                <value>SFipa.REQUEST</value>
+            </parameter>
+            <parameter name="language" class="String" direction="fixed">
+                <value>SFipa.NUGGETS_XML</value>
+            </parameter>
+            <match>$content instanceof src.ontologia.concepts.EstadoJuego</match>
+        </messageevent>
 
-		<messageevent name="ficha_colocada" type="fipa"
-			direction="send">
-			<parameter name="performative" class="String">
-				<value>SFipa.INFORM</value>
-			</parameter>
-
-			<parameter name="language" class="String" direction="fixed">
-				<value>SFipa.NUGGETS_XML</value>
-			</parameter>
-			<parameter name="conversation-id" class="String">
-				<value>SFipa.createUniqueId($scope.getAgentName())</value>
-			</parameter>
-		</messageevent>
+        <messageevent name="ficha_colocada" type="fipa"
+            direction="send">
+            <parameter name="performative" class="String">
+                <value>SFipa.INFORM</value>
+            </parameter>
+            <parameter name="language" class="String" direction="fixed">
+                <value>SFipa.NUGGETS_XML</value>
+            </parameter>
+        </messageevent>
 
 
 
@@ -240,7 +240,7 @@
 <!-- Construir -->
 
         <messageevent name="construir_enviar" type="fipa"
-            direction="send">
+            direction="receive">
             <parameter name="performative" class="String">
                 <value>SFipa.REQUEST</value>
             </parameter>
@@ -250,11 +250,13 @@
             <parameter name="language" class="String" direction="fixed">
                 <value>SFipa.NUGGETS_XML</value>
             </parameter>
-
+            <match>$content instanceof
+                src.ontologia.concepts.ConstruirEstado
+            </match>
         </messageevent>
 
-<!--          <messageevent name="construir_recibir" type="fipa"
-            direction="receive">
+        <messageevent name="construir_recibir" type="fipa"
+            direction="send">
             <parameter name="performative" class="String"
                 direction="fixed">
                 <value>SFipa.INFORM</value>
@@ -262,9 +264,7 @@
             <parameter name="language" class="String" direction="fixed">
                 <value>SFipa.NUGGETS_XML</value>
             </parameter>
-             <match>$content instanceof src.ontologia.concepts.EstadoJuego</match>
         </messageevent>
-         -->
 
 
 		<!-- Comerciar carta de desarrollo -->
@@ -449,3 +449,4 @@
 	</configurations>
 
 </agent>
+

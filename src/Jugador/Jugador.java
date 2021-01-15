@@ -1,10 +1,7 @@
 package src.Jugador;
 
 import jadex.adapter.fipa.AgentIdentifier;
-import jadex.examples.blackjack.player.strategies.AbstractStrategy;
 import jadex.model.jibximpl.Agent;
-//import jadex.examples.blackjack.player.strategies.IStrategy;
-//import jadex.examples.blackjack.player.strategies.*;
 import jadex.runtime.BasicAgentIdentifier;
 //import jadex.util.SUtil;
 import jadex.util.SimplePropertyChangeSupport;
@@ -21,6 +18,7 @@ import src.ontologia.concepts.Recurso;
 //import java.awt.Color;
 //import java.util.ArrayList;
 import java.util.List;
+import java.util.ArrayList;
 import java.util.Random;
 //import jadex.runtime.*;
 
@@ -63,6 +61,16 @@ public class Jugador extends Agent{
 
 		/** . */
 		public static final String	STATE_UNREGISTERED	= "unregistered";
+		public int getId() {
+			return id;
+		}
+		public void setId(int id) {
+			this.id = id;
+		}
+		public void setAid(BasicAgentIdentifier aid) {
+			this.aid = aid;
+		}
+
 		/** State of a player that is not involved in a game. */
 		public static final String	STATE_IDLE	= "idle";
 		/** State of a player at game start. */
@@ -83,7 +91,7 @@ public class Jugador extends Agent{
 		
 		protected Cartas cartas = new Cartas();
 		
-		protected List<Construccion> construcciones;
+	    protected List<Construccion> construcciones = new ArrayList<>();
 		
 		
 
@@ -199,12 +207,13 @@ public class Jugador extends Agent{
 		public void setStrategy(IEstrategia strategy) {
 			this.strategy = strategy;
 		}
-		public Recurso cuatroCartasIguales(Recurso recurso,String tipo_evitar) {
-			if (getCartas().getArcilla().size()>3 && !tipo_evitar.equals("Arcilla")) 	recurso.setTipo("Arcilla");
-			if (getCartas().getLana().size()>3 && 	!tipo_evitar.equals("Lana"))		recurso.setTipo("Lana");
-			if (getCartas().getPiedra().size()>3 && 	!tipo_evitar.equals("Piedra"))	recurso.setTipo("Piedra");
-			if (getCartas().getMadera().size()>3 && 	!tipo_evitar.equals("Madera"))	recurso.setTipo("Madera");
-			if (getCartas().getPaja().size()>3 && 	!tipo_evitar.equals("Paja"))		recurso.setTipo("Paja");
+		public Recurso cuatroCartasIguales(String tipo_buscar) {
+			Recurso recurso = new Recurso();			
+			if (getCartas().getArcilla().size()>3 && tipo_buscar.equals("Arcilla")) 	recurso.setTipo("Arcilla");
+			if (getCartas().getLana().size()>3 		&& 	tipo_buscar.equals("Lana"))		recurso.setTipo("Lana");
+			if (getCartas().getPiedra().size()>3 && 	tipo_buscar.equals("Piedra"))	recurso.setTipo("Piedra");
+			if (getCartas().getMadera().size()>3 && 	tipo_buscar.equals("Madera"))	recurso.setTipo("Madera");
+			if (getCartas().getPaja().size()>3	 && tipo_buscar.equals("Paja"))		recurso.setTipo("Paja");
 			return recurso;
 			
 		}

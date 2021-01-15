@@ -53,15 +53,15 @@ public class Cartas {
 	public void removeRecurso(Recurso recurso) {
 		 switch(recurso.getTipo()) {
 	     case "Lana":
-	       this.lana.remove(lana.size());
+	       this.lana.remove(recurso);
 	     case "Madera":
-	         this.madera.remove(madera.size());
+	         this.madera.remove(recurso);
 	     case "Piedra":
-	         this.piedra.remove(piedra.size());
+	         this.piedra.remove(recurso);
 	     case "Arcilla":
-	          this.arcilla.remove(arcilla.size());
+	          this.arcilla.remove(recurso);
 	     case  "Paja":
-	          this.paja.remove(paja.size());
+	          this.paja.remove(recurso);
 		 }
 	   } 
 	
@@ -184,7 +184,15 @@ public class Cartas {
 		}
 		this.cartas_desarrollo.add(desarrollo);
 	}
-	
+	public void printCartas() {
+		System.out.println("Mis cartas son: ");
+		System.out.println("Arcilla: "+getArcilla().size());
+		System.out.println("Madera: "+getMadera().size());
+		System.out.println("Paja: "+getPaja().size());
+		System.out.println("Lana: "+getLana().size());
+		System.out.println("Piedra: "+getPiedra().size());
+		
+	}
 
 	
 }

@@ -37,9 +37,35 @@ public class CaballeriaEstrategia extends AbstractEstrategias {
 	}
 
 	@Override
-	public Recurso propuestaNegociarBanca(Cartas carta) {
-		// TODO Auto-generated method stub
-		return null;
+	public Recurso[] propuestaNegociarBanca(Cartas cartas, Mapa mapa,Jugador yo) {
+		Recurso[] Recursos = {new Recurso(),new Recurso()};
+		Recurso recursoposible=null;
+		recursoposible=yo.cuatroCartasIguales("Madera");
+		recursoposible=yo.cuatroCartasIguales("Arcilla");
+		if (recursoposible.getTipo()!=null) {
+			Recursos[1]=recursoposible;
+			List<Integer> ints = List.of(cartas.getPaja().size(),cartas.getPiedra().size(),cartas.getLana().size());
+			int min=10;
+			int index=2;
+			for (int i = 0; i<ints.size() ;i++) {
+				if (ints.get(i)<min) {
+					min = ints.get(i);
+					index=i;
+					}
+				}
+			switch (index) {
+			case 0:
+				Recursos[0]=new Recurso("Paja");
+			case 1:
+				Recursos[0]= new Recurso ("Piedra");
+			case 2:
+				Recursos[0]= new Recurso ("Lana");
+			}
+			return Recursos;
+			
+		}
+		else {return null;}
+		
 	}
 
 	@Override
@@ -47,7 +73,7 @@ public class CaballeriaEstrategia extends AbstractEstrategias {
 		// TODO Auto-generated method stub
 		return false;
 	}
-
+	
 	@Override
 	public Construccion decidirConstruccion(Mapa mapa, Cartas cartas, String nombre) {
 		// TODO Auto-generated method stub
@@ -63,7 +89,7 @@ public class CaballeriaEstrategia extends AbstractEstrategias {
 			Random rand2 = new Random();
 			int q = rand2.nextInt(3);
 
-			if (p == 0) { // Poblado
+			if (q == 0) { // Poblado
 
 				if (cartas.getArcilla().size() >= 1 && cartas.getMadera().size() >= 1 && cartas.getPaja().size() >= 1
 						&& cartas.getLana().size() >= 1) {
@@ -80,7 +106,7 @@ public class CaballeriaEstrategia extends AbstractEstrategias {
 					}
 				}
 
-			} else if (p == 1) { // Carretera
+			} if (q == 1) { // Carretera
 
 				if (cartas.getArcilla().size() >= 1 && cartas.getMadera().size() >= 1) {
 					// Ya tenemos suficientes recursos para construir carretera
@@ -105,7 +131,7 @@ public class CaballeriaEstrategia extends AbstractEstrategias {
 					}
 				}
 
-			} else { // Ciudad
+			} if (q == 2) { // Ciudad
 
 				if (cartas.getPaja().size() >= 2 && cartas.getPiedra().size() >= 3) {
 
@@ -128,9 +154,10 @@ public class CaballeriaEstrategia extends AbstractEstrategias {
 		}
 		return retorno;
 	}
-
+	
 	@Override
-	public Boolean decidirCompra() {
+	
+public Boolean decidirCompra() {
 		// TODO Auto-generated method stub
 		return null;
 	}

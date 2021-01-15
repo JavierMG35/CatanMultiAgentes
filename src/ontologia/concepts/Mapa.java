@@ -13,7 +13,7 @@ import src.Mapa.Node;
 public class Mapa {
 	private int id;
 	private List<Node> nodos;
-	private List<Edge> edges;
+	private List<Edge> edges = new ArrayList<>();
 	private List<Casilla> casillas;
 	public int arcilla ;
 	public int lana ;
@@ -39,6 +39,7 @@ public class Mapa {
 		crearTablero();
 		iniciarTablero();
 		ManejarCasillas();
+		IniciarNodos();
 	}
 	
 	private void ManejarCasillas() {
@@ -98,6 +99,15 @@ public class Mapa {
 		return null;
 		
 	}
+	
+	public void IniciarNodos() {
+        for (int i = 0; i < this.getCasillas().size(); i++) {
+            for (int j = 0; j < this.getCasillas().get(i).getAdyacentes().size(); j++) {
+                    Node nodo = this.getCasillas().get(i).getAdyacentes().get(j);
+                    nodo = new Node();
+            }
+        }
+    }
 	
 	public int getId() {
 		return id;

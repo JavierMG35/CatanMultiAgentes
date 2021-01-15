@@ -5,7 +5,6 @@ import jadex.util.SReflect;
 import src.Jugador.Jugador;
 import src.ontologia.actions.RealizarOferta;
 import src.ontologia.concepts.*;
-import src.ontologia.concepts.Recurso;
 
 public abstract class AbstractEstrategias implements IEstrategia{
 	
@@ -46,7 +45,7 @@ public abstract class AbstractEstrategias implements IEstrategia{
 		
 		public abstract Recurso propuestaNegociarJugadorRecibir(Jugador jugador);
 		
-		public abstract Recurso propuestaNegociarBanca(Cartas carta);
+		public abstract Recurso[] propuestaNegociarBanca(Cartas carta, Mapa mapa, Jugador yo);
 		
 		public abstract boolean aceptarOferta(RealizarOferta oferta, Cartas mis_cartas);
 
@@ -87,7 +86,7 @@ public abstract class AbstractEstrategias implements IEstrategia{
 			strategies.add(new GranRutaComeracialEstrategia(AbstractEstrategias.GRAN_RUTA_COMERCIAL));
 			strategies.add(new CosmopolitaEstrategia(AbstractEstrategias.COSMOPOLITA));
 			strategies.add(new CaballeriaEstrategia(AbstractEstrategias.EJERCITO_DE_CABALLERIA));
-			
+			strategies.add(new MonopolioEstrategia(AbstractEstrategias.MONOPOLIO));
 		}
 
 		

@@ -14,7 +14,7 @@ public interface IEstrategia {
 	
 	public abstract Recurso propuestaNegociarJugadorRecibir(Jugador jugador);
 	
-	public abstract Recurso propuestaNegociarBanca(Cartas cartas);
+	public abstract Recurso[] propuestaNegociarBanca(Cartas cartas, Mapa mapa , Jugador yo);
 	
 	public abstract boolean aceptarOferta(RealizarOferta oferta, Cartas mis_cartas);
 

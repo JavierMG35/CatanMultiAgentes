@@ -79,35 +79,34 @@ public class GranRutaComeracialEstrategia extends AbstractEstrategias {
 	}
 
 	@Override
-	public Recurso propuestaNegociarBanca(Cartas cartas) {
-		List<Cartas> lana = cartas.getLana();
-		List<Cartas> madera = cartas.getMadera();
-		List<Cartas> piedra = cartas.getPiedra();
-		List<Cartas> paja = cartas.getPaja();
-		List<Cartas> arcilla = cartas.getArcilla();
-		int num_lana = lana.size();
-		int num_madera = madera.size();
-		int num_piedra = piedra.size();
-		int num_paja = paja.size();
-		int num_arcilla = arcilla.size();
-		if(num_madera<2||num_arcilla<2) {
-		if(num_lana==4) {
-			Recurso arcilla_recurso = new Recurso();
-			arcilla_recurso.setTipo("Arcilla");
-			return arcilla_recurso;
+	public Recurso[] propuestaNegociarBanca(Cartas cartas, Mapa mapa,Jugador yo) {
+		Recurso[] Recursos = {new Recurso(),new Recurso()};
+		Recurso recursoposible=null;
+		recursoposible=yo.cuatroCartasIguales("Paja");
+		recursoposible=yo.cuatroCartasIguales("Lana");
+		recursoposible=yo.cuatroCartasIguales("Piedra");
+		if (recursoposible.getTipo()!=null) {
+			Recursos[1]=recursoposible;
+			List<Integer> ints = List.of(cartas.getMadera().size(),cartas.getArcilla().size());
+			int min=10;
+			int index=2;
+			for (int i = 0; i<ints.size() ;i++) {
+				if (ints.get(i)<min) {
+					min = ints.get(i);
+					index=i;
+					}
+				}
+			switch (index) {
+			case 0:
+				Recursos[0]=new Recurso("Madera");
+			case 1:
+				Recursos[0]= new Recurso ("Arcilla");
+			}
+			return Recursos;
+			
 		}
-		if(num_piedra==4) {
-			Recurso madera_recurso = new Recurso();
-			madera_recurso.setTipo("Madera");
-			return madera_recurso;
-		}
-		if(num_paja==4) {
-			Recurso arcilla_recurso = new Recurso();
-			arcilla_recurso.setTipo("Arcilla");
-			return arcilla_recurso;
-		}
-		}
-		return null;
+		else {return null;}
+		
 	}
 	
 	@Override
@@ -160,6 +159,7 @@ public class GranRutaComeracialEstrategia extends AbstractEstrategias {
 		return true;
 	}
 
+
 	@Override
 	public Construccion decidirConstruccion(Mapa mapa, Cartas cartas, String nombre) {
 		List<Casilla> casillas = mapa.getCasillas();
@@ -188,7 +188,7 @@ public class GranRutaComeracialEstrategia extends AbstractEstrategias {
 				}
 			}
 		} // Poblado
-		else if (cartas.getArcilla().size() >= 1 && cartas.getMadera().size() >= 1 && cartas.getPaja().size() >= 1
+		if (cartas.getArcilla().size() >= 1 && cartas.getMadera().size() >= 1 && cartas.getPaja().size() >= 1
 				&& cartas.getLana().size() >= 1) {
 
 			for (int i = 0; i < casillas.size(); i++) {
@@ -202,16 +202,15 @@ public class GranRutaComeracialEstrategia extends AbstractEstrategias {
 				}
 			}
 		} // Ciudades.
-		else if (cartas.getPaja().size() >= 2 && cartas.getPiedra().size() >= 3) {
-
+		if (cartas.getPaja().size() >= 2 && cartas.getPiedra().size() >= 3) {
 			for (int i = 0; i < casillas.size(); i++) {
 				List<Node> nodos = casillas.get(i).getAdyacentes();
 
 				for (int j = 0; j < nodos.size(); j++) {
 
 					if (nodos.get(j).getDueño().getNombre().equals(nombre)) {
-						if (nodos.get(j).getTipo() == "Poblado" && cartas.getPaja().size() >= 2
-								&& cartas.getPiedra().size() >= 3) {
+						
+						if (nodos.get(j).getTipo().equals("Poblado")) {
 							retorno = new Construccion("Ciudad", nodos.get(j), null);
 						}
 					}
@@ -220,8 +219,5 @@ public class GranRutaComeracialEstrategia extends AbstractEstrategias {
 		}
 		return retorno;
 	}
-	
-	
-
 	
 }

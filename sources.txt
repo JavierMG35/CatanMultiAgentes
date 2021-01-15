@@ -30,6 +30,7 @@ C:\Users\victo\Downloads\Git\CatanMultiAgentes\src\ontologia\concepts\CartaDesar
 C:\Users\victo\Downloads\Git\CatanMultiAgentes\src\ontologia\concepts\Cartas.java
 C:\Users\victo\Downloads\Git\CatanMultiAgentes\src\ontologia\concepts\CompraCartaJugador.java
 C:\Users\victo\Downloads\Git\CatanMultiAgentes\src\ontologia\concepts\Construccion.java
+C:\Users\victo\Downloads\Git\CatanMultiAgentes\src\ontologia\concepts\ConstruirEstado.java
 C:\Users\victo\Downloads\Git\CatanMultiAgentes\src\ontologia\concepts\Dados.java
 C:\Users\victo\Downloads\Git\CatanMultiAgentes\src\ontologia\concepts\EstadoJuego.java
 C:\Users\victo\Downloads\Git\CatanMultiAgentes\src\ontologia\concepts\Mapa.java
