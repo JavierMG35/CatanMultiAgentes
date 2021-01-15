@@ -10,7 +10,7 @@ import src.Jugador.Jugador;
 import src.ontologia.actions.OfrecerComerciarBanca;
 import src.ontologia.concepts.EstadoJuego;
 import src.ontologia.concepts.Recurso;
-import src.ontologia.predicates.OfertaJugadorBanca;
+import src.ontologia.predicates.ComerciadoConBanca;
 
 public class CambiarRecursosConBancaPlan extends Plan{
 	
@@ -44,7 +44,7 @@ public class CambiarRecursosConBancaPlan extends Plan{
 			Oferta[1]=oferta[1].getTipo();
 		}
 		/////////////////////////////Envio la oferta al tablero
-		IMessageEvent mensaje_enviar = request.createReply("oferta_comercio_banco",new OfertaJugadorBanca(Oferta));
+		IMessageEvent mensaje_enviar = request.createReply("oferta_comercio_banco",new ComerciadoConBanca(Oferta));
 		mensaje_enviar.getParameterSet(SFipa.RECEIVERS).addValue(tablero);
 	    sendMessage(mensaje_enviar);
 	    getBeliefbase().getBelief("myself").setFact(yo);

@@ -23,8 +23,8 @@ public class NegociarJugadoresPlan extends Plan {
 		// jugadores.
 		IMessageEvent mensaje_recibido = (IMessageEvent) getInitialEvent();
 		Jugador yo = (Jugador) getBeliefbase().getBelief("myself").getFact();
-		OfrecerNegociacion contenido = (OfrecerNegociacion) mensaje_recibido.getContent();
-		EstadoJuego estadojuego = contenido.getEstadodejuego();
+		ProponerNegociacion contenido = (ProponerNegociacion) mensaje_recibido.getContent();
+		EstadoJuego estadojuego = contenido.getEstadojuego();
 		List<Jugador> jugadores = estadojuego.getJugadores();
 
 		/*

@@ -1,22 +1,22 @@
 package src.ontologia.predicates;
 
-public class OfertaJugadorBanca {
+public class ComerciadoConBanca {
 	String[] Oferta={"",""};
 	
 	
 	
-	public OfertaJugadorBanca() {
+	public ComerciadoConBanca() {
 		// TODO Auto-generated constructor stub
 	}
 	
-	public OfertaJugadorBanca(String deseo, String oferta) {
+	public ComerciadoConBanca(String deseo, String oferta) {
 		this.Oferta[0]=deseo;
 		this.Oferta[1]=oferta;
 			
 			// TODO Auto-generated constructor stub
 		}
 	
-	public OfertaJugadorBanca(String [] oferta) {
+	public ComerciadoConBanca(String [] oferta) {
 		this.Oferta[0]=oferta[0];
 		this.Oferta[1]=oferta[1];
 			

@@ -10,9 +10,12 @@ import jadex.runtime.IMessageEvent;
 import jadex.runtime.Plan;
 import src.Jugador.Jugador;
 import src.Tablero.Tablero;
+import src.ontologia.actions.EntregarDados;
+import src.ontologia.actions.PosicionarTurnoInicial;
 import src.ontologia.concepts.EstadoJuego;
 import src.ontologia.concepts.Mapa;
 import src.ontologia.concepts.Orden;
+import src.ontologia.predicates.TurnoInicialPosicionado;
 import src.Mapa.Casilla;
 import src.Mapa.Node;
 
@@ -30,6 +33,7 @@ public class TurnoInicialPlan extends Plan {
 		// cada jugador coloca un poblado y una carretera por el orden de los turnos
 		for (int i = 0; i < Orden.getJugadores().size(); i++) {
 			EstadoJuego EstadoJuego = (EstadoJuego) getBeliefbase().getBelief("EstadoJuego").getFact();
+			
 			try {
 				Thread.sleep(1 * 1000);
 			} catch (InterruptedException e) {
@@ -38,11 +42,13 @@ public class TurnoInicialPlan extends Plan {
 			}
 
 			BasicAgentIdentifier AidSiguiente = Orden.getJugadores().get(i).getAid();
+			PosicionarTurnoInicial posicionarturnoinicial= new PosicionarTurnoInicial(EstadoJuego);
 			IMessageEvent mensaje_enviar = createMessageEvent("coloca_fichas_iniciales");
 			mensaje_enviar.getParameterSet(SFipa.RECEIVERS).addValue(AidSiguiente);
-			mensaje_enviar.getParameter(SFipa.CONTENT).setValue(EstadoJuego);
+			mensaje_enviar.getParameter(SFipa.CONTENT).setValue(posicionarturnoinicial);
 			IMessageEvent respuesta = sendMessageAndWait(mensaje_enviar);
-			EstadoJuego estado = (EstadoJuego) respuesta.getContent();
+			TurnoInicialPosicionado turnoInicialPosicionado = (TurnoInicialPosicionado) respuesta.getContent();
+			EstadoJuego estado= turnoInicialPosicionado.getEstadojuego();
 			getBeliefbase().getBelief("EstadoJuego").setFact(estado);
 
 			
@@ -53,13 +59,15 @@ public class TurnoInicialPlan extends Plan {
 		for (int i = Orden.getJugadores().size() - 1; i >= 0; i--) {
 
 			EstadoJuego EstadoJuego = (EstadoJuego) getBeliefbase().getBelief("EstadoJuego").getFact();
+			PosicionarTurnoInicial posicionarturnoinicial= new PosicionarTurnoInicial(EstadoJuego);
 			System.out.println("////////////////////////////////////////////////////////");
 			BasicAgentIdentifier AidAnterior = Orden.getJugadores().get(i).getAid();
 			IMessageEvent mensaje_enviar = createMessageEvent("coloca_fichas_iniciales");
 			mensaje_enviar.getParameterSet(SFipa.RECEIVERS).addValue(AidAnterior);
-			mensaje_enviar.setContent(EstadoJuego);
+			mensaje_enviar.setContent(posicionarturnoinicial);
 			IMessageEvent respuesta = sendMessageAndWait(mensaje_enviar);
-			EstadoJuego estado = (EstadoJuego) respuesta.getContent();
+			TurnoInicialPosicionado turnoInicialPosicionado = (TurnoInicialPosicionado) respuesta.getContent();
+			EstadoJuego estado= turnoInicialPosicionado.getEstadojuego();
 			getBeliefbase().getBelief("EstadoJuego").setFact(estado);
 
 		}

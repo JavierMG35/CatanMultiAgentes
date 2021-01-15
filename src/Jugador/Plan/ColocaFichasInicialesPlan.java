@@ -8,8 +8,10 @@ import jadex.runtime.IMessageEvent;
 import jadex.runtime.Plan;
 import src.Jugador.Jugador;
 import src.Mapa.*;
+import src.ontologia.actions.PosicionarTurnoInicial;
 import src.ontologia.concepts.EstadoJuego;
 import src.ontologia.concepts.Mapa;
+import src.ontologia.predicates.TurnoInicialPosicionado;
 
 
 public class ColocaFichasInicialesPlan extends Plan{
@@ -21,7 +23,8 @@ public class ColocaFichasInicialesPlan extends Plan{
 		//Ontenmos el estado del juego actual y el mapa que nos envia el tablero
 		IMessageEvent	request	= (IMessageEvent)getInitialEvent();
 		AgentIdentifier tablero = (AgentIdentifier) request.getParameter("sender").getValue();
-		EstadoJuego  estadojuego = (EstadoJuego)request.getParameter(SFipa.CONTENT).getValue();
+		PosicionarTurnoInicial  posicionar = (PosicionarTurnoInicial)request.getParameter(SFipa.CONTENT).getValue();
+		EstadoJuego  estadojuego= posicionar.getEstadojuego();
 		Mapa mapa = estadojuego.getMapa();
 		//Obtenemos nuestra informacion de la base de creencias
 		Jugador	yo	= (Jugador)getBeliefbase().getBelief("myself").getFact();
@@ -43,9 +46,10 @@ public class ColocaFichasInicialesPlan extends Plan{
 		estadojuego.setMapa(mapa);
 		getBeliefbase().getBelief("myself").setFact(yo);	
 		//Mandamos el nuevo mapa al tablero
+		TurnoInicialPosicionado turnoInicial=new TurnoInicialPosicionado(estadojuego);
 		IMessageEvent mensaje_enviar = (IMessageEvent)request.createReply("ficha_colocada");
 		mensaje_enviar.getParameterSet(SFipa.RECEIVERS).addValue(tablero);
-		mensaje_enviar.getParameter(SFipa.CONTENT).setValue(estadojuego);
+		mensaje_enviar.getParameter(SFipa.CONTENT).setValue(turnoInicial);
 	    sendMessage(mensaje_enviar);
 		
 	}

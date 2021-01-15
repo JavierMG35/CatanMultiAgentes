@@ -7,30 +7,43 @@ import jadex.runtime.BasicAgentIdentifier;
 import jadex.runtime.IMessageEvent;
 import jadex.runtime.Plan;
 import src.Jugador.Jugador;
+import src.Tablero.Tablero;
 import src.ontologia.actions.OfrecerConstruir;
 import src.ontologia.actions.OfrecerComerciarBanca;
 import src.ontologia.actions.OfrecerNegociacion;
+import src.ontologia.actions.ProponerNegociacion;
+import src.ontologia.actions.DesplazarLadron;
 import src.ontologia.actions.EntregarDados;
-import src.ontologia.actions.OfrecerCartaDesarrollo;
+import src.ontologia.actions.ObtencionRecursos;
+import src.ontologia.actions.ProponerCartaDesarrollo;
 import src.ontologia.concepts.*;
+import src.ontologia.predicates.Construido;
 import src.ontologia.predicates.LadronDesplazado;
 import src.ontologia.predicates.NegociacionTerminada;
-import src.ontologia.predicates.OfertaJugadorBanca;
+import src.ontologia.predicates.RecursosObtenidos;
+import src.ontologia.predicates.TiradaDados;
+import src.ontologia.predicates.ComerciadoConBanca;
+import src.ontologia.predicates.CompradaCarta;
 import src.Mapa.Casilla;
 import src.Mapa.Node;
 import java.util.List;
 
+
+import java.util.ArrayList;
 
 public class TurnoPlan extends Plan {
 	public void body() {
 
 		// Obtenemos el orden en el que los jugadores tiraran
 		Orden Orden = ((Orden) getBeliefbase().getBelief("orden").getFact());
-
-		for (int z = 0; z < 5; z++) {
+		
+		for (int z = 0; z < 10; z++) {
 			System.out.println("///////////////////////////////////////////////////////////////////////////");
 			System.out.println("//////////////////////COMIENZA RONDA: " + z + "//////////////////////////////");
 			System.out.println("//////////////////////////////////////////////////////////////////////////");
+			
+			
+			boolean ganar=false;
 			for (int i = 0; i < Orden.getJugadores().size(); i++) {
 				// Obtenemos el estado del juego de nuestra base de creencias y el jugador al
 				// que le coresponde el turno
@@ -50,7 +63,8 @@ public class TurnoPlan extends Plan {
 				mensaje_enviar.setContent(tirardados);
 				IMessageEvent respuesta = sendMessageAndWait(mensaje_enviar);
 				// En la respuesta obtendremos los dados con el valor que el jugador ha obtenido
-				Dados dados = (Dados) respuesta.getContent();
+				TiradaDados tirada = (TiradaDados) respuesta.getContent();
+				Dados dados= tirada.getDados();
 				System.out.println(
 						"El jugador " + Orden.getJugadores().get(i).getNombre() + " obtine un " + dados.getDados());
 
@@ -64,8 +78,7 @@ public class TurnoPlan extends Plan {
 					// Enviamos Un mensaje para que el jugador proceda a mover el ladron
 					IMessageEvent ladron_mensaje = createMessageEvent("ladron_enviar");
 					ladron_mensaje.getParameterSet(SFipa.RECEIVERS).addValue(AidSiguiente);
-					LadronDesplazado MoverLadron = new LadronDesplazado();
-					MoverLadron.setEstadoJuego(EstadoJuego);
+					DesplazarLadron MoverLadron = new DesplazarLadron(EstadoJuego);
 					ladron_mensaje.setContent(MoverLadron);
 					IMessageEvent respuesta_ladron = sendMessageAndWait(ladron_mensaje);
 					LadronDesplazado LadronMapa = (LadronDesplazado) respuesta_ladron.getContent();
@@ -98,12 +111,33 @@ public class TurnoPlan extends Plan {
 									String tipo = nodo.getTipo();
 									// Añadiremos un recurso si el jugador tiene un poblado o 2 si tiene una ciudad
 									Cartas cartas = player.getCartas();
-									if (tipo == "Poblado") {
+									if (tipo.equals("Poblado")) {
 										cartas.setRecurso(recurso_casilla);
+										IMessageEvent mensaje_con_recursos = createMessageEvent("repartir_recurso");
+                                        ObtencionRecursos contenido_recurso = new ObtencionRecursos(recurso_casilla);
+                                        BasicAgentIdentifier AidJugadorRecurso = player.getAid();
+                                        mensaje_con_recursos.getParameterSet(SFipa.RECEIVERS).addValue(AidJugadorRecurso);
+                                        mensaje_con_recursos.setContent(contenido_recurso);
+                                        System.out.println("Mensaje para comenzar a negociar enviado");
+                                        IMessageEvent    respuesta_negociacion    = sendMessageAndWait(mensaje_con_recursos); 
+                                        RecursosObtenidos recurso_recibido = (RecursosObtenidos)respuesta_negociacion.getContent();
+				
+										
 									} else {
+										
 										cartas.setRecurso(recurso_casilla);
 										cartas.setRecurso(recurso_casilla);
-									}
+										for(int y =0;y<2;y++) {
+											IMessageEvent mensaje_con_recursos = createMessageEvent("repartir_recurso");
+										    ObtencionRecursos contenido_recurso = new ObtencionRecursos(recurso_casilla);
+										    BasicAgentIdentifier AidJugadorRecurso = player.getAid();
+										    mensaje_con_recursos.getParameterSet(SFipa.RECEIVERS).addValue(AidJugadorRecurso);
+										    mensaje_con_recursos.setContent(contenido_recurso);
+										    System.out.println("Mensaje para comenzar a negociar enviado");
+										    IMessageEvent    respuesta_negociacion    = sendMessageAndWait(mensaje_con_recursos); 
+										    RecursosObtenidos recurso_recibido = (RecursosObtenidos)respuesta_negociacion.getContent();
+										}
+										}
 									System.out.println("Se entrega el recurso " + recurso_casilla.getTipo()
 											+ " al jugador " + player.getNombre());
 								}
@@ -115,15 +149,15 @@ public class TurnoPlan extends Plan {
 				}
 
 				//////////////////////////////////////////////////////////////////////////////////////////////////
-				//////////////////////////// Negociacion con
-				////////////////////////////////////////////////////////////////////////////////////////////////// jugadores////////////////////////////////////////////
+				//////////////////////////// Negociacion con jugadores////////////////////////////////////////////
+				////////////////////////////////////////////////////////////////////////////////////////////////// 
 				//////////////////////////////////////////////////////////////////////////////////////////////////
 				System.out.println("**************************Negociacion con jugadores*************************");
 				// Avisamos al jugador que comienza la fase en la que puede negociar con otros
 				// jugadores.
 				// Le enviamos un mensaje con el estado del juego
 				IMessageEvent mensaje_comenzar_negociacion = createMessageEvent("comenzar_negociacion");
-				OfrecerNegociacion contenido = new OfrecerNegociacion(EstadoJuego);
+				ProponerNegociacion contenido = new ProponerNegociacion(EstadoJuego);
 				AidSiguiente = Orden.getJugadores().get(i).getAid();
 				mensaje_comenzar_negociacion.getParameterSet(SFipa.RECEIVERS).addValue(AidSiguiente);
 				mensaje_comenzar_negociacion.setContent(contenido);
@@ -137,8 +171,8 @@ public class TurnoPlan extends Plan {
 				//////////////////////////////////////////////////////////////////////////////////////////////////
 
 				//////////////////////////////////////////////////////////////////////////////////////////////////
-				//////////////////////////// Comerciar con el
-				////////////////////////////////////////////////////////////////////////////////////////////////// banco///////////////////////////////////////////////
+				//////////////////////////// Comerciar con el banco///////////////////////////////////////////////
+				////////////////////////////////////////////////////////////////////////////////////////////////// 
 				//////////////////////////////////////////////////////////////////////////////////////////////////
 				System.out.println("****************************Comercio con el banco**************************");
 				// El comercio con el banco comienza el jugador puede cambiar 4 recursos iguales
@@ -151,7 +185,7 @@ public class TurnoPlan extends Plan {
 				IMessageEvent respuestacomerciarbanco = sendMessageAndWait(mensaje_comercio_banco);
 				// En la respuesta obtenemos el recurso que desea y el recurso por el cual desea
 				// cambiarlo este agente
-				OfertaJugadorBanca oferta_jugador_banca = (OfertaJugadorBanca) respuestacomerciarbanco.getContent();
+				ComerciadoConBanca oferta_jugador_banca = (ComerciadoConBanca) respuestacomerciarbanco.getContent();
 				String[] oferta = oferta_jugador_banca.getOferta();
 				// Si la oferta se acepta el objeto tendra el nombre del objeto que deasea
 				// cambiar y por cual lo cambia
@@ -182,8 +216,8 @@ public class TurnoPlan extends Plan {
 				construir_mensaje.setContent(construircontenido);
 				IMessageEvent respuesta_construir = sendMessageAndWait(construir_mensaje);
 				// Recibo el estado del juego con un mapa actualizado con la nueva contruccion
-				OfrecerConstruir nuevomapa = (OfrecerConstruir) respuesta_construir.getContent();
-				EstadoJuego = nuevomapa.getEstadoJuego();
+				Construido construido = (Construido) respuesta_construir.getContent();
+				EstadoJuego = construido.getEstadodejuego();
 				System.out.println("*********************Acaba el momento de construccion***********************");
 
 				/////////////////////////////////////////////////////////////////////////////
@@ -195,11 +229,12 @@ public class TurnoPlan extends Plan {
 				AidSiguiente = Orden.getJugadores().get(i).getAid();
 				IMessageEvent mensaje_carta_desarrollo = createMessageEvent("offer_carta_desarrollo");
 				mensaje_carta_desarrollo.getParameterSet(SFipa.RECEIVERS).addValue(AidSiguiente);
-				mensaje_carta_desarrollo.setContent(new OfrecerCartaDesarrollo(EstadoJuego));
+				mensaje_carta_desarrollo.setContent(new ProponerCartaDesarrollo(EstadoJuego));
 				IMessageEvent respuestacartadesarrollo = sendMessageAndWait(mensaje_carta_desarrollo);
-				CartaDesarrollo carta_desarrollo = (CartaDesarrollo)
+				CompradaCarta compradacarta = (CompradaCarta) respuestacartadesarrollo.getContent();
+				CartaDesarrollo carta_desarrollo= compradacarta.getCarta();
 				// Obtenemos la carta de desarrollo que ha obtenido el jugador
-				respuestacartadesarrollo.getContent();
+			
 				// Si el objeto de desarrollo no esta vaico ha realizado la compra
 				if (carta_desarrollo != null) {
 					EstadoJuego.getJugadores().get(i).getCartas().addDesarrollo(carta_desarrollo);
@@ -325,7 +360,9 @@ public class TurnoPlan extends Plan {
 				System.out.println("La puntacion de "+actual.getNombre()+" es: "+puntuacion_actual);
 				actual.setPuntuacion(puntuacion_actual);
 				// Checkeamos si el jugador ha obtenido los 10 puntos necesarios para ganar
+				if (puntuacion_actual==10) {break;}
 			}
+			
 
 		}
 		EstadoJuego EstadoJuego = (EstadoJuego) getBeliefbase().getBelief("EstadoJuego").getFact();

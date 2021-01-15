@@ -13,6 +13,7 @@ import src.ontologia.concepts.Dados;
 import src.ontologia.concepts.EstadoJuego;
 import src.ontologia.concepts.Mapa;
 import src.ontologia.concepts.Orden;
+import src.ontologia.predicates.TiradaDados;
 
 public class ComenzarPartidaPlan extends Plan {
 
@@ -46,7 +47,8 @@ public class ComenzarPartidaPlan extends Plan {
 			mensaje_enviar.getParameterSet(SFipa.RECEIVERS).addValue(jugadores[i].getAid());
 			mensaje_enviar.setContent(tirardados);
 			IMessageEvent respuesta = sendMessageAndWait(mensaje_enviar);
-			Dados dados = (Dados) respuesta.getContent();
+			TiradaDados tirada = (TiradaDados) respuesta.getContent();
+			Dados dados=tirada.getDados();
 			jugadores[i].setTirada(dados.getDados());
 			System.out.println("El jugador: " + jugadores[i].getNombre() + " ha sacado un : " + dados.getDados());
 			jugadores[i].setAgentID((AgentIdentifier) respuesta.getParameter("sender").getValue());

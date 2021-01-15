@@ -5,9 +5,10 @@ import jadex.adapter.fipa.SFipa;
 import jadex.runtime.IMessageEvent;
 import jadex.runtime.Plan;
 import src.Jugador.Jugador;
-import src.ontologia.actions.OfrecerCartaDesarrollo;
+import src.ontologia.actions.ProponerCartaDesarrollo;
 import src.ontologia.concepts.CartaDesarrollo;
 import src.ontologia.concepts.EstadoJuego;
+import src.ontologia.predicates.CompradaCarta;
 
 public class ComprarCartaDesarrolloPlan extends Plan{
 	
@@ -16,7 +17,7 @@ public class ComprarCartaDesarrolloPlan extends Plan{
 		////////////////////////////////Recibo el mensaje con el estado del juego actual
 		IMessageEvent	request	= (IMessageEvent)getInitialEvent();
 		AgentIdentifier tablero = (AgentIdentifier) request.getParameter("sender").getValue();
-		OfrecerCartaDesarrollo oferta_carta_desarrollo = (OfrecerCartaDesarrollo)request.getContent();
+		ProponerCartaDesarrollo oferta_carta_desarrollo = (ProponerCartaDesarrollo)request.getContent();
 		EstadoJuego EstadoJuego = oferta_carta_desarrollo.getEstadoJuego();
 		
 		////////////////////////////////Busco a mi personaje para actualizar mi base de creencias
@@ -38,7 +39,8 @@ public class ComprarCartaDesarrolloPlan extends Plan{
 		//Si la estrategia no considera oportuna esta compra entra en esta condicon
 		else {System.out.println("No compro la carta de desarrollo");}
 		/////////////////////////////Envio la carta de desarrollo obtenida
-		IMessageEvent mensaje_enviar = request.createReply("carta_desarrollo",CartaDesarrollo);
+		CompradaCarta CompradaCarta = new CompradaCarta(CartaDesarrollo);
+		IMessageEvent mensaje_enviar = request.createReply("carta_desarrollo",CompradaCarta);
 		mensaje_enviar.getParameterSet(SFipa.RECEIVERS).addValue(tablero);
 	    sendMessage(mensaje_enviar);
 	    getBeliefbase().getBelief("myself").setFact(yo);

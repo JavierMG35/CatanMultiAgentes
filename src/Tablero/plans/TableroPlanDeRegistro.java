@@ -2,6 +2,7 @@ package src.Tablero.plans;
 
 import jadex.runtime.*;
 import src.ontologia.actions.OfrecerUnirsePartida;
+import src.ontologia.predicates.UnirmePartida;
 import jadex.util.SUtil;
 import jadex.adapter.fipa.*;
 import src.Jugador.Jugador;
@@ -65,7 +66,7 @@ public class TableroPlanDeRegistro extends Plan{
 			OfrecerUnirsePartida request = new OfrecerUnirsePartida();
 			msg.setContent(request);
 			IMessageEvent	reply	= sendMessageAndWait(msg);
-			OfrecerUnirsePartida rj = (OfrecerUnirsePartida)reply.getContent();
+			UnirmePartida rj = (UnirmePartida)reply.getContent();
 			jugadores[i] = rj.getJugador();
 			jugadores[i].setAgentID((AgentIdentifier)reply.getParameter("sender").getValue());
 		}

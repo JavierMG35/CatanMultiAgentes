@@ -32,7 +32,7 @@ public class RecibirOfertaPlan extends Plan{
 		 */
 		if(acepto) {
 			System.out.println("Acepto la oferta, gano 1 unidad de " + oferta.getTe_doy().getTipo() + " a cambio de 1 unidad de " + oferta.getMe_das().getTipo());
-			yo.getCartas().getRecurso(oferta.getMe_das()).remove(0);
+			yo.getCartas().getRecurso(oferta.getMe_das()).remove(oferta.getMe_das());
 			yo.getCartas().getRecurso(oferta.getTe_doy()).add(oferta.getTe_doy());
 		}
 		

@@ -9,6 +9,7 @@ import src.Jugador.estrategias.IEstrategia;
 import src.ontologia.concepts.EstadoJuego;
 import src.ontologia.concepts.Mapa;
 import src.ontologia.concepts.Recurso;
+import src.ontologia.predicates.Construido;
 import src.ontologia.actions.OfrecerConstruir;
 import src.ontologia.concepts.Cartas;
 import src.ontologia.concepts.Construccion;
@@ -65,11 +66,10 @@ public class ConstruirPlan extends Plan {
 		estadojuego = yo.setMyself(estadojuego);
 		estadojuego.setMapa(mapa);
 		getBeliefbase().getBelief("myself").setFact(yo);
-
+		Construido construido= new Construido(estadojuego);
 		// Mandamos respuesta al tablero
-		construircontenido.setEstadoJuego(estadojuego);
 		IMessageEvent mensaje_enviar = (IMessageEvent) request.createReply("construir_recibir");
-		mensaje_enviar.getParameter(SFipa.CONTENT).setValue(construircontenido);
+		mensaje_enviar.getParameter(SFipa.CONTENT).setValue(construido);
 		sendMessage(mensaje_enviar);
 
 	}
