@@ -37,13 +37,12 @@ public class TurnoPlan extends Plan {
 		// Obtenemos el orden en el que los jugadores tiraran
 		Orden Orden = ((Orden) getBeliefbase().getBelief("orden").getFact());
 		
-		for (int z = 0; z < 10; z++) {
+		for (int z = 0; z < 7; z++) {
 			System.out.println("///////////////////////////////////////////////////////////////////////////");
 			System.out.println("//////////////////////COMIENZA RONDA: " + z + "//////////////////////////////");
 			System.out.println("//////////////////////////////////////////////////////////////////////////");
 			
 			
-			boolean ganar=false;
 			for (int i = 0; i < Orden.getJugadores().size(); i++) {
 				// Obtenemos el estado del juego de nuestra base de creencias y el jugador al
 				// que le coresponde el turno
